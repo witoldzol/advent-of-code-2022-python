@@ -32,21 +32,27 @@ def main():
         for line in f:
             line = line.rstrip()
             print(f'current line {line}')
-            EXIT_DIR = re.match('\$ ..\n', line)
-            GO_TO_DIR = re.match('\$ cd [//|\w+]\n', line)
-            # LIST_DIR = re.match('')
+            EXIT_DIR = re.match('^\$ cd \.\.$', line)
+            GO_TO_ROOT = re.match('^\$ cd \/$', line)
+            GO_TO_DIR = re.match('^\$ cd \w+$', line)
+            LIST_DIR = re.match('^\$ ls$', line)
+            DIR = re.match('^dir \w+', line)
+            FILE = re.match('^\d+ \w+', line)
 
             if(EXIT_DIR):
                 print('matched exit dir')
-                pass
+            elif(GO_TO_ROOT):
+                print('matched go to root')
             elif(GO_TO_DIR):
                 print('matched go to dir')
-                pass
-            # elif(LIST_DIR):
-            #     print('matched ls ')
-            #     pass
+            elif(LIST_DIR):
+                print('matched ls ')
+            elif(DIR):
+                print('matched a directory')
+            elif(FILE):
+                print('matched a file')
             else:
-                raise Exception('Unknowsn command')
+                raise Exception('Invalid input')
 
                 
 

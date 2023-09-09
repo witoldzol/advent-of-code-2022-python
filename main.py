@@ -23,10 +23,19 @@ import re
 # $ cd bntdgzs
 #
 #
+from typing import List, Dict
+
+class Directory():
+    def __init__(self, name: str, parent: 'Directory'):
+        self.name = name
+        self.parent: 'Directory' = parent
+        self.dirs: List['Directory'] = []
+        self.files: List[Dict[int, str]] = []
+    
+
 def main():
     with open('input') as f:
         current_dir = ''
-        directories= dict()
         dir_count = 0
 
         for line in f:

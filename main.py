@@ -1,42 +1,84 @@
 import re
 
-
+# $ cd 
+# $ ls
+# dir <>
+# size filename
+#
+#
+# $ cd /
+# $ ls
+# dir bntdgzs
+# 179593 cjw.jgc
+# 110209 grbwdwsm.znn
+# dir hsswswtq
+# dir jdfwmhg
+# dir jlcbpsr
+# 70323 qdtbvqjj
+# 48606 qdtbvqjj.zdg
+# dir tvcr
+# dir vhjbjr
+# dir vvsg
+# 270523 wpsjfqtn.ljt
+# $ cd bntdgzs
+#
+#
 def main():
     with open('input') as f:
         current_dir = ''
         directories= dict()
-        current_size = 0
         dir_count = 0
 
         for line in f:
-            # print(f'line is : {line}')
-            l = line.split(' ')
-            match = re.match('cd$', l[1])
-            if(match):
-                # print(f'found dir {l[2]}')
-                if(l[2] == '..\n'):
-                    # print('exiting directory')
-                    continue
-                current_dir = l[2].rstrip()
-                if current_dir not in directories:
-                    directories[current_dir] = True
-                    print(f'adding dire {repr(current_dir)}')
-                    dir_count += 1
-                    print(f'dir count is = {dir_count}')
-            if(re.match('^[0-9]+$', l[0])):
-                # print(f'found file of size : {l[0]}')
-                pass
+            line = line.rstrip()
+            print(f'current line {line}')
+            EXIT_DIR = re.match('\$ ..\n', line)
+            GO_TO_DIR = re.match('\$ cd [//|\w+]\n', line)
+            # LIST_DIR = re.match('')
 
+            if(EXIT_DIR):
+                print('matched exit dir')
+                pass
+            elif(GO_TO_DIR):
+                print('matched go to dir')
+                pass
+            # elif(LIST_DIR):
+            #     print('matched ls ')
+            #     pass
+            else:
+                raise Exception('Unknowsn command')
+
+                
+
+            #
+            # # print(f'line is : {line}')
+            # l = line.split(' ')
+            # match = re.match('cd$', l[1])
+            # if(match):
+            #     # print(f'found dir {l[2]}')
+            #     if(l[2] == '..\n'):
+            #         # print('exiting directory')
+            #         continue
+            #     current_dir = l[2].rstrip()
+            #     if current_dir not in directories:
+            #         directories[current_dir] = True
+            #         print(f'adding dire {repr(current_dir)}')
+            #         dir_count += 1
+            #         print(f'dir count is = {dir_count}')
+            # if(re.match('^[0-9]+$', l[0])):
+            #     # print(f'found file of size : {l[0]}')
+            #     pass
+            #
         # if(current_dir):
         #     directories[current_dir] = True
 
         # for k in directories:
         #     print(f'{k} size == {directories[k]}')
-        print(len(directories.keys()))
+        # print(len(directories.keys()))
         # for d in sorted(directories.keys()):
         #     print(d)
-        print(dir_count)
-        print('done')
+        # print(dir_count)
+        # print('done')
 
 
 main()

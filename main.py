@@ -35,55 +35,59 @@ class Directory():
 
 def main():
     with open('input') as f:
-        current_dir: Directory
-        root = None
-
+        root = Directory('/', None)
+        current_dir = root
         for line in f:
             line = line.rstrip()
-            print(f'current line {line}')
+            # print(f'current line {line}')
             EXIT_DIR = re.match('^\$ cd \.\.$', line)
             GO_TO_ROOT = re.match('^\$ cd \/$', line)
             GO_TO_DIR = re.match('^\$ cd \w+$', line)
             LIST_DIR = re.match('^\$ ls$', line)
             DIR = re.match('^dir \w+', line)
             FILE = re.match('^\d+ \w+', line)
-
             if(EXIT_DIR):
-                print('matched exit dir')
-            elif(GO_TO_ROOT):
-                print('matched go to root')
-                root = Directory('/', None)
-                current_dir = root
+                #print('matched exit dir')
+                pass
             elif(GO_TO_DIR):
-                print('matched go to dir')
+                #print('matched go to dir')
                 dir_name = line.split()[2]
-                print(f'dir name is {repr(dir_name)}')
+                #print(f'dir name is {repr(dir_name)}')
                 for d in current_dir.dirs:
-                    current_dir=None
-                    print(f'd name is {repr(d.name)}')
+                    current_dir = None
+                    #print(f'd name is {repr(d.name)}')
                     if d.name == dir_name:
                         current_dir = d
-                        print(f'matched name, setting current dir to ...{current_dir}')
+                        #print(f'matched name, setting current dir to ...{current_dir}')
                         break
                     if current_dir == None:
                         raise Exception('Couldnt find a matching directory for')
             elif(LIST_DIR):
-                print('matched ls ')
+                #print('matched ls ')
+                pass
             elif(DIR):
-                print('matched a directory')
+                #print('matched a directory')
                 dir_name = line.split()[1]
                 d = Directory(dir_name, current_dir)
                 current_dir.dirs.append(d)
             elif(FILE):
-                print('matched a file')
-                size = line.split()[0]
+                #print('matched a file')
+                size = int(line.split()[0])
                 file_name = line.split()[1]
                 current_dir.files.append({file_name: size})
+            elif(GO_TO_ROOT):
+                #print('matched go to root')
+                continue
             else:
                 raise Exception('Invalid input')
 
                 
-            print(root)
+        print(root.name)
+        for d in root.dirs:
+            print(d.name)
+        for f in root.files:
+            print(f)
+
 
             #
             # # print(f'line is : {line}')

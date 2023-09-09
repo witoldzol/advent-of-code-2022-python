@@ -26,17 +26,17 @@ import re
 from typing import List, Dict
 
 class Directory():
-    def __init__(self, name: str, parent: 'Directory'):
+    def __init__(self, name: str, parent = None):
         self.name = name
-        self.parent: 'Directory' = parent
+        self.parent: 'Directory'| None = parent
         self.dirs: List['Directory'] = []
-        self.files: List[Dict[int, str]] = []
+        self.files: List[Dict[str, int]] = []
     
 
 def main():
     with open('input') as f:
-        current_dir = ''
-        dir_count = 0
+        current_dir: Directory
+        root = None
 
         for line in f:
             line = line.rstrip()
@@ -52,18 +52,38 @@ def main():
                 print('matched exit dir')
             elif(GO_TO_ROOT):
                 print('matched go to root')
+                root = Directory('/', None)
+                current_dir = root
             elif(GO_TO_DIR):
                 print('matched go to dir')
+                dir_name = line.split()[2]
+                print(f'dir name is {repr(dir_name)}')
+                for d in current_dir.dirs:
+                    current_dir=None
+                    print(f'd name is {repr(d.name)}')
+                    if d.name == dir_name:
+                        current_dir = d
+                        print(f'matched name, setting current dir to ...{current_dir}')
+                        break
+                    if current_dir == None:
+                        raise Exception('Couldnt find a matching directory for')
             elif(LIST_DIR):
                 print('matched ls ')
             elif(DIR):
                 print('matched a directory')
+                dir_name = line.split()[1]
+                d = Directory(dir_name, current_dir)
+                current_dir.dirs.append(d)
             elif(FILE):
                 print('matched a file')
+                size = line.split()[0]
+                file_name = line.split()[1]
+                current_dir.files.append({file_name: size})
             else:
                 raise Exception('Invalid input')
 
                 
+            print(root)
 
             #
             # # print(f'line is : {line}')

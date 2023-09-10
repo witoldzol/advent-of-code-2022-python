@@ -10,9 +10,16 @@ class Directory():
         self.dirs: List['Directory'] = []
         self.files: List[Dict[str, int]] = []
     
+    def print_itself(self):
+        print(self.name)
+        for d in self.dirs:
+            d.print_itself()
+
 
 def main():
-    create_tree('input')
+    root = create_tree('input')
+    root.print_itself()
+
 
 def create_tree(file: str) -> Directory:
     with open(file) as f:

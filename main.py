@@ -14,11 +14,10 @@ class Directory():
 def main():
     create_tree('input')
 
-def create_tree(file: str):
+def create_tree(file: str) -> Directory:
     with open(file) as f:
         root = Directory('/', None)
         current_dir = root
-        counter = 0
         for line in f:
             line = line.rstrip()
             # print(f'current line {line}')
@@ -49,7 +48,6 @@ def create_tree(file: str):
                 dir_name = line.split()[1]
                 d = Directory(dir_name, current_dir)
                 current_dir.dirs.append(d)
-                counter += 1
             elif(FILE):
                 #print('matched a file')
                 size = int(line.split()[0])
@@ -61,6 +59,7 @@ def create_tree(file: str):
             else:
                 raise Exception('Invalid input')
 
+        return root
 
 if __name__ == "__main__":
     main()

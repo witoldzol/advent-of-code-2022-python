@@ -1,5 +1,4 @@
 import re
-import sys
 
 from typing import List, Dict
 
@@ -10,15 +9,17 @@ class Directory():
         self.dirs: List['Directory'] = []
         self.files: List[Dict[str, int]] = []
     
-    def print_itself(self):
-        print(self.name)
+    def depth_first_traversal(self, n: int = 0):
+        tabs = '|' * n
+        n += 1
+        print(tabs + self.name)
         for d in self.dirs:
-            d.print_itself()
+            d.depth_first_traversal(n)
 
 
 def main():
     root = create_tree('input')
-    root.print_itself()
+    root.depth_first_traversal()
 
 
 def create_tree(file: str) -> Directory:

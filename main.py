@@ -23,17 +23,18 @@ def main():
 
 def create_tree(file: str) -> Directory:
     with open(file) as f:
+        counter = 0
         root = Directory('/', None)
         current_dir = root
         for line in f:
             line = line.rstrip()
             # print(f'current line {line}')
-            EXIT_DIR = re.match('^\$ cd \.\.$', line)
-            GO_TO_ROOT = re.match('^\$ cd \/$', line)
-            GO_TO_DIR = re.match('^\$ cd \w+$', line)
-            LIST_DIR = re.match('^\$ ls$', line)
-            DIR = re.match('^dir \w+', line)
-            FILE = re.match('^\d+ \w+', line)
+            EXIT_DIR = re.match(r'^\$ cd \.\.$', line)
+            GO_TO_ROOT = re.match(r'^\$ cd \/$', line)
+            GO_TO_DIR = re.match(r'^\$ cd \w+$', line)
+            LIST_DIR = re.match(r'^\$ ls$', line)
+            DIR = re.match(r'^dir \w+', line)
+            FILE = re.match(r'^\d+ \w+', line)
             if(EXIT_DIR):
                 current_dir = current_dir.parent
             elif(GO_TO_DIR):
@@ -55,6 +56,7 @@ def create_tree(file: str) -> Directory:
                 dir_name = line.split()[1]
                 d = Directory(dir_name, current_dir)
                 current_dir.dirs.append(d)
+                counter += 1
             elif(FILE):
                 #print('matched a file')
                 size = int(line.split()[0])
@@ -66,6 +68,7 @@ def create_tree(file: str) -> Directory:
             else:
                 raise Exception('Invalid input')
 
+        print(f' conter : = {counter}')
         return root
 
 if __name__ == "__main__":

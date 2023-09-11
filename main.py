@@ -30,11 +30,22 @@ class Directory:
             sum += d.get_sum()
         return sum
 
+    def sum_folder_sizes(self):
+        max = 100000
+        total = 0
+        folder_size = self.get_sum()
+        if folder_size <= max:
+            total += folder_size
+            print(self.name + ' : ' + str(folder_size))
+        for d in self.dirs:
+            total += d.sum_folder_sizes()
+        return total
+
 
 def main():
     root = create_tree("input")
-    root.depth_first_traversal()
-    print("sum is : " + str(root.get_sum()))
+    total = root.sum_folder_sizes()
+    print(f'total is {total}')
 
 
 def create_tree(file: str) -> Directory:
@@ -44,7 +55,6 @@ def create_tree(file: str) -> Directory:
         current_dir = root
         for line in f:
             line = line.rstrip()
-            # print(f'current line {line}')
             EXIT_DIR = re.match(r"^\$ cd \.\.$", line)
             GO_TO_ROOT = re.match(r"^\$ cd \/$", line)
             GO_TO_DIR = re.match(r"^\$ cd \w+$", line)
@@ -54,9 +64,7 @@ def create_tree(file: str) -> Directory:
             if EXIT_DIR:
                 current_dir = current_dir.parent
             elif GO_TO_DIR:
-                # print('matched go to dir')
                 dir_name = line.split()[2]
-                # print(f'dir name is {repr(dir_name)}')
                 temp = current_dir
                 for d in current_dir.dirs:
                     if d.name == dir_name:
@@ -65,21 +73,17 @@ def create_tree(file: str) -> Directory:
                 if temp == current_dir:
                     raise Exception("Failed to find child folder")
             elif LIST_DIR:
-                # print('matched ls ')
                 pass
             elif DIR:
-                # print('matched a directory')
                 dir_name = line.split()[1]
                 d = Directory(dir_name, current_dir)
                 current_dir.dirs.append(d)
                 counter += 1
             elif FILE:
-                # print('matched a file')
                 size = int(line.split()[0])
                 file_name = line.split()[1]
                 current_dir.files.append({file_name: size})
             elif GO_TO_ROOT:
-                # print('matched go to root')
                 continue
             else:
                 raise Exception("Invalid input")

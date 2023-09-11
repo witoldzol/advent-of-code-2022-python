@@ -8,6 +8,7 @@ class Directory():
         self.parent: 'Directory'| None = parent
         self.dirs: List['Directory'] = []
         self.files: List[Dict[str, int]] = []
+        self.size: int = 0
     
     def depth_first_traversal(self, n: int = 0):
         tabs = '|' * n
@@ -15,11 +16,25 @@ class Directory():
         print(tabs + self.name)
         for d in self.dirs:
             d.depth_first_traversal(n)
+    def sum_files(self):
+        sum = 0
+        for f in self.files:
+            sum += list(f.values())[0]
+        return sum
+
+    def get_sum(self) -> int:
+        sum = self.sum_files()
+        for d in self.dirs:
+            sum += d.get_sum()
+        return sum
+
+
 
 
 def main():
     root = create_tree('input')
     root.depth_first_traversal()
+    print('sum is : ' + str(root.get_sum()))
 
 
 def create_tree(file: str) -> Directory:

@@ -32,20 +32,33 @@ class Directory:
 
     def sum_folder_sizes(self):
         max = 100000
-        total = 0
+        root_size = 0
         folder_size = self.get_sum()
         if folder_size <= max:
-            total += folder_size
+            root_size += folder_size
             print(self.name + ' : ' + str(folder_size))
         for d in self.dirs:
-            total += d.sum_folder_sizes()
-        return total
+            root_size += d.sum_folder_sizes()
+        return root_size
 
+    def find_folder_with_at_least(self, min: int):
+        folder_size = self.get_sum()
+        if folder_size >= min:
+            print(self.name + ' : ' + str(folder_size))
+        for d in self.dirs:
+            d.find_folder_with_at_least(min)
 
 def main():
     root = create_tree("input")
-    total = root.sum_folder_sizes()
-    print(f'total is {total}')
+    # root_size = root.sum_folder_sizes()
+    root_size = root.get_sum()
+    free_space = 70000000 - root_size
+    print(f'free space = {free_space}')
+    size_to_be_freed = 30000000 - free_space
+    print(f'size to be freed = {size_to_be_freed}')
+    root.find_folder_with_at_least(size_to_be_freed)
+    
+
 
 
 def create_tree(file: str) -> Directory:

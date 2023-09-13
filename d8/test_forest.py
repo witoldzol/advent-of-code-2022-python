@@ -72,3 +72,12 @@ def test_sample_input():
     # 33549
     # 35390
     assert main('sample_input') == 21
+
+def test_five_by_five_trees_one_hidden_from_deep_below():
+    forest = [[1,1,1,1,1],
+              [1,2,3,2,1],
+              [1,3,3,3,1],
+              [1,2,2,1,0],
+              [2,0,3,1,1]]
+
+    assert count_visible_trees(forest) == 24

@@ -1,12 +1,14 @@
 from typing import List
 
 
-def main():
-    with open("sample_input", "r") as f:
-        forest = []
+def main(file):
+    forest = []
+    with open(file, "r") as f:
         for l in f:
             s = list(l.rstrip())
             forest.append(s)
+
+    return count_visible_trees(forest)
 
 def is_edge_tree(x: int, y: int , lx: int, ly: int):
     return x == 0 or \
@@ -24,12 +26,17 @@ def count_visible_trees(forest: List[List[int]]) -> int:
                 continue
             tree_above = forest[x-1][y]
             tree_below = forest[x+1][y]
-            if tree_above > tree and tree_below > tree:
-                print(f'tree {tree} [{x},{y}] is obscured by tree above {tree_above}')
+            tree_left = forest[x][y-1]
+            tree_right = forest[x][y+1]
+            if tree_above >= tree and tree_below >= tree and tree_left >= tree and tree_right >= tree:
+                print(f'tree {tree} [{x},{y}] is obscured by tree above {tree_above} \n \
+                      and below {tree_below} \n \
+                      and to the left {tree_left} \n \
+                      and to the right {tree_right}')
                 continue
             count += 1
     return count
 
 
 if __name__ == "__main__":
-    main()
+    main('sample_input')

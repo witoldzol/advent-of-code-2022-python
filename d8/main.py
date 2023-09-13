@@ -23,8 +23,14 @@ def is_higher_below(forest: List[List[int]], tree: int, x: int, y: int) -> bool:
     return False
 
 def is_higher_above(forest: List[List[int]], tree: int, x: int, y: int) -> bool:
-    for t in range(x):
+    for t in range(0, x):
         if forest[t][y] >= tree:
+            return True
+    return False
+
+def is_higher_left(forest: List[List[int]], tree: int, x: int, y: int) -> bool:
+    for t in range(0, y):
+        if forest[x][t] >= tree:
             return True
     return False
 
@@ -37,9 +43,9 @@ def count_visible_trees(forest: List[List[int]]) -> int:
                 continue
             tree_above = is_higher_above(forest, tree, x , y)
             tree_below = is_higher_below(forest, tree, x , y)
-            tree_left = forest[x][y-1]
+            tree_left = is_higher_left(forest, tree, x , y) 
             tree_right = forest[x][y+1]
-            if tree_above and tree_below and tree_left >= tree and tree_right >= tree:
+            if tree_above and tree_below and tree_left and tree_right >= tree:
                 print(f'tree {tree} [{x},{y}] is obscured by tree above {tree_above} \n \
                       and below {tree_below} \n \
                       and to the left {tree_left} \n \

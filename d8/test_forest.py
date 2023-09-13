@@ -79,5 +79,12 @@ def test_five_by_five_trees_one_hidden_from_deep_below():
               [1,3,3,3,1],
               [1,2,2,1,0],
               [2,0,3,1,1]]
+    assert count_visible_trees(forest) == 24
 
+def test_five_by_five_trees_one_hidden_from_deep_left():
+    forest = [[1,1,1,1,1],
+              [1,2,3,2,1],
+              [3,2,3,3,1],
+              [1,1,3,1,0],
+              [2,0,1,1,1]]
     assert count_visible_trees(forest) == 24

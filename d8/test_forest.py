@@ -88,3 +88,14 @@ def test_five_by_five_trees_one_hidden_from_deep_left():
               [1,1,3,1,0],
               [2,0,1,1,1]]
     assert count_visible_trees(forest) == 24
+
+def test_five_by_five_trees_one_hidden_from_deep_right():
+    forest = [[1,1,1,1,1],
+              [1,2,3,2,1],
+              [1,3,3,2,3],
+              [1,1,3,1,0],
+              [2,0,1,1,1]]
+    assert count_visible_trees(forest) == 24
+
+def test_real_input():
+    assert main('input') == 1695

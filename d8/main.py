@@ -7,8 +7,9 @@ def main(file):
         for l in f:
             s = list(l.rstrip())
             forest.append(s)
-
-    return count_visible_trees(forest)
+    count = count_visible_trees(forest)
+    print(f'visible trees = {count}')
+    return count 
 
 def is_edge_tree(x: int, y: int , lx: int, ly: int):
     return x == 0 or \
@@ -34,6 +35,12 @@ def is_higher_left(forest: List[List[int]], tree: int, x: int, y: int) -> bool:
             return True
     return False
 
+def is_higher_right(forest: List[List[int]], tree: int, x: int, y: int) -> bool:
+    for t in range(y+1, len(forest)):
+        if forest[x][t] >= tree:
+            return True
+    return False
+
 def count_visible_trees(forest: List[List[int]]) -> int:
     count = 0
     for x, row in enumerate(forest):
@@ -44,8 +51,8 @@ def count_visible_trees(forest: List[List[int]]) -> int:
             tree_above = is_higher_above(forest, tree, x , y)
             tree_below = is_higher_below(forest, tree, x , y)
             tree_left = is_higher_left(forest, tree, x , y) 
-            tree_right = forest[x][y+1]
-            if tree_above and tree_below and tree_left and tree_right >= tree:
+            tree_right = is_higher_right(forest, tree, x , y) 
+            if tree_above and tree_below and tree_left and tree_right:
                 print(f'tree {tree} [{x},{y}] is obscured by tree above {tree_above} \n \
                       and below {tree_below} \n \
                       and to the left {tree_left} \n \
@@ -54,6 +61,5 @@ def count_visible_trees(forest: List[List[int]]) -> int:
             count += 1
     return count
 
-
 if __name__ == "__main__":
-    main('sample_input')
+    main('input')

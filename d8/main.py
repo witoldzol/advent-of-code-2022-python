@@ -57,8 +57,8 @@ def count_visible_trees(forest: List[List[int]]) -> int:
                       and below {tree_below} \n \
                       and to the left {tree_left} \n \
                       and to the right {tree_right}')
-                continue
-            count += 1
+            else:
+                count += 1
     return count
 
 if __name__ == "__main__":

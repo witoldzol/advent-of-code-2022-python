@@ -8,11 +8,11 @@ def main(file: str):
     head_position = {'x':0, 'y':0}
     tail_position = {'x':0, 'y':0}
     with open(file, 'r') as f:
-        t = 0 
-        for line in f:
-            if t == 5:
-                break
-            t += 1
+        t = 0  # todo remove
+        for line in f:  
+            if t == 5: #
+                break #
+            t += 1 # todo - reomve
             direction, times = line.split(' ')
             print(direction, times)
 
@@ -54,11 +54,31 @@ def main(file: str):
 def is_tail_too_far_behind(head_position: dict, tail_position: dict) -> bool:
     return abs(head_position['x'] - tail_position['x']) > 1 or \
            abs(head_position['y'] - tail_position['y']) > 1
-# 1 1 1
-# T 1 H
-# 1 1 1
-  # tail 1,0
-  # head 1,1
+# 1 H 1 1
+# 1 1 1 1
+# 1 T 1 1
+# 1 1 1 1
+
+#0,1 - 2,1 ( diff(x) > 1 ) - we move on x axis 
+#(if diff is negative, we move 'up', ie, decrease x value of tail)
+# in this case, we know its not diagonal because y axis matches up ( H & T are on the same axis)
+
+# 1 1 H 1
+# 1 1 1 1
+# 1 T 1 1
+# 1 1 1 1
+
+# diagonal case
+
+# head 0,2
+# tail 2,1
+# we have to inc/decrement both x & y values of tail
+# how do we detect diagonal ? neither x && y are not aligned
+# eg. x index & y index do not match up at all ( H & T are not on the same axis )
+
+
+
+
 
 
 

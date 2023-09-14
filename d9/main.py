@@ -10,9 +10,24 @@ def main(file: str):
     with open(file, 'r') as f:
         for line in f:
             direction, times = line.split(' ')
-            print('times`', times)
+            print(direction)
             for _ in range(int(times)):
-                print(f'moving in direction of {direction}')
+                match direction:
+                    case 'L':
+                        print('goint left')
+                        break
+                    case 'R':
+                        print('oing right')
+                        break
+                    case 'D':
+                        print('oing down')
+                        break
+                    case 'U':
+                        print('going up')
+                        break
+                    case _:
+                        raise Exception('unknown command')
+
 
 if __name__ == '__main__':
     main('input')

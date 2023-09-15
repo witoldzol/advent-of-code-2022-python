@@ -63,11 +63,31 @@ def is_tail_too_far_behind(head_position: dict, tail_position: dict) -> bool:
 #(if diff is negative, we move 'up', ie, decrease x value of tail)
 # in this case, we know its not diagonal because y axis matches up ( H & T are on the same axis)
 
+#-> go up + right (x-1, y+1)
 # 1 1 H 1
 # 1 1 1 1
 # 1 T 1 1
 # 1 1 1 1
 
+#-> go down + right (x+1, y+1)
+# 1 1 1 1
+# 1 T 1 1
+# 1 1 1 1
+# 1 1 H 1
+# diagonal case
+
+#-> go down + left (x+1, y-1)
+# 1 1 1 1
+# 1 1 1 T
+# 1 1 1 1
+# 1 H 1 1
+# diagonal case
+
+#-> go up + left (x-1, y-1)
+# 1 H 1 1
+# 1 1 1 T
+# 1 1 1 1
+# 1 1 1 1
 # diagonal case
 
 # head 0,2
@@ -75,9 +95,15 @@ def is_tail_too_far_behind(head_position: dict, tail_position: dict) -> bool:
 # we have to inc/decrement both x & y values of tail
 # how do we detect diagonal ? neither x && y are not aligned
 # eg. x index & y index do not match up at all ( H & T are not on the same axis )
+dlkfjdkBob
 
 
+def foo
 
+def bob
+
+
+def wow
 
 
 

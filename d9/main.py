@@ -1,60 +1,41 @@
+tail_trail = {}
 def main(file: str):
-    # up = x - 1
-    # down = x + 1
-    # left = y - 1
-    # right = y + 1
-    # postion [x,y]
-    matrix = []
     head_position = {'x':0, 'y':0}
     tail_position = {'x':0, 'y':0}
     with open(file, 'r') as f:
-        t = 0  # todo remove
         for line in f:  
-            if t == 7: #
-                break #
-            t += 1 # todo - reomve
             direction, times = line.split(' ')
-            print(direction, times)
-
             for _ in range(int(times)):
                 match direction:
                     case 'L':
-                        print('goint left')
                         head_position['y'] -= 1
                         print(f'current head positon = {head_position}')
                         if is_tail_too_far_behind(head_position, tail_position):
                             move_tail_to_head(head_position, tail_position)
                     case 'R':
-                        print('oing right')
                         head_position['y'] += 1
                         print(f'current head positon = {head_position}')
                         if is_tail_too_far_behind(head_position, tail_position):
                             move_tail_to_head(head_position, tail_position)
                     case 'D':
-                        print('oing down')
                         head_position['x'] += 1
                         print(f'current head positon = {head_position}')
                         if is_tail_too_far_behind(head_position, tail_position):
                             move_tail_to_head(head_position, tail_position)
                     case 'U':
-                        print('going up')
                         head_position['x'] -= 1
                         print(f'current head positon = {head_position}')
                         if is_tail_too_far_behind(head_position, tail_position):
                             move_tail_to_head(head_position, tail_position)
                     case _:
                         raise Exception('unknown command')
-
-            print(head_position)
+            print(f'Number of positions occupied by the tail is : {len(tail_trail)}')
 
 
 def move_tail_to_head(head_position: dict, tail_position: dict):
-    print(f'head is {head_position["x"], head_position["y"]}')
-    print(f'tail is {tail_position["x"], tail_position["y"]}')
     dx = head_position['x'] - tail_position['x']
     dy = head_position['y'] - tail_position['y']
     if is_head_diagonal_to_tail(head_position, tail_position):
-        print('head is DIAGONAL to tail')
         if dx > 1:
             dx = 1
         if dx < -1:
@@ -63,7 +44,6 @@ def move_tail_to_head(head_position: dict, tail_position: dict):
             dy = 1
         if dy < -1:
             dy = -1
-        print(f'moving tails diagonally {dx},{dy}')
     else:
         if dx == 0:
             if dy > 0:
@@ -75,9 +55,10 @@ def move_tail_to_head(head_position: dict, tail_position: dict):
                 dx -= 1
             else:
                 dx += 1
-        print(f'moving tail by {dx},{dy}')
+    print(f'moving tail by {dx},{dy}')
     tail_position['x'] += dx
     tail_position['y'] += dy
+    tail_trail[f'{list(tail_position.values())}'] = True
     print(f'current tail position is {tail_position}')
 
 
@@ -85,9 +66,14 @@ def is_tail_too_far_behind(head_position: dict, tail_position: dict) -> bool:
     return abs(head_position['x'] - tail_position['x']) > 1 or \
            abs(head_position['y'] - tail_position['y']) > 1
 
+
 def is_head_diagonal_to_tail(head_position: dict, tail_position: dict) -> bool:
     return head_position['x'] != tail_position['x'] and \
            head_position['y'] != tail_position['y']
+
+
+if __name__ == '__main__':
+    main('input')
 
 
 # NORMAL move
@@ -158,14 +144,3 @@ def is_head_diagonal_to_tail(head_position: dict, tail_position: dict) -> bool:
 # 1 1 1 1
 # 1 1 1 1
 # diagonal case
-
-# head 0,2
-# tail 2,1
-# we have to inc/decrement both x & y values of tail
-# how do we detect diagonal ? neither x && y are not aligned
-# eg. x index & y index do not match up at all ( H & T are not on the same axis )
-
-
-
-if __name__ == '__main__':
-    main('input')

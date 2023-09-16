@@ -22,38 +22,56 @@ def main(file: str):
                         print('goint left')
                         head_position['y'] -= 1
                         if is_tail_too_far_behind(head_position, tail_position):
+                            if is_head_diagonal_to_tail(head_position, tail_position):
+                                print('head is diagonal to tail')
                             print(f'head is {head_position["x"], head_position["y"]}')
                             print(f'tail is {tail_position["x"], tail_position["y"]}')
-                            print('moving tail to head')
+                            move_tail_to_head(head_position, tail_position)
                     case 'R':
                         print('oing right')
                         head_position['y'] += 1
                         if is_tail_too_far_behind(head_position, tail_position):
+                            if is_head_diagonal_to_tail(head_position, tail_position):
+                                print('head is diagonal to tail')
                             print(f'head is {head_position["x"], head_position["y"]}')
                             print(f'tail is {tail_position["x"], tail_position["y"]}')
-                            print('moving tail to head')
+                            move_tail_to_head(head_position, tail_position)
                     case 'D':
                         print('oing down')
                         head_position['x'] += 1
                         if is_tail_too_far_behind(head_position, tail_position):
+                            if is_head_diagonal_to_tail(head_position, tail_position):
+                                print('head is diagonal to tail')
                             print(f'head is {head_position["x"], head_position["y"]}')
                             print(f'tail is {tail_position["x"], tail_position["y"]}')
-                            print('moving tail to head')
+                            move_tail_to_head(head_position, tail_position)
                     case 'U':
                         print('going up')
                         head_position['x'] -= 1
                         if is_tail_too_far_behind(head_position, tail_position):
+                            if is_head_diagonal_to_tail(head_position, tail_position):
+                                print('head is diagonal to tail')
                             print(f'head is {head_position["x"], head_position["y"]}')
                             print(f'tail is {tail_position["x"], tail_position["y"]}')
-                            print('moving tail to head')
+                            move_tail_to_head(head_position, tail_position)
                     case _:
                         raise Exception('unknown command')
 
             print(head_position)
 
+
+def move_tail_to_head(head_position: dict, tail_position: dict):
+    print('moving tail to head')
+
+
 def is_tail_too_far_behind(head_position: dict, tail_position: dict) -> bool:
     return abs(head_position['x'] - tail_position['x']) > 1 or \
            abs(head_position['y'] - tail_position['y']) > 1
+
+def is_head_diagonal_to_tail(head_position: dict, tail_position: dict) -> bool:
+    return head_position['x'] != tail_position['x'] and \
+           head_position['y'] != tail_position['y']
+
 # 1 H 1 1
 # 1 1 1 1
 # 1 T 1 1
@@ -95,16 +113,6 @@ def is_tail_too_far_behind(head_position: dict, tail_position: dict) -> bool:
 # we have to inc/decrement both x & y values of tail
 # how do we detect diagonal ? neither x && y are not aligned
 # eg. x index & y index do not match up at all ( H & T are not on the same axis )
-dlkfjdkBob
-
-
-def foo
-
-def bob
-
-
-def wow
-
 
 
 

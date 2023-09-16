@@ -1,7 +1,17 @@
 tail_trail = {}
 def main(file: str):
     head_position = {'x':0, 'y':0}
-    tail_position = {'x':0, 'y':0}
+    one_position = {'x':0, 'y':0}
+    two_position = {'x':0, 'y':0}
+    three_position = {'x':0, 'y':0}
+    four_position = {'x':0, 'y':0}
+    five_position = {'x':0, 'y':0}
+    six_position = {'x':0, 'y':0}
+    seven_position = {'x':0, 'y':0}
+    eight_position = {'x':0, 'y':0}
+    tail_position = {'x':0, 'y':0, 'tail': True}
+    tail_trail[f'{list(tail_position.values())}'] = True
+    tails = [one_position,two_position,three_position,four_position,five_position,six_position,seven_position,eight_position,tail_position]
     with open(file, 'r') as f:
         for line in f:  
             direction, times = line.split(' ')
@@ -9,24 +19,36 @@ def main(file: str):
                 match direction:
                     case 'L':
                         head_position['y'] -= 1
-                        print(f'current head positon = {head_position}')
-                        if is_tail_too_far_behind(head_position, tail_position):
-                            move_tail_to_head(head_position, tail_position)
+                        head = head_position
+                        print(f'current head positon = {head}')
+                        for tail in tails:
+                            if is_tail_too_far_behind(head, tail):
+                                move_tail_to_head(head, tail)
+                            head = tail
                     case 'R':
                         head_position['y'] += 1
-                        print(f'current head positon = {head_position}')
-                        if is_tail_too_far_behind(head_position, tail_position):
-                            move_tail_to_head(head_position, tail_position)
+                        head = head_position
+                        print(f'current head positon = {head}')
+                        for tail in tails:
+                            if is_tail_too_far_behind(head, tail):
+                                move_tail_to_head(head, tail)
+                            head = tail
                     case 'D':
                         head_position['x'] += 1
-                        print(f'current head positon = {head_position}')
-                        if is_tail_too_far_behind(head_position, tail_position):
-                            move_tail_to_head(head_position, tail_position)
+                        head = head_position
+                        print(f'current head positon = {head}')
+                        for tail in tails:
+                            if is_tail_too_far_behind(head, tail):
+                                move_tail_to_head(head, tail)
+                            head = tail
                     case 'U':
                         head_position['x'] -= 1
-                        print(f'current head positon = {head_position}')
-                        if is_tail_too_far_behind(head_position, tail_position):
-                            move_tail_to_head(head_position, tail_position)
+                        head = head_position
+                        print(f'current head positon = {head}')
+                        for tail in tails:
+                            if is_tail_too_far_behind(head, tail):
+                                move_tail_to_head(head, tail)
+                            head = tail
                     case _:
                         raise Exception('unknown command')
             print(f'Number of positions occupied by the tail is : {len(tail_trail)}')
@@ -58,7 +80,9 @@ def move_tail_to_head(head_position: dict, tail_position: dict):
     print(f'moving tail by {dx},{dy}')
     tail_position['x'] += dx
     tail_position['y'] += dy
-    tail_trail[f'{list(tail_position.values())}'] = True
+    if 'tail' in tail_position:
+        print('moving real tail')
+        tail_trail[f'{list(tail_position.values())}'] = True
     print(f'current tail position is {tail_position}')
 
 

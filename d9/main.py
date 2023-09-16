@@ -48,8 +48,9 @@ def move_tail_to_head(head_position: dict, tail_position: dict):
     print(f'head is {head_position["x"], head_position["y"]}')
     print(f'tail is {tail_position["x"], tail_position["y"]}')
     if is_head_diagonal_to_tail(head_position, tail_position):
-        print('head is diagonal to tail')
-    print('moving tail to head')
+        print('head is DIAGONAL to tail')
+    else
+        print('moving tail normally')
 
 
 def is_tail_too_far_behind(head_position: dict, tail_position: dict) -> bool:
@@ -60,15 +61,43 @@ def is_head_diagonal_to_tail(head_position: dict, tail_position: dict) -> bool:
     return head_position['x'] != tail_position['x'] and \
            head_position['y'] != tail_position['y']
 
-# 1 H 1 1
+
+# NORMAL move
+# (0,2) (2,2)
+# head(x) - tail(x) = -2x -> x - 1 # the sign doesn't change
+#-> go up (x-1, y+1)
+# 1 1 H 1
 # 1 1 1 1
-# 1 T 1 1
+# 1 1 T 1
 # 1 1 1 1
 
-#0,1 - 2,1 ( diff(x) > 1 ) - we move on x axis 
-#(if diff is negative, we move 'up', ie, decrease x value of tail)
-# in this case, we know its not diagonal because y axis matches up ( H & T are on the same axis)
+#-> go down 
+# (3,2) (1,2)
+# head(x) - tail(x) = 2x => x + 1 # the sign doesn't change
+# 1 1 1 1
+# 1 1 T 1
+# 1 1 1 1
+# 1 1 H 1
 
+
+#-> go left
+# (1,1) (1,3)
+# head(y) - tail(y) = -2y => y - 1 # the sign doesn't change
+# 1 1 1 1
+# 1 H 1 T
+# 1 1 1 1
+# 1 1 1 1
+
+
+#-> go right 
+# h(0,3) (0,1)
+# head(y) - tail(y) = 2y => y + 1 # the sign doesn't change
+# 1 T 1 H
+# 1 1 1 1
+# 1 1 1 1
+# 1 1 1 1
+
+# DIAGONAL
 #-> go up + right (x-1, y+1)
 # 1 1 H 1
 # 1 1 1 1

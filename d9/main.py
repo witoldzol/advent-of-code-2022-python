@@ -51,11 +51,20 @@ def main(file: str):
 def move_tail_to_head(head_position: dict, tail_position: dict):
     print(f'head is {head_position["x"], head_position["y"]}')
     print(f'tail is {tail_position["x"], tail_position["y"]}')
+    dx = head_position['x'] - tail_position['x']
+    dy = head_position['y'] - tail_position['y']
     if is_head_diagonal_to_tail(head_position, tail_position):
         print('head is DIAGONAL to tail')
+        if dx > 1:
+            dx = 1
+        if dx < -1:
+            dx = -1
+        if dy > 1:
+            dy = 1
+        if dy < -1:
+            dy = -1
+        print(f'moving tails diagonally {dx},{dy}')
     else:
-        dx = head_position['x'] - tail_position['x']
-        dy = head_position['y'] - tail_position['y']
         if dx == 0:
             if dy > 0:
                 dy -= 1
@@ -67,8 +76,9 @@ def move_tail_to_head(head_position: dict, tail_position: dict):
             else:
                 dx += 1
         print(f'moving tail by {dx},{dy}')
-        tail_position['x'] += dx
-        tail_position['y'] += dy
+    tail_position['x'] += dx
+    tail_position['y'] += dy
+    print(f'current tail position is {tail_position}')
 
 
 def is_tail_too_far_behind(head_position: dict, tail_position: dict) -> bool:
@@ -117,12 +127,16 @@ def is_head_diagonal_to_tail(head_position: dict, tail_position: dict) -> bool:
 
 # DIAGONAL
 #-> go up + right (x-1, y+1)
+# h(0,2) t(2,1) h-t=-2,1
+# we want to go one up(x), one right(y)
 # 1 1 H 1
 # 1 1 1 1
 # 1 T 1 1
 # 1 1 1 1
 
 #-> go down + right (x+1, y+1)
+# h(3,2) t(1,1) h-t 2,1
+# we want to go one down(x) and one right(y)
 # 1 1 1 1
 # 1 T 1 1
 # 1 1 1 1
@@ -130,10 +144,12 @@ def is_head_diagonal_to_tail(head_position: dict, tail_position: dict) -> bool:
 # diagonal case
 
 #-> go down + left (x+1, y-1)
+# h(3,2) t(1,3) h-t 2,-1
+# tail goes one down(x) and one left(y)
 # 1 1 1 1
 # 1 1 1 T
 # 1 1 1 1
-# 1 H 1 1
+# 1 1 H 1
 # diagonal case
 
 #-> go up + left (x-1, y-1)

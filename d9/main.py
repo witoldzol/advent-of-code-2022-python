@@ -21,21 +21,25 @@ def main(file: str):
                     case 'L':
                         print('goint left')
                         head_position['y'] -= 1
+                        print(f'current head positon = {head_position}')
                         if is_tail_too_far_behind(head_position, tail_position):
                             move_tail_to_head(head_position, tail_position)
                     case 'R':
                         print('oing right')
                         head_position['y'] += 1
+                        print(f'current head positon = {head_position}')
                         if is_tail_too_far_behind(head_position, tail_position):
                             move_tail_to_head(head_position, tail_position)
                     case 'D':
                         print('oing down')
                         head_position['x'] += 1
+                        print(f'current head positon = {head_position}')
                         if is_tail_too_far_behind(head_position, tail_position):
                             move_tail_to_head(head_position, tail_position)
                     case 'U':
                         print('going up')
                         head_position['x'] -= 1
+                        print(f'current head positon = {head_position}')
                         if is_tail_too_far_behind(head_position, tail_position):
                             move_tail_to_head(head_position, tail_position)
                     case _:
@@ -49,8 +53,22 @@ def move_tail_to_head(head_position: dict, tail_position: dict):
     print(f'tail is {tail_position["x"], tail_position["y"]}')
     if is_head_diagonal_to_tail(head_position, tail_position):
         print('head is DIAGONAL to tail')
-    else
-        print('moving tail normally')
+    else:
+        dx = head_position['x'] - tail_position['x']
+        dy = head_position['y'] - tail_position['y']
+        if dx == 0:
+            if dy > 0:
+                dy -= 1
+            else:
+                dy += 1
+        else:
+            if dx > 0:
+                dx -= 1
+            else:
+                dx += 1
+        print(f'moving tail by {dx},{dy}')
+        tail_position['x'] += dx
+        tail_position['y'] += dy
 
 
 def is_tail_too_far_behind(head_position: dict, tail_position: dict) -> bool:

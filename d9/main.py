@@ -10,7 +10,7 @@ def main(file: str):
     with open(file, 'r') as f:
         t = 0  # todo remove
         for line in f:  
-            if t == 5: #
+            if t == 7: #
                 break #
             t += 1 # todo - reomve
             direction, times = line.split(' ')
@@ -22,37 +22,21 @@ def main(file: str):
                         print('goint left')
                         head_position['y'] -= 1
                         if is_tail_too_far_behind(head_position, tail_position):
-                            if is_head_diagonal_to_tail(head_position, tail_position):
-                                print('head is diagonal to tail')
-                            print(f'head is {head_position["x"], head_position["y"]}')
-                            print(f'tail is {tail_position["x"], tail_position["y"]}')
                             move_tail_to_head(head_position, tail_position)
                     case 'R':
                         print('oing right')
                         head_position['y'] += 1
                         if is_tail_too_far_behind(head_position, tail_position):
-                            if is_head_diagonal_to_tail(head_position, tail_position):
-                                print('head is diagonal to tail')
-                            print(f'head is {head_position["x"], head_position["y"]}')
-                            print(f'tail is {tail_position["x"], tail_position["y"]}')
                             move_tail_to_head(head_position, tail_position)
                     case 'D':
                         print('oing down')
                         head_position['x'] += 1
                         if is_tail_too_far_behind(head_position, tail_position):
-                            if is_head_diagonal_to_tail(head_position, tail_position):
-                                print('head is diagonal to tail')
-                            print(f'head is {head_position["x"], head_position["y"]}')
-                            print(f'tail is {tail_position["x"], tail_position["y"]}')
                             move_tail_to_head(head_position, tail_position)
                     case 'U':
                         print('going up')
                         head_position['x'] -= 1
                         if is_tail_too_far_behind(head_position, tail_position):
-                            if is_head_diagonal_to_tail(head_position, tail_position):
-                                print('head is diagonal to tail')
-                            print(f'head is {head_position["x"], head_position["y"]}')
-                            print(f'tail is {tail_position["x"], tail_position["y"]}')
                             move_tail_to_head(head_position, tail_position)
                     case _:
                         raise Exception('unknown command')
@@ -61,6 +45,10 @@ def main(file: str):
 
 
 def move_tail_to_head(head_position: dict, tail_position: dict):
+    print(f'head is {head_position["x"], head_position["y"]}')
+    print(f'tail is {tail_position["x"], tail_position["y"]}')
+    if is_head_diagonal_to_tail(head_position, tail_position):
+        print('head is diagonal to tail')
     print('moving tail to head')
 
 

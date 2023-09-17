@@ -7,40 +7,30 @@ def main(file):
     signal_strenght = 0
     cycle = 0
     x = 1
-    with open(file, 'r') as f:
+    with open(file, "r") as f:
         for line in f:
-            command, *val = line.split(' ')
+            command, *val = line.split(" ")
             if val:
                 val = int(val[0].rstrip())
             match command.rstrip():
-                case 'noop':
-                    if len(crt_line) == 40:
-                        print('cycyle ', cycle)
-                        crt.append(crt_line)
-                        crt_line = []
-                    cycle, signal_strenght, x = increment_signal(cycle, signal_strenght, x)
-                    crt_line = draw_to_crt(crt_line, cycle)
-                case 'addx':
-                    #1
-                    if len(crt_line) == 40:
-                        print('cycyle ', cycle)
-                        crt.append(crt_line)
-                        crt_line = []
-                    cycle, signal_strenght, x = increment_signal(cycle, signal_strenght, x)
-                    crt_line = draw_to_crt(crt_line, cycle)
-                    #2
-                    if len(crt_line) == 40:
-                        print('cycyle ', cycle)
-                        crt.append(crt_line)
-                        crt_line = []
-                    cycle, signal_strenght, x = increment_signal(cycle, signal_strenght, x)
-                    crt_line = draw_to_crt(crt_line, cycle)
+                case "noop":
+                    crt, crt_line = check_end_of_crt_line(crt, crt_line)
+                    crt_line = draw_to_crt(crt_line, cycle, x)
+                    cycle, signal_strenght, x = increment_signal( cycle, signal_strenght, x)
+                case "addx":
+                    # 1
+                    crt, crt_line = check_end_of_crt_line(crt, crt_line)
+                    crt_line = draw_to_crt(crt_line, cycle, x)
+                    cycle, signal_strenght, x = increment_signal( cycle, signal_strenght, x)
+                    # 2
+                    crt, crt_line = check_end_of_crt_line(crt, crt_line)
+                    crt_line = draw_to_crt(crt_line, cycle, x)
+                    cycle, signal_strenght, x = increment_signal( cycle, signal_strenght, x)
                     x += val
     crt.append(crt_line)
-    print('final cycle is ', cycle)
     for crt_line in crt:
-        print(crt_line)
-    print(f'The sum of signal strenght is {signal_strenght}')
+        print("".join(crt_line))
+    print(f"The sum of signal strenght is {signal_strenght}")
 
 
 def increment_signal(cycle: int, signal_strenght: int, x: int):
@@ -51,11 +41,22 @@ def increment_signal(cycle: int, signal_strenght: int, x: int):
             signal_strenght += cycle * x
     return cycle, signal_strenght, x
 
-def draw_to_crt(crt: List[str], cycle: int):
-    p = (cycle-1) % 40 
-    crt.append(str(p))
+
+def check_end_of_crt_line(crt, crt_line):
+    if len(crt_line) == 40:
+        crt.append(crt_line)
+        crt_line = []
+    return crt, crt_line
+
+
+def draw_to_crt(crt: List[str], cycle: int, x: int):
+    i = cycle % 40
+    symbol = "."
+    if i == x - 1 or i == x or i == x + 1:
+        symbol = "#"
+    crt.append(symbol)
     return crt
 
 
-if __name__ == '__main__':
-    main('sample_input')
+if __name__ == "__main__":
+    main("input")

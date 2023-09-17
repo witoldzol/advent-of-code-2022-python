@@ -16,8 +16,22 @@ class Monkey():
         self.items = []
 
 
+    def apply_operation(self, item:int) -> int:
+        for o in self.operation:
+            print(o)
+        return 0
+
+
+    def update_worry(self, item: int):
+        return self.apply_operation(item)
+
+
+
 def main(file):
     monkeys: List[Monkey] = parse_monkeys_from_input(file)
+    for m in monkeys:
+        for i in m.items:
+            i = m.update_worry(i) # todo - continue from heere
 
 
 def parse_monkeys_from_input(file) -> List[Monkey]:
@@ -77,4 +91,4 @@ def parse_monkeys_from_input(file) -> List[Monkey]:
 
 
 if __name__ == "__main__":
-    main('input')
+    main('sample_input')

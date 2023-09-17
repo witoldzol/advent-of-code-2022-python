@@ -15,7 +15,7 @@ class Monkey():
         self.items = []
 
 
-    def apply_operation(self, item:int) -> int:
+    def recalculate_item_worry(self, item:int) -> int:
         first: int = item
         second: int  =  item if self.operation[2] == 'old' else int(self.operation[2])
         print(f'first {first}, second: {second}')
@@ -32,10 +32,7 @@ def main(file):
     monkeys: List[Monkey] = parse_monkeys_from_input(file)
     for m in monkeys:
         for i in m.items:
-            i = int(i)
-            print('item before ', i)
-            i = m.apply_operation(i)
-            print('item after ', i)
+            i = m.recalculate_item_worry(i)
 
 
 def parse_monkeys_from_input(file) -> List[Monkey]:
@@ -54,7 +51,7 @@ def parse_monkeys_from_input(file) -> List[Monkey]:
                 matches = re.findall(r'\d+', line)
                 if matches:
                     for item in matches:
-                        monkey.items.append(item)
+                        monkey.items.append(int(item))
             elif 'Operation' in line:
                 match = re.match(r'.*(old.+)', line)
                 if match:

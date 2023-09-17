@@ -28,4 +28,4 @@ def increment_signal(cycle: int, signal_strenght: int, x: int):
 
 
 if __name__ == '__main__':
-    main('sample_input')
+    main('input')

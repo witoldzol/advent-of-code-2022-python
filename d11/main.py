@@ -1,3 +1,4 @@
+from functools import reduce
 import re
 import math
 from typing import List
@@ -30,21 +31,23 @@ class Monkey():
 
 def main(file) -> int:
     monkeys: List[Monkey] = parse_monkeys_from_input(file)
-    for _ in range(20):
+    test_values = [m.test for m in monkeys]
+    common_denominator = reduce(lambda x,y: x*y, test_values)
+    for _ in range(10000):
         for m in monkeys:
             for i in m.items:
                 m.inspect_counter += 1
-                new_i = math.floor(m.recalculate_item_worry(i) / 3)
+                new_i = math.floor(m.recalculate_item_worry(i % common_denominator))
                 if new_i % m.test == 0:
                     monkeys[m.test_true].items.append(new_i)
                 else:
                     monkeys[m.test_false].items.append(new_i)
             m.items.clear()
-    for m in monkeys:
-        print(m.inspect_counter)
     counters = [m.inspect_counter for m in monkeys ]
     highest_two = sorted(counters)[-2:]
     result = highest_two[0] * highest_two[1]
+    for m in monkeys:
+        print(m.inspect_counter)
     print('Solution is : ', result)
     return  result
 
@@ -106,4 +109,5 @@ def parse_monkeys_from_input(file) -> List[Monkey]:
 
 
 if __name__ == "__main__":
-    main('input')
+    main('input') # ans: 13606755504
+    # main('sample_input')

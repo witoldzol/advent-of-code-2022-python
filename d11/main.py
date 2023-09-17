@@ -1,11 +1,11 @@
 import re
+import math
 from typing import List
 
 
 class Monkey():
     n: int
     items: List[int]
-    test: int
     operation: List[str]
     test: int
     test_true: int
@@ -32,7 +32,8 @@ def main(file):
     monkeys: List[Monkey] = parse_monkeys_from_input(file)
     for m in monkeys:
         for i in m.items:
-            i = m.recalculate_item_worry(i)
+            i = math.floor(m.recalculate_item_worry(i) / 3)
+            print('new worry ', i)
 
 
 def parse_monkeys_from_input(file) -> List[Monkey]:

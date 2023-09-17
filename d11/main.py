@@ -18,7 +18,6 @@ class Monkey():
     def recalculate_item_worry(self, item:int) -> int:
         first: int = item
         second: int  =  item if self.operation[2] == 'old' else int(self.operation[2])
-        print(f'first {first}, second: {second}')
         match self.operation[1]:
             case '+':
                 return first + second
@@ -31,9 +30,15 @@ class Monkey():
 def main(file):
     monkeys: List[Monkey] = parse_monkeys_from_input(file)
     for m in monkeys:
+        print('monkey has items :', m.items)
         for i in m.items:
-            i = math.floor(m.recalculate_item_worry(i) / 3)
-            print('new worry ', i)
+            print('item : ' , i)
+            new_i = math.floor(m.recalculate_item_worry(i) / 3)
+            if new_i % m.test == 0:
+                monkeys[m.test_true].items.append(new_i)
+            else:
+                monkeys[m.test_false].items.append(new_i)
+        m.items.clear()
 
 
 def parse_monkeys_from_input(file) -> List[Monkey]:

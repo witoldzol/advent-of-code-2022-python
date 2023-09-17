@@ -1,5 +1,4 @@
 import re
-from pprint import pprint
 from typing import List
 
 
@@ -17,21 +16,26 @@ class Monkey():
 
 
     def apply_operation(self, item:int) -> int:
-        for o in self.operation:
-            print(o)
-        return 0
-
-
-    def update_worry(self, item: int):
-        return self.apply_operation(item)
-
+        first: int = item
+        second: int  =  item if self.operation[2] == 'old' else int(self.operation[2])
+        print(f'first {first}, second: {second}')
+        match self.operation[1]:
+            case '+':
+                return first + second
+            case '*':
+                return first * second
+            case _:
+                raise Exception(f'Found unknown operation {self.operation[1]}')
 
 
 def main(file):
     monkeys: List[Monkey] = parse_monkeys_from_input(file)
     for m in monkeys:
         for i in m.items:
-            i = m.update_worry(i) # todo - continue from heere
+            i = int(i)
+            print('item before ', i)
+            i = m.apply_operation(i)
+            print('item after ', i)
 
 
 def parse_monkeys_from_input(file) -> List[Monkey]:

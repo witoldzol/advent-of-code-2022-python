@@ -5,10 +5,9 @@ Direction = namedtuple('Direction', "x y")
 
 def main(filename):
     start = Direction(0,0)
-    end = Direction(2,5)
     matrix = build_matrix(filename) 
     print(matrix)
-    return traverse(matrix, start, end)
+    print(f'steps to zenit = {traverse(matrix, start, [], 0)}')
 
 
 def build_matrix(filename: str) -> List[List[str]]:
@@ -20,13 +19,26 @@ def build_matrix(filename: str) -> List[List[str]]:
     return matrix
 
 
-def traverse(matrix: List[List[str]], start: Direction, end: Direction) -> int:
+def traverse(matrix: List[List[str]], start: Direction, visited: List[Direction], counter: int = 0) -> int:
     # check all adjecent cells
     # loop over valid ones 
     # each call will be recursive
     # pass location from where you came, to avoid backtracking
+    visited.append(start)
+    paths = []
     directions: List[Direction] = get_valid_directions(matrix, start)
-    return 31
+    # base condition
+    for d in directions:
+        if matrix[d.x][d.y] == 'E':
+            counter += 1
+            return counter
+    for d in directions:
+        if d in visited:
+            directions.remove(d)
+    for d in directions:
+        counter += 1
+        paths.append(traverse(matrix, d, visited, counter))
+    return -1
 
 
 def get_valid_directions(matrix: List[List[str]], start: Direction) -> List[Direction]:
@@ -34,6 +46,9 @@ def get_valid_directions(matrix: List[List[str]], start: Direction) -> List[Dire
     if start_value == 'S':
         start_value = 'a'
     elif start_value == 'E':
+        print('==========================================')
+        print('FOUND END!!!!!!!!!!!!!!!!!!')
+        print('==========================================')
         start_value = 'z'
     valid_directions: List[Direction] = []
     direction = 'UP'

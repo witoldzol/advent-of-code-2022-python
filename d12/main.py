@@ -34,6 +34,7 @@ def traverse(matrix: List[List[str]], start: Direction, visited: List[Direction]
             return counter
     for d in directions:
         if d in visited:
+            # print(f'this node has been visited {d.x},{d.y}')
             directions.remove(d)
     for d in directions:
         counter += 1
@@ -54,43 +55,51 @@ def get_valid_directions(matrix: List[List[str]], start: Direction) -> List[Dire
     direction = 'UP'
     up = start.x - 1
     if up < 0:
-        print(f'Going {direction} to {up},{start.y} is off bounds')
+        pass
+        #print(f'Going {direction} to {up},{start.y} is off bounds')
     else:
         if matrix[up][start.y] >= start_value:
-            print(f'start: {start.x},{start.y} {start_value} is lower or equal than {direction} {up},{start.y} [{matrix[up][start.y]}]')
+            #print(f'start: {start.x},{start.y} {start_value} is lower or equal than {direction} {up},{start.y} [{matrix[up][start.y]}]')
             valid_directions.append(Direction(up, start.y))
         else:
-            print(f'start: {start.x},{start.y} [{start_value}] is higher than {direction} {up},{start.y} [{matrix[up][start.y]}]')
+            pass
+            #print(f'start: {start.x},{start.y} [{start_value}] is higher than {direction} {up},{start.y} [{matrix[up][start.y]}]')
     direction = 'DOWN'
     down = start.x + 1
     if down >= len(matrix):
-        print(f'Going {direction} to {down},{start.y} is off bounds')
+        pass
+        #print(f'Going {direction} to {down},{start.y} is off bounds')
     else:
         if matrix[down][start.y] >= start_value:
-            print(f'start: {start.x},{start.y} [{start_value}] is lower or equal than {direction} {down},{start.y} [{matrix[down][start.y]}]')
+            #print(f'start: {start.x},{start.y} [{start_value}] is lower or equal than {direction} {down},{start.y} [{matrix[down][start.y]}]')
             valid_directions.append(Direction(down, start.y))
         else:
-            print(f'start: {start.x},{start.y} [{start_value}] is higher than {direction} {down},{start.y} [{matrix[down][start.y]}]')
+            pass
+            #print(f'start: {start.x},{start.y} [{start_value}] is higher than {direction} {down},{start.y} [{matrix[down][start.y]}]')
     direction = 'LEFT'
     left = start.y - 1
     if left < 0:
-        print(f'Going {direction} to {start.x},{left} is off bounds')
+        pass
+        #print(f'Going {direction} to {start.x},{left} is off bounds')
     else:
         if matrix[start.x][left] >= start_value:
-            print(f'start: {start.x},{start.y} [{start_value}] is lower or equal than {direction} {start.x},{left} [{matrix[start.x][left]}]')
+            #print(f'start: {start.x},{start.y} [{start_value}] is lower or equal than {direction} {start.x},{left} [{matrix[start.x][left]}]')
             valid_directions.append(Direction(start.x, left))
         else:
-            print(f'start: {start.x},{start.y} [{start_value}] is higher than {direction} {start.x},{left} [{matrix[start.x][left]}]')
+            pass
+            #print(f'start: {start.x},{start.y} [{start_value}] is higher than {direction} {start.x},{left} [{matrix[start.x][left]}]')
     direction = 'RIGHT'
     right = start.y + 1
     if right >= len(matrix[0]):
-        print(f'Going {direction} to {start.x},{right} is off bounds')
+        pass
+        #print(f'Going {direction} to {start.x},{right} is off bounds')
     else:
         if matrix[start.x][right] >= start_value:
-            print(f'start: {start.x},{start.y} [{start_value}] is lower or equal than {direction} {start.x},{right} [{matrix[start.x][right]}]')
+            #print(f'start: {start.x},{start.y} [{start_value}] is lower or equal than {direction} {start.x},{right} [{matrix[start.x][right]}]')
             valid_directions.append(Direction(start.x, right))
         else:
-            print(f'start: {start.x},{start.y} [{start_value}] is higher than {direction} {start.x},{right} [{matrix[start.x][right]}]')
+            pass
+            #print(f'start: {start.x},{start.y} [{start_value}] is higher than {direction} {start.x},{right} [{matrix[start.x][right]}]')
     return valid_directions
 
 

@@ -24,6 +24,10 @@ def traverse(matrix: List[List[str]], start: Direction, visited: List[Direction]
     # loop over valid ones 
     # each call will be recursive
     # pass location from where you came, to avoid backtracking
+    print(f'Visiting {start.x},{start.y}')
+    print('visited')
+    v = [f'{v.x},{v.y}' for v in visited]
+    print(v)
     visited.append(start)
     paths = []
     directions: List[Direction] = get_valid_directions(matrix, start)
@@ -36,6 +40,8 @@ def traverse(matrix: List[List[str]], start: Direction, visited: List[Direction]
         if d in visited:
             # print(f'this node has been visited {d.x},{d.y}')
             directions.remove(d)
+    valid_dirs = [f'{d.x},{d.y}' for d in directions]
+    print(f'valid direction : {valid_dirs}')
     for d in directions:
         counter += 1
         paths.append(traverse(matrix, d, visited, counter))
@@ -46,60 +52,75 @@ def get_valid_directions(matrix: List[List[str]], start: Direction) -> List[Dire
     start_value = matrix[start.x][start.y]
     if start_value == 'S':
         start_value = 'a'
-    elif start_value == 'E':
-        print('==========================================')
-        print('FOUND END!!!!!!!!!!!!!!!!!!')
-        print('==========================================')
-        start_value = 'z'
     valid_directions: List[Direction] = []
     direction = 'UP'
     up = start.x - 1
     if up < 0:
         pass
-        #print(f'Going {direction} to {up},{start.y} is off bounds')
+        print(f'Going {direction} to {up},{start.y} is off bounds')
     else:
-        if matrix[up][start.y] >= start_value:
-            #print(f'start: {start.x},{start.y} {start_value} is lower or equal than {direction} {up},{start.y} [{matrix[up][start.y]}]')
+        neighbour_cell = matrix[up][start.y]  
+        if neighbour_cell == 'E':
+            print('==================================')
+            print('found end cell!!!')
+            print('==================================')
+            neighbour_cell = 'z'
+        if ord(neighbour_cell) <= (ord(start_value) + 1):
+            print(f'start: {start.x},{start.y} {start_value} is higher or equal than {direction} {up},{start.y} [{matrix[up][start.y]}]')
             valid_directions.append(Direction(up, start.y))
         else:
             pass
-            #print(f'start: {start.x},{start.y} [{start_value}] is higher than {direction} {up},{start.y} [{matrix[up][start.y]}]')
+            print(f'start: {start.x},{start.y} [{start_value}] is higher than {direction} {up},{start.y} [{matrix[up][start.y]}]')
     direction = 'DOWN'
     down = start.x + 1
     if down >= len(matrix):
-        pass
-        #print(f'Going {direction} to {down},{start.y} is off bounds')
+        print(f'Going {direction} to {down},{start.y} is off bounds')
     else:
-        if matrix[down][start.y] >= start_value:
-            #print(f'start: {start.x},{start.y} [{start_value}] is lower or equal than {direction} {down},{start.y} [{matrix[down][start.y]}]')
+        neighbour_cell = matrix[down][start.y]  
+        if neighbour_cell == 'E':
+            print('==================================')
+            print('found end cell!!!')
+            print('==================================')
+            neighbour_cell = 'z'
+        if ord(neighbour_cell) <= (ord(start_value) + 1):
+            print(f'start: {start.x},{start.y} [{start_value}] is lower or equal than {direction} {down},{start.y} [{matrix[down][start.y]}]')
             valid_directions.append(Direction(down, start.y))
         else:
-            pass
-            #print(f'start: {start.x},{start.y} [{start_value}] is higher than {direction} {down},{start.y} [{matrix[down][start.y]}]')
+            print(f'start: {start.x},{start.y} [{start_value}] is higher than {direction} {down},{start.y} [{matrix[down][start.y]}]')
     direction = 'LEFT'
     left = start.y - 1
     if left < 0:
-        pass
-        #print(f'Going {direction} to {start.x},{left} is off bounds')
+        print(f'Going {direction} to {start.x},{left} is off bounds')
     else:
-        if matrix[start.x][left] >= start_value:
-            #print(f'start: {start.x},{start.y} [{start_value}] is lower or equal than {direction} {start.x},{left} [{matrix[start.x][left]}]')
+        neighbour_cell = matrix[start.x][left]  
+        if neighbour_cell == 'E':
+            print('==================================')
+            print('found end cell!!!')
+            print('==================================')
+            neighbour_cell = 'z'
+        print(f' ord of neightbour cell == {ord(neighbour_cell)} ord of start value + 1{(ord(start_value) + 1)}')
+        if ord(neighbour_cell) <= (ord(start_value) + 1):
+            print(f'start: {start.x},{start.y} [{start_value}] is higher or equal than {direction} {start.x},{left} [{matrix[start.x][left]}]')
             valid_directions.append(Direction(start.x, left))
         else:
-            pass
-            #print(f'start: {start.x},{start.y} [{start_value}] is higher than {direction} {start.x},{left} [{matrix[start.x][left]}]')
+            print(f'start: {start.x},{start.y} [{start_value}] is lower than {direction} {start.x},{left} [{matrix[start.x][left]}]')
     direction = 'RIGHT'
     right = start.y + 1
     if right >= len(matrix[0]):
-        pass
-        #print(f'Going {direction} to {start.x},{right} is off bounds')
+        print(f'Going {direction} to {start.x},{right} is off bounds')
     else:
-        if matrix[start.x][right] >= start_value:
-            #print(f'start: {start.x},{start.y} [{start_value}] is lower or equal than {direction} {start.x},{right} [{matrix[start.x][right]}]')
+        neighbour_cell = matrix[start.x][right]  
+        if neighbour_cell == 'E':
+            print('==================================')
+            print('found end cell!!!')
+            print('==================================')
+            neighbour_cell = 'z'
+        print(f' ord of neightbour cell == {ord(neighbour_cell)} ord of start value + {(ord(start_value) + 1)}')
+        if ord(neighbour_cell) <= (ord(start_value) + 1):
+            print(f'start: {start.x},{start.y} [{start_value}] is higher or equal than {direction} {start.x},{right} [{matrix[start.x][right]}]')
             valid_directions.append(Direction(start.x, right))
         else:
-            pass
-            #print(f'start: {start.x},{start.y} [{start_value}] is higher than {direction} {start.x},{right} [{matrix[start.x][right]}]')
+            print(f'start: {start.x},{start.y} [{start_value}] is lower than {direction} {start.x},{right} [{matrix[start.x][right]}]')
     return valid_directions
 
 

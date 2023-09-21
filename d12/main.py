@@ -25,19 +25,23 @@ def traverse(matrix: List[List[str]], start: Direction, visited: Dict[str,bool],
     # each call will be recursive
     # pass location from where you came, to avoid backtracking
     print(f'Visiting {start.x},{start.y}')
-    print('visited')
+    print('visited', visited)
     visited[str(start)] = True
     paths = []
-    directions: List[Direction] = get_valid_directions(matrix, start)
+    directions: List[Direction] = get_valid_directions(matrix, start, visited)
+    if not directions:
+        print(f'current location: {start.x},{start.y} - there are no valid directions left')
+        return -1
     # base condition
     for d in directions:
         if matrix[d.x][d.y] == 'E':
             counter += 1
             return counter
-    for d in directions:
-        if str(d) in visited:
-            # print(f'this node has been visited {d.x},{d.y}')
-            directions.remove(d)
+    # print('visited nodes : ', visited)
+    # for d in directions:
+    #     if str(d) in visited:
+    #         # print(f'this node has been visited {d.x},{d.y}')
+    #         directions.remove(d)
     valid_dirs = [f'{d.x},{d.y}' for d in directions]
     print(f'valid direction : {valid_dirs}')
     for d in directions:
@@ -46,7 +50,7 @@ def traverse(matrix: List[List[str]], start: Direction, visited: Dict[str,bool],
     return -1
 
 
-def get_valid_directions(matrix: List[List[str]], start: Direction) -> List[Direction]:
+def get_valid_directions(matrix: List[List[str]], start: Direction, visited: Dict[str,bool]) -> List[Direction]:
     start_value = matrix[start.x][start.y]
     if start_value == 'S':
         start_value = 'a'
@@ -71,7 +75,10 @@ def get_valid_directions(matrix: List[List[str]], start: Direction) -> List[Dire
         print(f' ord of neightbour cell == {ord(neighbour_cell)} ord of start value {(ord(start_value) + 1)}')
         if ord(neighbour_cell) <= (ord(start_value) + 1):
             print(f'start: {start.x},{start.y} {start_value} is higher or equal than {direction} {up},{start.y} [{matrix[up][start.y]}]')
-            valid_directions.append(Direction(up, start.y))
+            if str(Direction(up,start.y)) in visited:
+                print(f'Direction {str(Direction(up,start.y))} was already visited')
+            else:
+                valid_directions.append(Direction(up, start.y))
         else:
             pass
             print(f'start: {start.x},{start.y} [{start_value}] is lower than {direction} {up},{start.y} [{matrix[up][start.y]}]')
@@ -94,7 +101,10 @@ def get_valid_directions(matrix: List[List[str]], start: Direction) -> List[Dire
         print(f' ord of neightbour cell == {ord(neighbour_cell)} ord of start value {(ord(start_value) + 1)}')
         if ord(neighbour_cell) <= (ord(start_value) + 1):
             print(f'start: {start.x},{start.y} [{start_value}] is higher or equal than {direction} {down},{start.y} [{matrix[down][start.y]}]')
-            valid_directions.append(Direction(down, start.y))
+            if str(Direction(down,start.y)) in visited:
+                print(f'Direction {str(Direction(down,start.y))} was already visited')
+            else:
+                valid_directions.append(Direction(down, start.y))
         else:
             print(f'start: {start.x},{start.y} [{start_value}] is lower than {direction} {down},{start.y} [{matrix[down][start.y]}]')
     direction = 'LEFT'
@@ -116,7 +126,10 @@ def get_valid_directions(matrix: List[List[str]], start: Direction) -> List[Dire
         print(f' ord of neightbour cell == {ord(neighbour_cell)} ord of start value {(ord(start_value) + 1)}')
         if ord(neighbour_cell) <= (ord(start_value) + 1):
             print(f'start: {start.x},{start.y} [{start_value}] is higher or equal than {direction} {start.x},{left} [{matrix[start.x][left]}]')
-            valid_directions.append(Direction(start.x, left))
+            if str(Direction(start.x,left)) in visited:
+                print(f'Direction {str(Direction(start.x,left))} was already visited')
+            else:
+                valid_directions.append(Direction(start.x, left))
         else:
             print(f'start: {start.x},{start.y} [{start_value}] is lower than {direction} {start.x},{left} [{matrix[start.x][left]}]')
     direction = 'RIGHT'
@@ -138,7 +151,14 @@ def get_valid_directions(matrix: List[List[str]], start: Direction) -> List[Dire
         print(f' ord of neightbour cell == {ord(neighbour_cell)} ord of start value {(ord(start_value) + 1)}')
         if ord(neighbour_cell) <= (ord(start_value) + 1):
             print(f'start: {start.x},{start.y} [{start_value}] is higher or equal than {direction} {start.x},{right} [{matrix[start.x][right]}]')
-            valid_directions.append(Direction(start.x, right))
+            if str(Direction(start.x,right)) in visited:
+                print(f'Direction {str(Direction(start.x,right))} was already visited')
+            else:
+                if start.x == 2 and right == 5:
+                    # todo - debug this
+                    print('bob')
+                    print(f'appending direction {Direction(start.x, right)} to valid directions')
+                valid_directions.append(Direction(start.x, right))
         else:
             print(f'start: {start.x},{start.y} [{start_value}] is lower than {direction} {start.x},{right} [{matrix[start.x][right]}]')
     return valid_directions

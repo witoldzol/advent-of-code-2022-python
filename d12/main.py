@@ -20,12 +20,7 @@ def build_matrix(filename: str) -> List[List[str]]:
 
 
 def traverse(matrix: List[List[str]], start: Direction, visited: Dict[str,bool], counter: int = 0) -> int:
-    # check all adjecent cells
-    # loop over valid ones 
-    # each call will be recursive
-    # pass location from where you came, to avoid backtracking
     print(f'Visiting {start.x},{start.y}')
-    print('visited', visited)
     visited[str(start)] = True
     paths = []
     directions: List[Direction] = get_valid_directions(matrix, start, visited)
@@ -36,12 +31,8 @@ def traverse(matrix: List[List[str]], start: Direction, visited: Dict[str,bool],
     for d in directions:
         if matrix[d.x][d.y] == 'E':
             counter += 1
+            print(f'Found the end - counter is {counter}')
             return counter
-    # print('visited nodes : ', visited)
-    # for d in directions:
-    #     if str(d) in visited:
-    #         # print(f'this node has been visited {d.x},{d.y}')
-    #         directions.remove(d)
     valid_dirs = [f'{d.x},{d.y}' for d in directions]
     print(f'valid direction : {valid_dirs}')
     for d in directions:
@@ -63,15 +54,9 @@ def get_valid_directions(matrix: List[List[str]], start: Direction, visited: Dic
     else:
         neighbour_cell = matrix[up][start.y]  
         if neighbour_cell == 'E':
-            print('==================================')
-            print('found end cell!!!')
-            print('==================================')
             neighbour_cell = 'z'
         if neighbour_cell == 'S':
             neighbour_cell = '|' # | is the 2 chars after z, and will always be 'higher than start cell ( hence S will never be valid direction)
-            print('==================================')
-            print('Found starting cell, this is not a valid direction')
-            print('==================================')
         print(f' ord of neightbour cell == {ord(neighbour_cell)} ord of start value {(ord(start_value) + 1)}')
         if ord(neighbour_cell) <= (ord(start_value) + 1):
             print(f'start: {start.x},{start.y} {start_value} is higher or equal than {direction} {up},{start.y} [{matrix[up][start.y]}]')
@@ -89,15 +74,9 @@ def get_valid_directions(matrix: List[List[str]], start: Direction, visited: Dic
     else:
         neighbour_cell = matrix[down][start.y]  
         if neighbour_cell == 'E':
-            print('==================================')
-            print('found end cell!!!')
-            print('==================================')
             neighbour_cell = 'z'
         if neighbour_cell == 'S':
             neighbour_cell = '|' # | is the 2 chars after z, and will always be 'higher than start cell ( hence S will never be valid direction)
-            print('==================================')
-            print('Found starting cell, this is not a valid direction')
-            print('==================================')
         print(f' ord of neightbour cell == {ord(neighbour_cell)} ord of start value {(ord(start_value) + 1)}')
         if ord(neighbour_cell) <= (ord(start_value) + 1):
             print(f'start: {start.x},{start.y} [{start_value}] is higher or equal than {direction} {down},{start.y} [{matrix[down][start.y]}]')
@@ -114,15 +93,9 @@ def get_valid_directions(matrix: List[List[str]], start: Direction, visited: Dic
     else:
         neighbour_cell = matrix[start.x][left]  
         if neighbour_cell == 'E':
-            print('==================================')
-            print('found end cell!!!')
-            print('==================================')
             neighbour_cell = 'z'
         if neighbour_cell == 'S':
             neighbour_cell = '|' # | is the 2 chars after z, and will always be 'higher than start cell ( hence S will never be valid direction)
-            print('==================================')
-            print('Found starting cell, this is not a valid direction')
-            print('==================================')
         print(f' ord of neightbour cell == {ord(neighbour_cell)} ord of start value {(ord(start_value) + 1)}')
         if ord(neighbour_cell) <= (ord(start_value) + 1):
             print(f'start: {start.x},{start.y} [{start_value}] is higher or equal than {direction} {start.x},{left} [{matrix[start.x][left]}]')
@@ -139,25 +112,15 @@ def get_valid_directions(matrix: List[List[str]], start: Direction, visited: Dic
     else:
         neighbour_cell = matrix[start.x][right]  
         if neighbour_cell == 'E':
-            print('==================================')
-            print('found end cell!!!')
-            print('==================================')
             neighbour_cell = 'z'
         if neighbour_cell == 'S':
             neighbour_cell = '|' # | is the 2 chars after z, and will always be 'higher than start cell ( hence S will never be valid direction)
-            print('==================================')
-            print('Found starting cell, this is not a valid direction')
-            print('==================================')
         print(f' ord of neightbour cell == {ord(neighbour_cell)} ord of start value {(ord(start_value) + 1)}')
         if ord(neighbour_cell) <= (ord(start_value) + 1):
             print(f'start: {start.x},{start.y} [{start_value}] is higher or equal than {direction} {start.x},{right} [{matrix[start.x][right]}]')
             if str(Direction(start.x,right)) in visited:
                 print(f'Direction {str(Direction(start.x,right))} was already visited')
             else:
-                if start.x == 2 and right == 5:
-                    # todo - debug this
-                    print('bob')
-                    print(f'appending direction {Direction(start.x, right)} to valid directions')
                 valid_directions.append(Direction(start.x, right))
         else:
             print(f'start: {start.x},{start.y} [{start_value}] is lower than {direction} {start.x},{right} [{matrix[start.x][right]}]')

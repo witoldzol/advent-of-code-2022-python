@@ -10,9 +10,10 @@ def main(filename):
     start = Direction(0,0)
     matrix = build_matrix(filename) 
     print(matrix)
-    steps = traverse(matrix, start, {}, 0, [])
-
-    print('paths are : ' , steps)
+    paths = traverse(matrix, start, {}, 0, [], [])
+    filtered_paths = {i for i in paths if type(i) is int}
+    fastest_path = min(filtered_paths)
+    print('fastest path is :' , fastest_path)
 
 
 def build_matrix(filename: str) -> List[List[str]]:
@@ -24,19 +25,18 @@ def build_matrix(filename: str) -> List[List[str]]:
     return matrix
 
 
-def traverse(matrix: List[List[str]], start: Direction, visited: Dict[str,bool], counter: int, path: List[str]) -> List[int]:
+def traverse(matrix: List[List[str]], start: Direction, visited: Dict[str,bool], counter: int, path: List[str], paths: List) -> List[int]:
     print(f'Visiting {start.x},{start.y}')
     path.append(f'{start.x},{start.y}')
     counter += 1
-    print(f'counter is {counter}')
-    print(f'len {len(path)}\n {path}')
+    # print(f'counter is {counter}')
+    # print(f'len {len(path)}\n {path}')
     visited[str(start)] = True
     visited_new = visited.copy()
-    paths = []
     directions: List[Direction] = get_valid_directions(matrix, start, visited_new)
     if not directions:
         print('',end='')#print(f'current location: {start.x},{start.y} - there are no valid directions left')
-        return paths
+        return []
     # base condition
     for d in directions:
         if matrix[d.x][d.y] == 'E':
@@ -47,7 +47,7 @@ def traverse(matrix: List[List[str]], start: Direction, visited: Dict[str,bool],
     print('',end='')#print(f'valid direction : {valid_dirs}')
     for d in directions:
         new_path = path.copy()
-        paths.append(traverse(matrix, d, visited_new, counter, new_path))
+        paths.append(traverse(matrix, d, visited_new, counter, new_path, paths))
     return paths
 
 def translate_start_and_end_cells(neighbour_cell: str) -> str:

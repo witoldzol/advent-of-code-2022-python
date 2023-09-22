@@ -1,3 +1,6 @@
+# todo -> fltten the returned paths ?
+# refactor duplicated code 
+# paths take counter (int) and list of ints, line 44, investigate
 from collections import namedtuple
 from typing import List, Dict
 

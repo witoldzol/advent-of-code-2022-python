@@ -41,6 +41,14 @@ def traverse(matrix: List[List[str]], start: Direction, visited: Dict[str,bool],
     return -1
 
 
+def translate_start_and_end_cells(neighbour_cell: str) -> str:
+    if neighbour_cell == 'E':
+        neighbour_cell = 'z'
+    if neighbour_cell == 'S':
+        neighbour_cell = '|' # | is the 2 chars after z, and will always be 'higher than start cell ( hence S will never be valid direction)
+    return neighbour_cell
+
+
 def get_valid_directions(matrix: List[List[str]], start: Direction, visited: Dict[str,bool]) -> List[Direction]:
     start_value = matrix[start.x][start.y]
     if start_value == 'S':
@@ -53,10 +61,7 @@ def get_valid_directions(matrix: List[List[str]], start: Direction, visited: Dic
         print(f'Going {direction} to {up},{start.y} is off bounds')
     else:
         neighbour_cell = matrix[up][start.y]  
-        if neighbour_cell == 'E':
-            neighbour_cell = 'z'
-        if neighbour_cell == 'S':
-            neighbour_cell = '|' # | is the 2 chars after z, and will always be 'higher than start cell ( hence S will never be valid direction)
+        neighbour_cell = translate_start_and_end_cells(neighbour_cell)
         print(f' ord of neightbour cell == {ord(neighbour_cell)} ord of start value {(ord(start_value) + 1)}')
         if ord(neighbour_cell) <= (ord(start_value) + 1):
             print(f'start: {start.x},{start.y} {start_value} is higher or equal than {direction} {up},{start.y} [{matrix[up][start.y]}]')
@@ -73,10 +78,7 @@ def get_valid_directions(matrix: List[List[str]], start: Direction, visited: Dic
         print(f'Going {direction} to {down},{start.y} is off bounds')
     else:
         neighbour_cell = matrix[down][start.y]  
-        if neighbour_cell == 'E':
-            neighbour_cell = 'z'
-        if neighbour_cell == 'S':
-            neighbour_cell = '|' # | is the 2 chars after z, and will always be 'higher than start cell ( hence S will never be valid direction)
+        neighbour_cell = translate_start_and_end_cells(neighbour_cell)
         print(f' ord of neightbour cell == {ord(neighbour_cell)} ord of start value {(ord(start_value) + 1)}')
         if ord(neighbour_cell) <= (ord(start_value) + 1):
             print(f'start: {start.x},{start.y} [{start_value}] is higher or equal than {direction} {down},{start.y} [{matrix[down][start.y]}]')
@@ -92,10 +94,7 @@ def get_valid_directions(matrix: List[List[str]], start: Direction, visited: Dic
         print(f'Going {direction} to {start.x},{left} is off bounds')
     else:
         neighbour_cell = matrix[start.x][left]  
-        if neighbour_cell == 'E':
-            neighbour_cell = 'z'
-        if neighbour_cell == 'S':
-            neighbour_cell = '|' # | is the 2 chars after z, and will always be 'higher than start cell ( hence S will never be valid direction)
+        neighbour_cell = translate_start_and_end_cells(neighbour_cell)
         print(f' ord of neightbour cell == {ord(neighbour_cell)} ord of start value {(ord(start_value) + 1)}')
         if ord(neighbour_cell) <= (ord(start_value) + 1):
             print(f'start: {start.x},{start.y} [{start_value}] is higher or equal than {direction} {start.x},{left} [{matrix[start.x][left]}]')
@@ -111,10 +110,7 @@ def get_valid_directions(matrix: List[List[str]], start: Direction, visited: Dic
         print(f'Going {direction} to {start.x},{right} is off bounds')
     else:
         neighbour_cell = matrix[start.x][right]  
-        if neighbour_cell == 'E':
-            neighbour_cell = 'z'
-        if neighbour_cell == 'S':
-            neighbour_cell = '|' # | is the 2 chars after z, and will always be 'higher than start cell ( hence S will never be valid direction)
+        neighbour_cell = translate_start_and_end_cells(neighbour_cell)
         print(f' ord of neightbour cell == {ord(neighbour_cell)} ord of start value {(ord(start_value) + 1)}')
         if ord(neighbour_cell) <= (ord(start_value) + 1):
             print(f'start: {start.x},{start.y} [{start_value}] is higher or equal than {direction} {start.x},{right} [{matrix[start.x][right]}]')

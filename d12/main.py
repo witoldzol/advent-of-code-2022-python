@@ -11,7 +11,9 @@ def main(filename):
     matrix = build_matrix(filename) 
     print(matrix)
     # paths = depth_traverse(matrix, start, {}, 0, [], [])
-    breadth_traverse(matrix, start)
+    path = breadth_traverse(matrix, start)
+    print('path is : ' , path)
+    print(f'steps => {len(path)}')
     # filtered_paths = {i for i in paths if type(i) is int}
     # fastest_path = min(filtered_paths)
     # print('fastest path is :' , fastest_path)
@@ -28,11 +30,12 @@ def build_matrix(filename: str) -> List[List[str]]:
 
 def is_end(matrix, d):
     if matrix[d.x][d.y] == 'E':
-        print('FOUND END, ending here for now - please fix me : todo')
+        print(f'Found ending at {d.x},{d.y}')
         return True
     
 
-def breadth_traverse(matrix: List[List[str]], start: Direction):
+def breadth_traverse(matrix: List[List[str]], start: Direction) -> List[str]:
+    path: List[str] = []
     previous: List[Direction] = []
     count = 0
     visited: Dict[str,bool] = {}
@@ -42,26 +45,39 @@ def breadth_traverse(matrix: List[List[str]], start: Direction):
     for d in valid_directions:
         next_to_visit.put(d)
     previous.append(start)
-
+    parent_map = {}
     for d in iter(next_to_visit.get, None):
+        parent = d
         count += 1
         print(f'visiting {str(d)}')
         previous.append(d)
         if str(d) in visited:
-            print('direction ', d, 'already visited, moving on')
             continue
-        if is_end(matrix, d):
-            break
+        # if is_end(matrix, d): # we shouldn't need this
+        #     break
         visited[str(d)] = True
         valid_directions: List[Direction] = get_valid_directions(matrix, d, visited)
         # check if end found
         for d in valid_directions:
             if is_end(matrix, d):
-                print(f'count is {count}')
-                print(previous)
-                return
+                parent_map[str(d)] = str(parent)
+                path = trace_back_path(d, start, parent_map)
+                return path
             if str(d) not in visited:
+                parent_map[str(d)] = str(parent)
                 next_to_visit.put(d)
+    return path
+
+
+def trace_back_path(end: Direction, start: Direction, map: Dict[str,str]) -> List[str]:
+    path = []
+    path.append(str(end))
+    current = str(end)
+    while current in map:
+        parent: str = map[current]
+        path.append(parent)
+        current = parent 
+    return path
 
 
 def depth_traverse(matrix: List[List[str]], start: Direction, visited: Dict[str,bool], counter: int, path: List[str], paths: List) -> List[int]:
@@ -176,5 +192,5 @@ def get_valid_directions(matrix: List[List[str]], start: Direction, visited: Dic
 
 
 if __name__ == "__main__":
-   main('sample_input')
-   # main('input')
+   # main('sample_input')
+   main('input')

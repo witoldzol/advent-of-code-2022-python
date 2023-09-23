@@ -1,12 +1,5 @@
-# todo -> fltten the returned paths ?
-# refactor duplicated code 
-# paths take counter (int) and list of ints, line 44, investigate
-# each node can go to 3 directions only ( 4 minus the origin )
-# how can we reuse & remember 'dead end' paths so that we can avoid pursuing them in the future?
-# 0,0 -> we have 2 options -> take 0,1, we have 2 options -> 0,2 -> we have ... 0,n -> we can't go anywhere ( REMEMBER ? ) 
-# but each path has multiple branches, some of which we didn't explore yet, how do we capture that?
-# depth first search, with recursion
-# breadth first search ? it is best suited for shortest path -> this is a shortest path problem !!
+# breadth first search is optimal for finding shortest path
+# don't use recursion, it's much slower!
 from collections import namedtuple
 from typing import List, Dict
 from queue import Queue
@@ -40,16 +33,20 @@ def is_end(matrix, d):
     
 
 def breadth_traverse(matrix: List[List[str]], start: Direction):
+    previous: List[Direction] = []
+    count = 0
     visited: Dict[str,bool] = {}
     next_to_visit: Queue = Queue()
     valid_directions: List[Direction] = get_valid_directions(matrix, start, visited)
+    # init queue
     for d in valid_directions:
-        if is_end(matrix, start):
-            return
         next_to_visit.put(d)
+    previous.append(start)
 
     for d in iter(next_to_visit.get, None):
+        count += 1
         print(f'visiting {str(d)}')
+        previous.append(d)
         if str(d) in visited:
             print('direction ', d, 'already visited, moving on')
             continue
@@ -60,6 +57,8 @@ def breadth_traverse(matrix: List[List[str]], start: Direction):
         # check if end found
         for d in valid_directions:
             if is_end(matrix, d):
+                print(f'count is {count}')
+                print(previous)
                 return
             if str(d) not in visited:
                 next_to_visit.put(d)
@@ -177,5 +176,5 @@ def get_valid_directions(matrix: List[List[str]], start: Direction, visited: Dic
 
 
 if __name__ == "__main__":
-   # main('sample_input')
-   main('input')
+   main('sample_input')
+   # main('input')

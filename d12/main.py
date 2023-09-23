@@ -9,6 +9,7 @@
 # breadth first search ? it is best suited for shortest path -> this is a shortest path problem !!
 from collections import namedtuple
 from typing import List, Dict
+from queue import Queue
 
 Direction = namedtuple('Direction', "x y") 
 
@@ -16,10 +17,11 @@ def main(filename):
     start = Direction(0,0)
     matrix = build_matrix(filename) 
     print(matrix)
-    paths = traverse(matrix, start, {}, 0, [], [])
-    filtered_paths = {i for i in paths if type(i) is int}
-    fastest_path = min(filtered_paths)
-    print('fastest path is :' , fastest_path)
+    # paths = depth_traverse(matrix, start, {}, 0, [], [])
+    breadth_traverse(matrix, start)
+    # filtered_paths = {i for i in paths if type(i) is int}
+    # fastest_path = min(filtered_paths)
+    # print('fastest path is :' , fastest_path)
 
 
 def build_matrix(filename: str) -> List[List[str]]:
@@ -31,7 +33,39 @@ def build_matrix(filename: str) -> List[List[str]]:
     return matrix
 
 
-def traverse(matrix: List[List[str]], start: Direction, visited: Dict[str,bool], counter: int, path: List[str], paths: List) -> List[int]:
+def is_end(matrix, d):
+    if matrix[d.x][d.y] == 'E':
+        print('FOUND END, ending here for now - please fix me : todo')
+        return True
+    
+
+def breadth_traverse(matrix: List[List[str]], start: Direction):
+    visited: Dict[str,bool] = {}
+    next_to_visit: Queue = Queue()
+    valid_directions: List[Direction] = get_valid_directions(matrix, start, visited)
+    for d in valid_directions:
+        if is_end(matrix, start):
+            return
+        next_to_visit.put(d)
+
+    for d in iter(next_to_visit.get, None):
+        print(f'visiting {str(d)}')
+        if str(d) in visited:
+            print('direction ', d, 'already visited, moving on')
+            continue
+        if is_end(matrix, d):
+            break
+        visited[str(d)] = True
+        valid_directions: List[Direction] = get_valid_directions(matrix, d, visited)
+        # check if end found
+        for d in valid_directions:
+            if is_end(matrix, d):
+                return
+            if str(d) not in visited:
+                next_to_visit.put(d)
+
+
+def depth_traverse(matrix: List[List[str]], start: Direction, visited: Dict[str,bool], counter: int, path: List[str], paths: List) -> List[int]:
     print(f'Visiting {start.x},{start.y}')
     path.append(f'{start.x},{start.y}')
     counter += 1
@@ -53,7 +87,7 @@ def traverse(matrix: List[List[str]], start: Direction, visited: Dict[str,bool],
     print('',end='')#print(f'valid direction : {valid_dirs}')
     for d in directions:
         new_path = path.copy()
-        paths.append(traverse(matrix, d, visited_new, counter, new_path, paths))
+        paths.append(depth_traverse(matrix, d, visited_new, counter, new_path, paths))
     return paths
 
 def translate_start_and_end_cells(neighbour_cell: str) -> str:
@@ -81,6 +115,7 @@ def get_valid_directions(matrix: List[List[str]], start: Direction, visited: Dic
         if ord(neighbour_cell) <= (ord(start_value) + 1):
             print('',end='')#print(f'start: {start.x},{start.y} {start_value} is higher or equal than {direction} {up},{start.y} [{matrix[up][start.y]}]')
             if str(Direction(up,start.y)) in visited:
+                print(f'Direction {str(Direction(up,start.y))} was already visited')
                 print('',end='')#print(f'Direction {str(Direction(up,start.y))} was already visited')
             else:
                 valid_directions.append(Direction(up, start.y))
@@ -98,6 +133,7 @@ def get_valid_directions(matrix: List[List[str]], start: Direction, visited: Dic
         if ord(neighbour_cell) <= (ord(start_value) + 1):
             print('',end='')#print(f'start: {start.x},{start.y} [{start_value}] is higher or equal than {direction} {down},{start.y} [{matrix[down][start.y]}]')
             if str(Direction(down,start.y)) in visited:
+                print(f'Direction {str(Direction(down,start.y))} was already visited')
                 print('',end='')#print(f'Direction {str(Direction(down,start.y))} was already visited')
             else:
                 valid_directions.append(Direction(down, start.y))
@@ -114,6 +150,7 @@ def get_valid_directions(matrix: List[List[str]], start: Direction, visited: Dic
         if ord(neighbour_cell) <= (ord(start_value) + 1):
             print('',end='')#print(f'start: {start.x},{start.y} [{start_value}] is higher or equal than {direction} {start.x},{left} [{matrix[start.x][left]}]')
             if str(Direction(start.x,left)) in visited:
+                print(f'Direction {str(Direction(start.x,left))} was already visited')
                 print('',end='')#print(f'Direction {str(Direction(start.x,left))} was already visited')
             else:
                 valid_directions.append(Direction(start.x, left))
@@ -130,6 +167,7 @@ def get_valid_directions(matrix: List[List[str]], start: Direction, visited: Dic
         if ord(neighbour_cell) <= (ord(start_value) + 1):
             print('',end='')#print(f'start: {start.x},{start.y} [{start_value}] is higher or equal than {direction} {start.x},{right} [{matrix[start.x][right]}]')
             if str(Direction(start.x,right)) in visited:
+                print(f'Direction {str(Direction(start.x,right))} was already visited')
                 print('',end='')#print(f'Direction {str(Direction(start.x,right))} was already visited')
             else:
                 valid_directions.append(Direction(start.x, right))
@@ -139,4 +177,5 @@ def get_valid_directions(matrix: List[List[str]], start: Direction, visited: Dic
 
 
 if __name__ == "__main__":
-   main('sample_input')
+   # main('sample_input')
+   main('input')

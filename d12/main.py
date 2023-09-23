@@ -1,6 +1,12 @@
 # todo -> fltten the returned paths ?
 # refactor duplicated code 
 # paths take counter (int) and list of ints, line 44, investigate
+# each node can go to 3 directions only ( 4 minus the origin )
+# how can we reuse & remember 'dead end' paths so that we can avoid pursuing them in the future?
+# 0,0 -> we have 2 options -> take 0,1, we have 2 options -> 0,2 -> we have ... 0,n -> we can't go anywhere ( REMEMBER ? ) 
+# but each path has multiple branches, some of which we didn't explore yet, how do we capture that?
+# depth first search, with recursion
+# breadth first search ? it is best suited for shortest path -> this is a shortest path problem !!
 from collections import namedtuple
 from typing import List, Dict
 

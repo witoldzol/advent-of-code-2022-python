@@ -43,7 +43,6 @@ def is_end(matrix, d):
 
 def breadth_traverse(matrix: List[List[str]], start: Direction, start_cell: Cell) -> List[str]:
     path: List[str] = []
-    previous: List[Direction] = []
     count = 0
     visited: Dict[str,bool] = {}
     next_to_visit: Queue = Queue()
@@ -51,13 +50,11 @@ def breadth_traverse(matrix: List[List[str]], start: Direction, start_cell: Cell
     # init queue
     for d in valid_directions:
         next_to_visit.put(d)
-    previous.append(start)
     parent_map = {}
     for d in iter(next_to_visit.get, None):
         parent = d
         count += 1
         print(f'visiting {str(d)}')
-        previous.append(d)
         if str(d) in visited:
             continue
         # if is_end(matrix, d): # we shouldn't need this

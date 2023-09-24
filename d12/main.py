@@ -57,8 +57,6 @@ def breadth_traverse(matrix: List[List[str]], start: Direction, start_cell: Cell
         print(f'visiting {str(d)}')
         if str(d) in visited:
             continue
-        # if is_end(matrix, d): # we shouldn't need this
-        #     break
         visited[str(d)] = True
         cell = Cell(d.x,d.y,matrix[d.x][d.y])
         valid_directions: List[Direction] = get_valid_directions(matrix, d, visited, cell)

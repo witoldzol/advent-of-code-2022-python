@@ -21,6 +21,10 @@ class Cell:
         return f'{self.x},{self.y}'
 
 
+    def __repr__(self) -> str:
+        return f'Cell(x={self.x},y={self.y},v={self.v})'
+
+
 def main(filename):
     start = Direction(0,0)
     start_cell = Cell(0,0,'a')
@@ -128,7 +132,7 @@ def get_valid_directions2(matrix: List[List[str]], start: Direction, visited: Di
         if target_cell.v <= (start_cell.v + 1):
             if str(target_cell) not in visited:
                 valid_directions.append(target_cell)
-    return valid_directions
+    return list(sorted(valid_directions, key=lambda cell: cell.v, reverse=True))
 
 
 def get_valid_directions(matrix: List[List[str]], start: Direction, visited: Dict[str,bool], start_cell: Cell) -> List[Direction]:
@@ -210,5 +214,5 @@ def get_valid_directions(matrix: List[List[str]], start: Direction, visited: Dic
 
 
 if __name__ == "__main__":
-   main('sample_input')
-   # main('input')
+   # main('sample_input')
+   main('input')

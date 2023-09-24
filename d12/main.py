@@ -19,9 +19,8 @@ class Cell:
 
 def main(filename):
     start = Direction(0,0)
+    start_cell = Cell(0,0,'a')
     matrix = build_matrix(filename) 
-    print(matrix)
-    # paths = depth_traverse(matrix, start, {}, 0, [], [])
     path = breadth_traverse(matrix, start)
     print('path is : ' , list(reversed(path)))
     print(f'steps => {len(path)}')
@@ -90,31 +89,6 @@ def trace_back_path(end: Direction, start: Direction, map: Dict[str,str]) -> Lis
         current = parent 
     return path
 
-
-def depth_traverse(matrix: List[List[str]], start: Direction, visited: Dict[str,bool], counter: int, path: List[str], paths: List) -> List[int]:
-    print(f'Visiting {start.x},{start.y}')
-    path.append(f'{start.x},{start.y}')
-    counter += 1
-    # print(f'counter is {counter}')
-    # print(f'len {len(path)}\n {path}')
-    visited[str(start)] = True
-    visited_new = visited.copy()
-    directions: List[Direction] = get_valid_directions(matrix, start, visited_new)
-    if not directions:
-        print('',end='')#print(f'current location: {start.x},{start.y} - there are no valid directions left')
-        return []
-    # base condition
-    for d in directions:
-        if matrix[d.x][d.y] == 'E':
-            print('',end='')#print(f'Found the end - counter is {counter}')
-            paths.append(counter)
-            return paths
-    valid_dirs = [f'{d.x},{d.y}' for d in directions]
-    print('',end='')#print(f'valid direction : {valid_dirs}')
-    for d in directions:
-        new_path = path.copy()
-        paths.append(depth_traverse(matrix, d, visited_new, counter, new_path, paths))
-    return paths
 
 def translate_start_and_end_cells(neighbour_cell: str) -> str:
     if neighbour_cell == 'E':

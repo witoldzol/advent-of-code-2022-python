@@ -103,17 +103,12 @@ def get_valid_directions2(matrix: List[List[str]], start: Direction, visited: Di
     up = start.x - 1
     if up < 0:
         pass
-        print('',end='')#print(f'Going {direction} to {up},{start.y} is off bounds')
     else:
         neighbour_cell = matrix[up][start.y]  
         neighbour_cell = translate_start_and_end_cells(neighbour_cell)
         target_cell: Cell = Cell(up,start.y,neighbour_cell)
         if target_cell.v <= (start_cell.v + 1):
-            if str(target_cell) in visited:
-            # if str(Direction(up,start.y)) in visited:
-                # print(f'Direction {str(Direction(up,start.y))} was already visited')
-                print('',end='')#print(f'Direction {str(Direction(up,start.y))} was already visited')
-            else:
+            if str(target_cell) not in visited:
                 valid_directions.append(Direction(up, start.y))
         else:
             pass
@@ -121,19 +116,16 @@ def get_valid_directions2(matrix: List[List[str]], start: Direction, visited: Di
     direction = 'DOWN'
     down = start.x + 1
     if down >= len(matrix):
-        print('',end='')#print(f'Going {direction} to {down},{start.y} is off bounds')
+        pass
     else:
         neighbour_cell = matrix[down][start.y]  
         neighbour_cell = translate_start_and_end_cells(neighbour_cell)
         target_cell: Cell = Cell(down,start.y,neighbour_cell)
         if target_cell.v <= (start_cell.v + 1):
-            if str(target_cell) in visited:
-                # print(f'Direction {str(Direction(down,start.y))} was already visited')
-                print('',end='')#print(f'Direction {str(Direction(down,start.y))} was already visited')
-            else:
+            if str(target_cell) not in visited:
                 valid_directions.append(Direction(down, start.y))
         else:
-            print('',end='')#print(f'start: {start.x},{start.y} [{start_value}] is lower than {direction} {down},{start.y} [{matrix[down][start.y]}]')
+            pass
     direction = 'LEFT'
     left = start.y - 1
     if left < 0:
@@ -143,9 +135,7 @@ def get_valid_directions2(matrix: List[List[str]], start: Direction, visited: Di
         neighbour_cell = translate_start_and_end_cells(neighbour_cell)
         target_cell: Cell = Cell(start.x,left,neighbour_cell)
         if target_cell.v <= (start_cell.v + 1):
-            if str(target_cell) in visited:
-                print('',end='')#print(f'Direction {str(Direction(start.x,left))} was already visited')
-            else:
+            if str(target_cell) not in visited:
                 valid_directions.append(Direction(start.x, left))
         else:
             print('',end='')#print(f'start: {start.x},{start.y} [{start_value}] is lower than {direction} {start.x},{left} [{matrix[start.x][left]}]')
@@ -158,9 +148,7 @@ def get_valid_directions2(matrix: List[List[str]], start: Direction, visited: Di
         neighbour_cell = translate_start_and_end_cells(neighbour_cell)
         target_cell: Cell = Cell(start.x,right,neighbour_cell)
         if target_cell.v <= (start_cell.v + 1):
-            if str(target_cell) in visited:
-                print('',end='')#print(f'Direction {str(Direction(start.x,right))} was already visited')
-            else:
+            if str(target_cell) not in visited:
                 valid_directions.append(Direction(start.x, right))
         else:
             print('',end='')#print(f'start: {start.x},{start.y} [{start_value}] is lower than {direction} {start.x},{right} [{matrix[start.x][right]}]')

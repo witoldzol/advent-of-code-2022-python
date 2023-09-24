@@ -12,7 +12,7 @@ def main(filename):
     print(matrix)
     # paths = depth_traverse(matrix, start, {}, 0, [], [])
     path = breadth_traverse(matrix, start)
-    print('path is : ' , path)
+    print('path is : ' , list(reversed(path)))
     print(f'steps => {len(path)}')
     # filtered_paths = {i for i in paths if type(i) is int}
     # fastest_path = min(filtered_paths)
@@ -192,5 +192,5 @@ def get_valid_directions(matrix: List[List[str]], start: Direction, visited: Dic
 
 
 if __name__ == "__main__":
-   # main('sample_input')
-   main('input')
+   main('sample_input')
+   # main('input')

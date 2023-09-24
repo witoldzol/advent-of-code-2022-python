@@ -66,7 +66,7 @@ def breadth_traverse(matrix: List[List[str]], start: Direction, start_cell: Cell
         for d in valid_directions:
             if is_end(matrix, d):
                 parent_map[str(d)] = str(parent)
-                path = trace_back_path(d, start, parent_map)
+                path = trace_back_path(d, parent_map)
                 return path
             if str(d) not in visited:
                 parent_map[str(d)] = str(parent)
@@ -74,7 +74,7 @@ def breadth_traverse(matrix: List[List[str]], start: Direction, start_cell: Cell
     return path
 
 
-def trace_back_path(end: Direction, start: Direction, map: Dict[str,str]) -> List[str]:
+def trace_back_path(end: Direction, map: Dict[str,str]) -> List[str]:
     path = []
     path.append(str(end))
     current = str(end)

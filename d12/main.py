@@ -1,5 +1,6 @@
 # breadth first search is optimal for finding shortest path
 # don't use recursion, it's much slower!
+# ie. highest directions should be first, so we end up going up first whenever we have a chance
 from collections import namedtuple
 from typing import List, Dict
 from queue import Queue

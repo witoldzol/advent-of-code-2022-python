@@ -7,6 +7,16 @@ from queue import Queue
 
 Direction = namedtuple('Direction', "x y") 
 
+class Cell:
+    x: int
+    y: int
+    v: int
+    
+    def __init__(self, x:int, y:int, v:str):
+        self.x = x
+        self.y = y
+        self.v = ord(v)
+
 def main(filename):
     start = Direction(0,0)
     matrix = build_matrix(filename) 

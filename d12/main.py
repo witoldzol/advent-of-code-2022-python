@@ -46,7 +46,7 @@ def breadth_traverse(matrix: List[List[str]], start: Direction, start_cell: Cell
     count = 0
     visited: Dict[str,bool] = {}
     next_to_visit: Queue = Queue()
-    valid_directions: List[Direction] = get_valid_directions(matrix, start, visited)
+    valid_directions: List[Direction] = get_valid_directions(matrix, start, visited, start_cell)
     # init queue
     for d in valid_directions:
         next_to_visit.put(d)
@@ -60,7 +60,8 @@ def breadth_traverse(matrix: List[List[str]], start: Direction, start_cell: Cell
         # if is_end(matrix, d): # we shouldn't need this
         #     break
         visited[str(d)] = True
-        valid_directions: List[Direction] = get_valid_directions(matrix, d, visited)
+        cell = Cell(d.x,d.y,matrix[d.x][d.y])
+        valid_directions: List[Direction] = get_valid_directions(matrix, d, visited, cell)
         # check if end found
         for d in valid_directions:
             if is_end(matrix, d):
@@ -92,7 +93,7 @@ def translate_start_and_end_cells(neighbour_cell: str) -> str:
     return neighbour_cell
 
 
-def get_valid_directions(matrix: List[List[str]], start: Direction, visited: Dict[str,bool]) -> List[Direction]:
+def get_valid_directions(matrix: List[List[str]], start: Direction, visited: Dict[str,bool], start_cell: Cell) -> List[Direction]:
     start_value = matrix[start.x][start.y]
     if start_value == 'S':
         start_value = 'a'

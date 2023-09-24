@@ -21,12 +21,9 @@ def main(filename):
     start = Direction(0,0)
     start_cell = Cell(0,0,'a')
     matrix = build_matrix(filename) 
-    path = breadth_traverse(matrix, start)
+    path = breadth_traverse(matrix, start, start_cell)
     print('path is : ' , list(reversed(path)))
     print(f'steps => {len(path)}')
-    # filtered_paths = {i for i in paths if type(i) is int}
-    # fastest_path = min(filtered_paths)
-    # print('fastest path is :' , fastest_path)
 
 
 def build_matrix(filename: str) -> List[List[str]]:
@@ -44,7 +41,7 @@ def is_end(matrix, d):
         return True
     
 
-def breadth_traverse(matrix: List[List[str]], start: Direction) -> List[str]:
+def breadth_traverse(matrix: List[List[str]], start: Direction, start_cell: Cell) -> List[str]:
     path: List[str] = []
     previous: List[Direction] = []
     count = 0

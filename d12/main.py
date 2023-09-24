@@ -107,8 +107,6 @@ def get_valid_directions2(matrix: List[List[str]], start: Direction, visited: Di
         if target_cell.v <= (start_cell.v + 1):
             if str(target_cell) not in visited:
                 valid_directions.append(Direction(up, start.y))
-        else:
-            pass
     down = start.x + 1
     if not down >= len(matrix):
         neighbour_cell = matrix[down][start.y]  
@@ -117,8 +115,6 @@ def get_valid_directions2(matrix: List[List[str]], start: Direction, visited: Di
         if target_cell.v <= (start_cell.v + 1):
             if str(target_cell) not in visited:
                 valid_directions.append(Direction(down, start.y))
-        else:
-            pass
     left = start.y - 1
     if not left < 0:
         neighbour_cell = matrix[start.x][left]  
@@ -127,8 +123,6 @@ def get_valid_directions2(matrix: List[List[str]], start: Direction, visited: Di
         if target_cell.v <= (start_cell.v + 1):
             if str(target_cell) not in visited:
                 valid_directions.append(Direction(start.x, left))
-        else:
-            pass
     right = start.y + 1
     if not right >= len(matrix[0]):
         neighbour_cell = matrix[start.x][right]  
@@ -137,10 +131,7 @@ def get_valid_directions2(matrix: List[List[str]], start: Direction, visited: Di
         if target_cell.v <= (start_cell.v + 1):
             if str(target_cell) not in visited:
                 valid_directions.append(Direction(start.x, right))
-        else:
-            pass
     return valid_directions
-
 
 
 def get_valid_directions(matrix: List[List[str]], start: Direction, visited: Dict[str,bool], start_cell: Cell) -> List[Direction]:

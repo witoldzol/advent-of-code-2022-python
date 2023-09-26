@@ -24,18 +24,23 @@ def main(filename):
     lowest_cells: List[Cell] = find_lowest_cells(matrix)
     # start = find_start(matrix)
     # start_cell = Cell(start[0], start[1], "a")
-    for start_cell in lowest_cells:
-        path = breadth_traverse(matrix, start_cell)
-        print(f"steps => {len(path)}")
-        visualise_path(len(matrix), len(matrix[0]), path)
+    min = 999999999
+    for i, start_cell in enumerate(lowest_cells):
+        print(f"START traversal with start at {start_cell}")
+        print(f"there are {len(lowest_cells) - i } starts left to traverse")
+        path = breadth_traverse(matrix, start_cell, min)
+        if path and len(path) < min:
+            min = len(path)
+        print(f"steps => {min}")
+        # visualise_path(len(matrix), len(matrix[0]), path)
 
 
 def find_lowest_cells(matrix: List[List[str]]):
     low_cells = []
     for x, row in enumerate(matrix):
         for y, cell in enumerate(row):
-            if cell == 'a':
-                low_cells.append(Cell(x,y,'a'))
+            if cell == "a":
+                low_cells.append(Cell(x, y, "a"))
     return low_cells
 
 
@@ -77,7 +82,7 @@ def is_end(matrix, d):
         return True
 
 
-def breadth_traverse(matrix: List[List[str]], start_cell: Cell) -> List[str]:
+def breadth_traverse(matrix: List[List[str]], start_cell: Cell, min: int) -> List[str]:
     path: List[str] = []
     count = 0
     visited: Dict[str, bool] = {}
@@ -89,6 +94,9 @@ def breadth_traverse(matrix: List[List[str]], start_cell: Cell) -> List[str]:
     parent_map = {}
     for cell in iter(next_to_visit.get, None):
         count += 1
+        if count > min:
+            print("count is higher than min, skipping this traversal")
+            return []
         if str(cell) in visited:
             continue
         visited[str(cell)] = True
@@ -118,10 +126,10 @@ def trace_back_path(end: Cell, map: Dict[str, str]) -> List[str]:
 
 def translate_start_and_end_cells(cell: str) -> str:
     match cell:
-        case 'E':
-            return 'z'
-        case 'S':
-            return '|' # | is the 2 chars after z, and will always be 'higher than start cell ( hence S will never be valid direction)
+        case "E":
+            return "z"
+        case "S":
+            return "|"  # | is the 2 chars after z, and will always be 'higher than start cell ( hence S will never be valid direction)
     return cell
 
 

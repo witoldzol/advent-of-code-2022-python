@@ -126,8 +126,8 @@ def get_valid_directions(
 ) -> List[Cell]:
     valid_directions: List[Cell] = []
     offsets = [[-1, 0], [1, 0], [0, -1], [0, 1]]
-    for i, k in offsets:
-        offset = [start.x + i, start.y + k]
+    for x, y in offsets:
+        offset = [start.x + x, start.y + y]
         if is_out_of_bounds(offset, len(matrix), len(matrix[0])):
             continue
         cell_value = matrix[offset[0]][offset[1]]

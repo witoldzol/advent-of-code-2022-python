@@ -105,12 +105,13 @@ def trace_back_path(end: Cell, map: Dict[str, str]) -> List[str]:
     return path
 
 
-def translate_start_and_end_cells(neighbour_cell: str) -> str:
-    if neighbour_cell == "E":
-        neighbour_cell = "z"
-    if neighbour_cell == "S":
-        neighbour_cell = "|"  # | is the 2 chars after z, and will always be 'higher than start cell ( hence S will never be valid direction)
-    return neighbour_cell
+def translate_start_and_end_cells(cell: str) -> str:
+    match cell:
+        case 'E':
+            return 'z'
+        case 'S':
+            return '|' # | is the 2 chars after z, and will always be 'higher than start cell ( hence S will never be valid direction)
+    return cell
 
 
 def is_out_of_bounds(offset: List[int], len_x: int, len_y: int) -> bool:

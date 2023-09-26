@@ -1,5 +1,5 @@
 from collections import namedtuple
-from typing import List, Dict
+from typing import List, Dict, Tuple
 from queue import Queue
 
 Direction = namedtuple('Direction', "x y") 
@@ -24,12 +24,37 @@ class Cell:
 
 def main(filename):
     start = Direction(0,0)
-    start_cell = Cell(0,0,'a')
     matrix = build_matrix(filename) 
-    path = breadth_traverse(matrix, start, start_cell)
+    start = find_start(matrix)
+    start_direction = Direction(start[0], start[1])
+    start_cell = Cell(start[0],start[1],'a')
+    path = breadth_traverse(matrix, start_direction, start_cell)
     print('path is : ' , list(reversed(path)))
     print(f'steps => {len(path)}')
+    visualise_path(len(matrix), len(matrix[0]), path)
 
+
+def find_start(matrix: List[List[str]]) -> Tuple[int,int]:
+    for x, row in enumerate(matrix):
+        for y, cell in enumerate(row):
+            if cell == 'S':
+                return x,y
+    return 0,0
+
+
+def visualise_path(x: int, y: int, path: List[str]) -> None:
+    matrix = []
+    for _ in range(x):
+        temp = []
+        for _ in range(y):
+            temp.append('.')
+        matrix.append(temp)
+    for cell in path:
+        x,y = cell.split(',')
+        matrix[int(x)][int(y)] = '='
+    for row in matrix:
+        r = ''.join(row)
+        print(r)
 
 def build_matrix(filename: str) -> List[List[str]]:
     matrix = []
@@ -135,5 +160,5 @@ def get_valid_directions2(matrix: List[List[str]], start: Direction, visited: Di
 
 
 if __name__ == "__main__":
-   main('sample_input')
-   # main('input')
+   # main('sample_input')
+   main('input')

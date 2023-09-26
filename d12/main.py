@@ -1,8 +1,5 @@
-from collections import namedtuple
 from typing import List, Dict, Tuple
 from queue import Queue
-
-Direction = namedtuple('Direction', "x y") 
 
 class Cell:
     x: int
@@ -23,12 +20,10 @@ class Cell:
 
 
 def main(filename):
-    start = Direction(0,0)
     matrix = build_matrix(filename) 
     start = find_start(matrix)
-    start_direction = Direction(start[0], start[1])
     start_cell = Cell(start[0],start[1],'a')
-    path = breadth_traverse(matrix, start_direction, start_cell)
+    path = breadth_traverse(matrix, start_cell)
     print(f'steps => {len(path)}')
     visualise_path(len(matrix), len(matrix[0]), path)
 
@@ -70,12 +65,12 @@ def is_end(matrix, d):
         return True
     
 
-def breadth_traverse(matrix: List[List[str]], start: Direction, start_cell: Cell) -> List[str]:
+def breadth_traverse(matrix: List[List[str]], start_cell: Cell) -> List[str]:
     path: List[str] = []
     count = 0
     visited: Dict[str,bool] = {}
     next_to_visit: Queue = Queue()
-    valid_directions: List[Cell] = get_valid_directions2(matrix, start, visited, start_cell)
+    valid_directions: List[Cell] = get_valid_directions(matrix, visited, start_cell)
     # init queue
     for d in valid_directions:
         next_to_visit.put(d)
@@ -87,7 +82,7 @@ def breadth_traverse(matrix: List[List[str]], start: Direction, start_cell: Cell
         if str(cell) in visited:
             continue
         visited[str(cell)] = True
-        valid_directions: List[Cell] = get_valid_directions2(matrix, d, visited, cell)
+        valid_directions: List[Cell] = get_valid_directions(matrix, visited, cell)
         # check if end found
         for d in valid_directions:
             if is_end(matrix, d):
@@ -119,14 +114,14 @@ def translate_start_and_end_cells(neighbour_cell: str) -> str:
     return neighbour_cell
 
 
-def get_valid_directions2(matrix: List[List[str]], start: Direction, visited: Dict[str,bool], start_cell: Cell) -> List[Cell]:
+def get_valid_directions(matrix: List[List[str]], visited: Dict[str,bool], start: Cell) -> List[Cell]:
     valid_directions: List[Cell] = []
     up = start.x - 1
     if not up < 0:
         neighbour_cell = matrix[up][start.y]  
         neighbour_cell = translate_start_and_end_cells(neighbour_cell)
         target_cell: Cell = Cell(up,start.y,neighbour_cell)
-        if target_cell.v <= (start_cell.v + 1):
+        if target_cell.v <= (start.v + 1):
             if str(target_cell) not in visited:
                 valid_directions.append(target_cell)
     down = start.x + 1
@@ -134,7 +129,7 @@ def get_valid_directions2(matrix: List[List[str]], start: Direction, visited: Di
         neighbour_cell = matrix[down][start.y]  
         neighbour_cell = translate_start_and_end_cells(neighbour_cell)
         target_cell: Cell = Cell(down,start.y,neighbour_cell)
-        if target_cell.v <= (start_cell.v + 1):
+        if target_cell.v <= (start.v + 1):
             if str(target_cell) not in visited:
                 valid_directions.append(target_cell)
     left = start.y - 1
@@ -142,7 +137,7 @@ def get_valid_directions2(matrix: List[List[str]], start: Direction, visited: Di
         neighbour_cell = matrix[start.x][left]  
         neighbour_cell = translate_start_and_end_cells(neighbour_cell)
         target_cell: Cell = Cell(start.x,left,neighbour_cell)
-        if target_cell.v <= (start_cell.v + 1):
+        if target_cell.v <= (start.v + 1):
             if str(target_cell) not in visited:
                 valid_directions.append(target_cell)
     right = start.y + 1
@@ -150,7 +145,7 @@ def get_valid_directions2(matrix: List[List[str]], start: Direction, visited: Di
         neighbour_cell = matrix[start.x][right]  
         neighbour_cell = translate_start_and_end_cells(neighbour_cell)
         target_cell: Cell = Cell(start.x,right,neighbour_cell)
-        if target_cell.v <= (start_cell.v + 1):
+        if target_cell.v <= (start.v + 1):
             if str(target_cell) not in visited:
                 valid_directions.append(target_cell)
     return valid_directions

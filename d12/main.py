@@ -21,11 +21,22 @@ class Cell:
 
 def main(filename):
     matrix = build_matrix(filename)
-    start = find_start(matrix)
-    start_cell = Cell(start[0], start[1], "a")
-    path = breadth_traverse(matrix, start_cell)
-    print(f"steps => {len(path)}")
-    visualise_path(len(matrix), len(matrix[0]), path)
+    lowest_cells: List[Cell] = find_lowest_cells(matrix)
+    # start = find_start(matrix)
+    # start_cell = Cell(start[0], start[1], "a")
+    for start_cell in lowest_cells:
+        path = breadth_traverse(matrix, start_cell)
+        print(f"steps => {len(path)}")
+        visualise_path(len(matrix), len(matrix[0]), path)
+
+
+def find_lowest_cells(matrix: List[List[str]]):
+    low_cells = []
+    for x, row in enumerate(matrix):
+        for y, cell in enumerate(row):
+            if cell == 'a':
+                low_cells.append(Cell(x,y,'a'))
+    return low_cells
 
 
 def find_start(matrix: List[List[str]]) -> Tuple[int, int]:

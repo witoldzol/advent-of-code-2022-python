@@ -21,46 +21,23 @@ class Cell:
 
 def main(filename):
     matrix = build_matrix(filename)
-    # lowest_cells = []
     lowest_cells: List[Cell] = find_lowest_cells(matrix)
-    start = find_start(matrix)
-    print('start cell ', start)
-    start_cell = Cell(start[0], start[1], "a")
-    lowest_cells.append(start_cell)
     min = 999999999
+    shortest_path = []
     for i, start_cell in enumerate(lowest_cells):
-        # print(f"START traversal with start at {start_cell}")
-        print(f"there are {len(lowest_cells) - i } starts left to traverse")
+        print(f"There are {len(lowest_cells) - i } starts left to traverse")
         path = breadth_traverse(matrix, start_cell, min)
-        if path:
-            print(path)
-        if start_cell.x == 20 and start_cell.y == 0:
-            print("##################################################################")
-            print("##################################################################")
-            print("##################################################################")
-            print("##################################################################")
-            print('bob')
-            print(start_cell)
-            print("##################################################################")
-            print("##################################################################")
-            print("##################################################################")
-            print("##################################################################")
-            print("##################################################################")
         if path and (len(path) < min):
-            # print('path is ', path)
-            print("========================================================")
-            print('settign new min ', len(path))
-            print("========================================================")
             min = len(path)
-    print(f"minimum steps is => {min}")
-    visualise_path(len(matrix), len(matrix[0]), path)
+            shortest_path = path
+    visualise_path(len(matrix), len(matrix[0]), shortest_path)
+    print(f'The minimum amount of steps is {min}')
 
-
-def find_lowest_cells(matrix: List[List[str]]):
+def find_lowest_cells(matrix: List[List[str]]) -> List[Cell]:
     low_cells = []
     for x, row in enumerate(matrix):
         for y, cell in enumerate(row):
-            if cell == "a":
+            if cell == "a" or cell == 'S':
                 low_cells.append(Cell(x, y, "a"))
     return low_cells
 
@@ -74,6 +51,8 @@ def find_start(matrix: List[List[str]]) -> Tuple[int, int]:
 
 
 def visualise_path(x: int, y: int, path: List[str]) -> None:
+    if not path:
+        return
     matrix = []
     for _ in range(x):
         temp = []
@@ -99,13 +78,11 @@ def build_matrix(filename: str) -> List[List[str]]:
 
 def is_end(matrix, d):
     if matrix[d.x][d.y] == "E":
-        print(f"Found ending at {d.x},{d.y}")
         return True
 
 
 def breadth_traverse(matrix: List[List[str]], start_cell: Cell, min: int) -> List[str]:
     path: List[str] = []
-    count = 0
     visited: Dict[str, bool] = {}
     next_to_visit: Queue = Queue()
     valid_directions: List[Cell] = get_valid_directions(matrix, visited, start_cell)
@@ -115,29 +92,16 @@ def breadth_traverse(matrix: List[List[str]], start_cell: Cell, min: int) -> Lis
         next_to_visit.put(d)
     parent_map = {}
     for cell in iter(next_to_visit.get, None):
-        #print('here we go cell = ', cell)
-        count += 1
-        if count > min:
-            print("count is higher than min, skipping this traversal")
-            return []
         if str(cell) in visited:
-            # print('eize of queue ', )
-            # print('oh noe we been here before')
             if next_to_visit.qsize() == 0:
                 return []
             continue
         visited[str(cell)] = True
-        print(f'visited {cell}')
         valid_directions: List[Cell] = get_valid_directions(matrix, visited, cell)
-        # print(f'valid directions = {valid_directions}')
-        # print(f'size of queue is = {next_to_visit.qsize()}')
-        # check if end found
         if next_to_visit.qsize() == 0 and reached_end == False and not valid_directions:
-            print('DEAD END, bailing out')
             return []
         for child in valid_directions:
             if is_end(matrix, child):
-                print('FOUND END')
                 reached_end = True
                 parent_map[str(child)] = str(cell)
                 path = trace_back_path(child, parent_map)
@@ -145,7 +109,6 @@ def breadth_traverse(matrix: List[List[str]], start_cell: Cell, min: int) -> Lis
             if str(child) not in visited:
                 parent_map[str(child)] = str(cell)
                 next_to_visit.put(child)
-    print('returning path', path)
     return path
 
 
@@ -196,5 +159,5 @@ def get_valid_directions(
 
 
 if __name__ == "__main__":
-    main('sample_input')
-    # main("input")
+    # main('sample_input')
+    main("input")

@@ -21,19 +21,28 @@ def main(filename):
 def is_empty_line(line: str) -> Match[str] | None:
     return re.match(r"^$", line)
 
+
+def is_open_bracket(c: str) -> bool:
+    return c == "["
+
+
 def parse_packet(packet: str):
     if not packet:
         return
     result = None
     for c in packet:
-        if c == '[' :
+        if is_open_bracket(c):
             if not result:
                 result = []
+            reminder = packet[1:-1]
+            print('reminder is ',reminder)
+            if reminder:
+                result.append(parse_packet(reminder))
     return result
 
 
 def compare(packets: List[str]) -> int:
-    x,y = packets
+    x, y = packets
     return parse_packet(x)
     # print("packet 1", x)
     # print("packet 2", y)

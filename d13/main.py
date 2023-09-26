@@ -1,5 +1,6 @@
 from typing import List
 import re
+from re import Match
 
 
 def main(filename):
@@ -9,7 +10,6 @@ def main(filename):
         for line in f:
             line = line.rstrip()
             if is_empty_line(line):
-                print("emtpy linie ", line)
                 continue
             packet.append(line)
             if len(packet) == 2:
@@ -18,7 +18,7 @@ def main(filename):
     print(f"found {len(indices)} packet pairs in order")
 
 
-def is_empty_line(line: str):
+def is_empty_line(line: str) -> Match[str] | None:
     return re.match(r"^$", line)
 
 

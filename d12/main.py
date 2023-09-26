@@ -29,7 +29,6 @@ def main(filename):
     start_direction = Direction(start[0], start[1])
     start_cell = Cell(start[0],start[1],'a')
     path = breadth_traverse(matrix, start_direction, start_cell)
-    print('path is : ' , list(reversed(path)))
     print(f'steps => {len(path)}')
     visualise_path(len(matrix), len(matrix[0]), path)
 
@@ -154,9 +153,7 @@ def get_valid_directions2(matrix: List[List[str]], start: Direction, visited: Di
         if target_cell.v <= (start_cell.v + 1):
             if str(target_cell) not in visited:
                 valid_directions.append(target_cell)
-    s = list(sorted(valid_directions, key=lambda cell: cell.v, reverse=True))
-    print('sorted ', s)
-    return s
+    return valid_directions
 
 
 if __name__ == "__main__":

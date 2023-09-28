@@ -3,10 +3,11 @@ import re
 from re import Match
 from dataclasses import dataclass
 
+
 @dataclass
 class Token:
-    parent: 'Token'
-    val: str = ''
+    parent: "Token"
+    val: List
 
 
 def main(filename):
@@ -28,85 +29,55 @@ def main(filename):
 def compare(packets: List[str]) -> int:
     x, y = packets
     x_tokens = parse_packet(x)
-    x_output = parse_tokens(x_tokens)
-    for t in x_tokens:
-        print(t)
+    y_tokens = parse_packet(y)
+    print(x_tokens, ' , ', y_tokens)
     return 0
-
-
-# [[1],2]
-def parse_tokens(tokens: List[Token]) -> List:
-    out = []
-    for t in tokens:
-        match t:
-            case t.root  == None:
-                continue
-        
-        
-
-
 
 
 def is_empty_line(line: str) -> Match[str] | None:
     return re.match(r"^$", line)
 
 
-def is_open_bracket(c: str) -> bool:
-    return c == "["
-
-
-# [ - we open a new list, this is the new parent, everything afterwards goes inside of it
-# ] - we close current parent list, we shift parent to it's parent
-def parse_packet(packet: str): 
-    tokens = []
+def parse_packet(packet: str) -> List:
     if not packet:
         return
     parent: Token = None
     for c in packet:
+        print('c is ', c)
         match c:
-            case '[':
-                t = Token(parent, c)
-                tokens.append(t)
+            case "[":
+                t = Token(parent, [])
                 parent = t
-            case ']':
-                t = Token(parent, c)
-                tokens.append(t)
-                parent = parent.parent
-            case '0':
-                t = Token(parent, c)
-                tokens.append
-            case '1':
-                t = Token(parent, c)
-                tokens.append
-            case '2':
-                t = Token(parent, c)
-                tokens.append
-            case '3':
-                t = Token(parent, c)
-                tokens.append
-            case '4':
-                t = Token(parent, c)
-                tokens.append
-            case '5':
-                t = Token(parent, c)
-                tokens.append
-            case '6':
-                t = Token(parent, c)
-                tokens.append
-            case '7':
-                t = Token(parent, c)
-                tokens.append
-            case '8':
-                t = Token(parent, c)
-                tokens.append
-            case '9':
-                t = Token(parent, c)
-                tokens.append
-            case ',':
-                pass
+            case "]":
+                temp = parent 
+                if parent.parent: # if we get back to root, do nothing
+                    parent = parent.parent
+                    parent.val.append(temp.val)
+            case "0":
+                parent.val.append(int(c))
+            case "1":
+                parent.val.append(int(c))
+            case "2":
+                parent.val.append(int(c))
+            case "3":
+                parent.val.append(int(c))
+            case "4":
+                parent.val.append(int(c))
+            case "5":
+                parent.val.append(int(c))
+            case "6":
+                parent.val.append(int(c))
+            case "7":
+                parent.val.append(int(c))
+            case "8":
+                parent.val.append(int(c))
+            case "9":
+                parent.val.append(int(c))
+            case ",":
+                continue
             case _:
-                raise Exception(f'Unknown input = {c}, please investigate!')
-    return tokens
+                raise Exception(f"Unknown input {c}")
+    return parent.val
 
 
 if __name__ == "__main__":

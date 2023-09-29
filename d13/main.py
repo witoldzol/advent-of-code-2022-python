@@ -34,18 +34,23 @@ def main(filename):
     print(f"Sum of indices is {result}")
 
 
-def compare(left: List, right: List ) -> bool:
+def compare(left: List, right: List , mixed: bool = False) -> bool:
     if not left and not right:
         return True
     for i, l in enumerate(left):
         print('iteration: ', i)
+        if i >= len(right):
+            print('[INFO] right side ran out of items')
+            if mixed:
+                return True
+            return False
         r = right[i]
         print('l = ', l)
         print('r = ', r)
         if type(l) != type(r):
             if type(l) == list:
-                return compare(l,[r])
-            return compare([l], r)
+                return compare(l,[r], True)
+            return compare([l], r, True)
         if l > r:
             return False
     return True
@@ -96,4 +101,5 @@ def parse_packet(packet: str) -> List:
 
 
 if __name__ == "__main__":
-    main("sample_input")
+    # main("sample_input")
+    main("input")

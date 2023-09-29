@@ -1,4 +1,4 @@
-from typing import List, TypeVar
+from typing import List
 import re
 from re import Match
 from dataclasses import dataclass
@@ -20,20 +20,23 @@ def main(filename):
                 continue
             packets.append(line)
             if len(packets) == 2:
-                result = compare(packets)
+                x, y = packets
+                first_packet = parse_packet(x)
+                second_packet = parse_packet(y)
+                result = compare(first_packet, second_packet)
                 indices.append(result)
                 packets = []
     print(f"found {len(indices)} packets pairs in order")
 
 
-def compare(packets: List[str]) -> int:
-    x, y = packets
-    x_tokens = parse_packet(x)
-    y_tokens = parse_packet(y)
-    # print(x_tokens, ' , ', y_tokens)
-
-    return 0
-
+def compare(left: List, right: List ) -> bool:
+    if not left and not right:
+        return True
+    for i, l in enumerate(left):
+        r = right[i]
+        if l < r:
+            return False
+    return True
 
 def is_empty_line(line: str) -> Match[str] | None:
     return re.match(r"^$", line)
@@ -41,7 +44,7 @@ def is_empty_line(line: str) -> Match[str] | None:
 
 def parse_packet(packet: str) -> List:
     if not packet:
-        return
+        return []
     parent: Token = None
     for c in packet:
         match c:

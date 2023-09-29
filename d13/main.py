@@ -30,7 +30,8 @@ def compare(packets: List[str]) -> int:
     x, y = packets
     x_tokens = parse_packet(x)
     y_tokens = parse_packet(y)
-    print(x_tokens, ' , ', y_tokens)
+    # print(x_tokens, ' , ', y_tokens)
+
     return 0
 
 
@@ -43,7 +44,6 @@ def parse_packet(packet: str) -> List:
         return
     parent: Token = None
     for c in packet:
-        print('c is ', c)
         match c:
             case "[":
                 t = Token(parent, [])

@@ -48,6 +48,8 @@ def compare(left: List, right: List , mixed: bool = False) -> bool:
         print('l = ', l)
         print('r = ', r)
         print(f'types are =>> left is {type(l)} and right is {type(r)}')
+        if isinstance(l, list) and isinstance(r,list):
+            print("BOTH ARE LIST ============================") # todo continue from heere
         if type(l) != type(r):
             print(f'types dont match left is {type(l)} and right is {type(r)}')
             if type(l) == list:

@@ -18,3 +18,4 @@ def test_compare():
     assert compare([2],[1]) == False
     assert compare([[1],[2,3,4]], [[1],4]) == True
     assert compare([[1],[2,3,4]], [[1],1]) == False
+    assert compare([[[1]]],[[1]]) == True # todo - python does some recursive magic when using '>', let's find a workaround

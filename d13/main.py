@@ -47,7 +47,9 @@ def compare(left: List, right: List , mixed: bool = False) -> bool:
         r = right[i]
         print('l = ', l)
         print('r = ', r)
+        print(f'types are =>> left is {type(l)} and right is {type(r)}')
         if type(l) != type(r):
+            print(f'types dont match left is {type(l)} and right is {type(r)}')
             if type(l) == list:
                 return compare(l,[r], True)
             return compare([l], r, True)

@@ -10,5 +10,11 @@ def test_parse_one_list():
 
 def test_compare():
     assert compare([],[]) == True
+    assert compare([[[]]],[[]]) == False
+    assert compare([[]],[[[]]]) == True
+    assert compare([2,[]],[1,[[]]]) == False
     assert compare([1],[1]) == True
     assert compare([1],[2]) == True
+    assert compare([2],[1]) == False
+    assert compare([[1],[2,3,4]], [[1],4]) == True
+    # assert compare([[1],[2,3,4]], [[1],2]) == False

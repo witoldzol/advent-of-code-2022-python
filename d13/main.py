@@ -11,30 +11,42 @@ class Token:
 
 
 def main(filename):
-    indices = []
+    index = 0
+    result = 0
     with open(filename, "r") as f:
         packets = []
         for line in f:
             line = line.rstrip()
+            print('===========')
+            print(line)
+            print('===========')
             if is_empty_line(line):
                 continue
             packets.append(line)
             if len(packets) == 2:
+                index += 1
                 x, y = packets
                 first_packet = parse_packet(x)
                 second_packet = parse_packet(y)
-                result = compare(first_packet, second_packet)
-                indices.append(result)
+                if(compare(first_packet, second_packet)):
+                    result += index
                 packets = []
-    print(f"found {len(indices)} packets pairs in order")
+    print(f"Sum of indices is {result}")
 
 
 def compare(left: List, right: List ) -> bool:
     if not left and not right:
         return True
     for i, l in enumerate(left):
+        print('iteration: ', i)
         r = right[i]
-        if l < r:
+        print('l = ', l)
+        print('r = ', r)
+        if type(l) != type(r):
+            if type(l) == list:
+                return compare(l,[r])
+            return compare([l], r)
+        if l > r:
             return False
     return True
 

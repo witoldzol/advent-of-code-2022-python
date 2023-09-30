@@ -28,74 +28,38 @@ def main(filename):
                 x, y = packets
                 first_packet = parse_packet(x)
                 second_packet = parse_packet(y)
-                if(compare_tokens(first_packet, second_packet)):
+                if(compare(first_packet, second_packet)):
                     result += index
-                # if(compare(first_packet, second_packet)):
-                #     result += index
                 packets = []
     print(f"Sum of indices is {result}")
 
 
-def compare_tokens(left, right):
-    for 
+def compare(left: List, right: List , mixed: bool = False) -> bool:
+    if not left and not right:
+        return True
+    for i, l in enumerate(left):
+        print('iteration: ', i)
+        if i >= len(right):
+            print('[INFO] right side ran out of items')
+            if mixed:
+                return True
+            return False
+        r = right[i]
+        print('l = ', l)
+        print('r = ', r)
+        print(f'types are =>> left is {type(l)} and right is {type(r)}')
+        if isinstance(l, list) and isinstance(r,list):
+            print("Two lists detected, iterating over") # todo continue from heere
+            return compare(l,r,mixed)
+        elif type(l) != type(r):
+            print(f'types dont match left is {type(l)} and right is {type(r)}')
+            if type(l) == list:
+                return compare(l,[r], True)
+            return compare([l], r, True)
+        if l > r:
+            return False
+    return True
 
-
-# def compare(left: List, right: List , mixed: bool = False) -> bool:
-#     if not left and not right:
-#         return True
-#     # two lists
-#     if isinstance(left, list) and isinstance(right, list):
-#         for i, l in enumerate(left):
-#             if i >= len(right):
-#                 print('[INFO] right side ran out of items')
-#                 if mixed:
-#                     return True
-#                 return False
-#             r = right[i]
-#             if type(l) == type(r):
-#                 if l > r:
-#                     return False
-#             else:
-#                 if type(l) == list:
-#                     return compare(l,[r], True)
-#                 return compare([l], r, True)
-#         return True
-#     # mixed
-#     elif type(left) != type(right):
-#         if type(left) == list:
-#             return compare(left,[right], True)
-#         return compare([left], right, True)
-#     if left > right:
-#         return False
-#     return True
-#
-#
-#
-# def compare2(left: List, right: List , mixed: bool = False) -> bool:
-#     if not left and not right:
-#         return True
-#     for i, l in enumerate(left):
-#         print('iteration: ', i)
-#         if i >= len(right):
-#             print('[INFO] right side ran out of items')
-#             if mixed:
-#                 return True
-#             return False
-#         r = right[i]
-#         print('l = ', l)
-#         print('r = ', r)
-#         print(f'types are =>> left is {type(l)} and right is {type(r)}')
-#         if isinstance(l, list) and isinstance(r,list):
-#             print("Two lists detected, iterating over") # todo continue from heere
-#         elif type(l) != type(r):
-#             print(f'types dont match left is {type(l)} and right is {type(r)}')
-#             if type(l) == list:
-#                 return compare(l,[r], True)
-#             return compare([l], r, True)
-#         if l > r:
-#             return False
-#     return True
-#
 def is_empty_line(line: str) -> Match[str] | None:
     return re.match(r"^$", line)
 
@@ -138,7 +102,7 @@ def parse_packet(packet: str) -> List[Token]:
                 continue
             case _:
                 raise Exception(f"Unknown input {c}")
-    return parent
+    return parent.val
 
 
 if __name__ == "__main__":

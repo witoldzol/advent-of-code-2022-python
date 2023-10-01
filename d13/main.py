@@ -36,21 +36,43 @@ def main(filename):
 
 
 def explore(left: int|List, right: int|List, thresshold: int):
-    print('exploring' , left)
+    print(f'exploring left = {left} and right = {right}')
+    if not left and not right:
+        print(f'===> RETURNING TRUE for left = {left} and right = {right}')
+        return True
+    if left and not right:
+        print(f'===> RETURNING TRUE for left = {left} and right = {right}')
+        return True
     if not left:
+        return False
+    if not right:
         return False
     # base
     if isinstance(left, int) and isinstance(right, int):
         print(f'this is the base, is {left } >= {right} ? ', left >= right)
         return left >= right
     print(f'l = {left} , r = {right}')
-    l = left[0]
-    r = right[0]
-    print('exploring first ele in list ', l)
-    reminder = left[1:]
-    rr = right[1:]
-    print('exploring reminder of the list', reminder , ' ', rr)
-    return explore(l, r,thresshold) or explore(reminder, rr, thresshold)
+    if not left:
+        r = left
+        rr = left
+    elif isinstance(left, list):
+        l = left[0]
+        lr = left[1:]
+    else:
+        l = left
+        lr = None
+    if not right:
+        r = right
+        rr = right
+    elif isinstance(right, list):
+        r = right[0]
+        rr = right[1:]
+    else:
+        r = right
+        rr = None
+    print('exploring reminder of the list', lr , ' ', rr)
+    # return explore(l, r,thresshold) or explore(lr, rr, thresshold)
+    return explore(l, r,thresshold) or explore(lr, rr, thresshold) #$ todo check for a single false, not a single true -> false indicates that numbers are out of order
 
 
 def compare(left: List, right: List , mixed: bool = False) -> bool:

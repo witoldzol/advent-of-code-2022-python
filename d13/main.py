@@ -17,9 +17,9 @@ def main(filename):
         packets = []
         for line in f:
             line = line.rstrip()
-            print('===========')
-            print(line)
-            print('===========')
+            # print('===========')
+            # print(line)
+            # print('===========')
             if is_empty_line(line):
                 continue
             packets.append(line)
@@ -28,10 +28,29 @@ def main(filename):
                 x, y = packets
                 first_packet = parse_packet(x)
                 second_packet = parse_packet(y)
-                if(compare2(first_packet, second_packet)):
-                    result += index
+                compare3(first_packet, second_packet)
+                # if(compare2(first_packet, second_packet)):
+                #     result += index
                 packets = []
     print(f"Sum of indices is {result}")
+
+def compare3(left: List, right: List ) -> None:
+    for i, l in enumerate(left):
+        explore(left[i])
+
+def explore(left: int|List, thresshold: int):
+    print('exploring' , left)
+    if not left:
+        return False
+    # base
+    if isinstance(left, int):
+        print(f'this is the base, is {left } >= {thresshold} ? ', left >= thresshold)
+        return left >= thresshold
+    l = left[0]
+    print('exploring first ele in list ', l)
+    reminder = left[1:]
+    print('exploring reminder of the list', reminder)
+    return explore(l, thresshold) or explore(reminder, thresshold)
 
 
 def compare(left: List, right: List , mixed: bool = False) -> bool:

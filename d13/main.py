@@ -28,15 +28,12 @@ def main(filename):
                 x, y = packets
                 first_packet = parse_packet(x)
                 second_packet = parse_packet(y)
-                compare3(first_packet, second_packet)
-                # if(compare2(first_packet, second_packet)):
-                #     result += index
+                compare(first_packet, second_packet)
+                if(compare2(first_packet, second_packet)):
+                    result += index
                 packets = []
     print(f"Sum of indices is {result}")
 
-def compare3(left: List, right: List ) -> None:
-    for i, l in enumerate(left):
-        explore(left[i])
 
 def explore(left: int|List, thresshold: int):
     print('exploring' , left)

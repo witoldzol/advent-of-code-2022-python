@@ -47,11 +47,6 @@ def compare(left: List, right: List , mixed: bool = False) -> bool:
                 return True
             return False
         r = right[i]
-        if l == 4 and r == 1:
-            print('##########')
-            print('##########')
-            print('##########')
-            print('##########')
         if isinstance(l, list) and isinstance(r,list):
             print("Two lists detected, iterating over") # todo continue from heere
             if not compare(l[:1],r[:1],mixed):

@@ -1,4 +1,4 @@
-from main import compare, compare3,explore
+from main import explore
 from main import parse_packet
 
 
@@ -9,12 +9,15 @@ def test_parse_one_list():
 
 
 def test_compare():
-    assert explore([1,[2],[[3]]],3) == True
-    assert explore([1,[2],[[3]]],4) == False
-    assert explore([1],4) == False
-    assert explore([[1],[2,3,4]],10) == False
-    assert explore([[1],[2,3,4]],1) == True
-    assert explore([],1) == False
+    assert explore([1], [2], 2) == False
+    assert explore([1], [1], 2) == True
+    assert explore([1], [], 2) == False
+    # assert explore([1,[2],[[3]]],[] ,3) == True
+    # assert explore([1,[2],[[3]]], [],4) == False
+    # assert explore([1],4) == False
+    # assert explore([[1],[2,3,4]],10) == False
+    # assert explore([[1],[2,3,4]],1) == True
+    # assert explore([],1) == False
     # assert compare([],[]) == True
     # assert compare([[[]]],[[]]) == False
     # assert compare([[]],[[[]]]) == True

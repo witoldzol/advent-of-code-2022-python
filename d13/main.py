@@ -35,19 +35,22 @@ def main(filename):
     print(f"Sum of indices is {result}")
 
 
-def explore(left: int|List, thresshold: int):
+def explore(left: int|List, right: int|List, thresshold: int):
     print('exploring' , left)
     if not left:
         return False
     # base
-    if isinstance(left, int):
-        print(f'this is the base, is {left } >= {thresshold} ? ', left >= thresshold)
-        return left >= thresshold
+    if isinstance(left, int) and isinstance(right, int):
+        print(f'this is the base, is {left } >= {right} ? ', left >= right)
+        return left >= right
+    print(f'l = {left} , r = {right}')
     l = left[0]
+    r = right[0]
     print('exploring first ele in list ', l)
     reminder = left[1:]
-    print('exploring reminder of the list', reminder)
-    return explore(l, thresshold) or explore(reminder, thresshold)
+    rr = right[1:]
+    print('exploring reminder of the list', reminder , ' ', rr)
+    return explore(l, r,thresshold) or explore(reminder, rr, thresshold)
 
 
 def compare(left: List, right: List , mixed: bool = False) -> bool:

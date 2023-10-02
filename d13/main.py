@@ -71,8 +71,7 @@ def explore(left: int | List, right: int | List):
         r = right
         rr = None
     print("exploring reminder of the list", lr, " ", rr)
-    # return explore(l, r,thresshold) or explore(lr, rr, thresshold)
-    return explore(l, r) or explore(lr, rr)  # $ todo check for a single false,
+    return explore(l, r) or explore(lr, rr)
 
 
 def compare(left: List, right: List, mixed: bool = False) -> bool:
@@ -89,7 +88,7 @@ def compare(left: List, right: List, mixed: bool = False) -> bool:
             return False
         r = right[i]
         if isinstance(l, list) and isinstance(r, list):
-            print("Two lists detected, iterating over")  # todo continue from heere
+            print("Two lists detected, iterating over")
             if not compare(l[:1], r[:1], mixed):
                 return False
         elif type(l) != type(r):
@@ -117,7 +116,7 @@ def compare2(left: List, right: List, mixed: bool = False) -> bool:
         print("r = ", r)
         print(f"types are =>> left is {type(l)} and right is {type(r)}")
         if isinstance(l, list) and isinstance(r, list):
-            print("Two lists detected, iterating over")  # todo continue from heere
+            print("Two lists detected, iterating over")
             return compare(l, r, mixed)
         elif type(l) != type(r):
             print(f"types dont match left is {type(l)} and right is {type(r)}")

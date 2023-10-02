@@ -9,12 +9,12 @@ def test_parse_one_list():
 
 
 def test_compare():
-    assert explore([1], [1]) == True
-    assert explore([1], []) == True
-    assert explore([1, [2], [[3]]], []) == True
-    assert explore([1, [2], [[3]]], []) == True
-
     assert explore([[[]]],[[]]) == False
+    assert explore([1], [1]) == True
+    assert explore([1], []) == False
+    assert explore([1, [2], [[3]]], []) == False
+    # assert explore([1, [2], [[3]]], [2]) == True
+
     # assert explore([[]],[[[]]]) == True
     # assert explore([2,[]],[1,[[]]]) == False
     # assert explore([1],[1]) == True

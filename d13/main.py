@@ -28,25 +28,29 @@ def main(filename):
                 x, y = packets
                 first_packet = parse_packet(x)
                 second_packet = parse_packet(y)
-                compare(first_packet, second_packet)
-                if compare2(first_packet, second_packet):
+                explore(first_packet, second_packet)
+                if explore(first_packet, second_packet):
                     result += index
                 packets = []
     print(f"Sum of indices is {result}")
 
 
-def explore(left: int | List, right: int | List):
+def explore(left: int | List, right: int | List, n:int = 0):
+    print(f'EXPLORE CALL NUMBER {n}')
+    n+=1
     print(f"exploring left = {left} and right = {right}")
     if not left and not right:
+        print('left and right are empty or null')
         print(f"===> RETURNING TRUE for left = {left} and right = {right}")
         return True
     if left and not right:
-        print(f"===> RETURNING TRUE for left = {left} and right = {right}")
+        print('returning true because left has items and right doesn"t')
+        print(f"===> RETURNING FALSE for left = {left} and right = {right}")
+        return False
+    if not left and right:
+        print('returning true because left has no items and right does ')
+        print(f"===> RETURNING TURE for left = {left} and right = {right}")
         return True
-    if not left:
-        return False
-    if not right:
-        return False
     # base
     if isinstance(left, int) and isinstance(right, int):
         print(f"this is the base, is {left } >= {right} ? ", left >= right)
@@ -70,8 +74,12 @@ def explore(left: int | List, right: int | List):
     else:
         r = right
         rr = None
-    print("exploring reminder of the list", lr, " ", rr)
-    return explore(l, r) or explore(lr, rr)
+    if  r and rr:
+        print("exploring reminder of the list", lr, " ", rr)
+        return explore(l, r,n) and explore(lr, rr,n)
+    if not r:
+        return explore(l,rr,n)
+    return explore(lr, rr,n)
 
 
 def compare(left: List, right: List, mixed: bool = False) -> bool:

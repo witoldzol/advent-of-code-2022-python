@@ -3,18 +3,17 @@ from main import parse_packet
 
 
 def test_parse_one_list():
-    assert parse_packet('[]') == []
-    assert parse_packet('[5]') == [5]
-    assert parse_packet('[5,[3],2]') == [5, [3], 2]
+    assert parse_packet("[]") == []
+    assert parse_packet("[5]") == [5]
+    assert parse_packet("[5,[3],2]") == [5, [3], 2]
 
 
 def test_compare():
-    assert explore([1], [2], 2) == False
-    assert explore([1], [1], 2) == True
-    assert explore([1], [], 2) == True
-    assert explore([1,[2],[[3]]],[] ,3) == True
-    assert explore([1,[2],[[3]]], [],4) == True
-    assert explore([1,[2],[[3]]], [2],4) == False
+    assert explore([1], [1]) == True
+    assert explore([1], []) == True
+    assert explore([1, [2], [[3]]], []) == True
+    assert explore([1, [2], [[3]]], []) == True
+    assert explore([1, [2], [[3]]], [2]) == False
     # assert explore([1],4) == False
     # assert explore([[1],[2,3,4]],10) == False
     # assert explore([[1],[2,3,4]],1) == True
@@ -32,6 +31,6 @@ def test_compare():
     #
     # [[1],[2,3,4]]
     # [[1],1]
-    # compare first element, 
+    # compare first element,
     # if equal
-    # pass the rest to nested compare 
+    # pass the rest to nested compare

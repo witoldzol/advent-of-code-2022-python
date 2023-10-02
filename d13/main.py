@@ -29,19 +29,19 @@ def main(filename):
                 first_packet = parse_packet(x)
                 second_packet = parse_packet(y)
                 compare(first_packet, second_packet)
-                if(compare2(first_packet, second_packet)):
+                if compare2(first_packet, second_packet):
                     result += index
                 packets = []
     print(f"Sum of indices is {result}")
 
 
-def explore(left: int|List, right: int|List, thresshold: int):
-    print(f'exploring left = {left} and right = {right}')
+def explore(left: int | List, right: int | List):
+    print(f"exploring left = {left} and right = {right}")
     if not left and not right:
-        print(f'===> RETURNING TRUE for left = {left} and right = {right}')
+        print(f"===> RETURNING TRUE for left = {left} and right = {right}")
         return True
     if left and not right:
-        print(f'===> RETURNING TRUE for left = {left} and right = {right}')
+        print(f"===> RETURNING TRUE for left = {left} and right = {right}")
         return True
     if not left:
         return False
@@ -49,9 +49,9 @@ def explore(left: int|List, right: int|List, thresshold: int):
         return False
     # base
     if isinstance(left, int) and isinstance(right, int):
-        print(f'this is the base, is {left } >= {right} ? ', left >= right)
+        print(f"this is the base, is {left } >= {right} ? ", left >= right)
         return left >= right
-    print(f'l = {left} , r = {right}')
+    print(f"l = {left} , r = {right}")
     if not left:
         r = left
         rr = left
@@ -70,62 +70,64 @@ def explore(left: int|List, right: int|List, thresshold: int):
     else:
         r = right
         rr = None
-    print('exploring reminder of the list', lr , ' ', rr)
+    print("exploring reminder of the list", lr, " ", rr)
     # return explore(l, r,thresshold) or explore(lr, rr, thresshold)
-    return explore(l, r,thresshold) or explore(lr, rr, thresshold) #$ todo check for a single false, not a single true -> false indicates that numbers are out of order
+    return explore(l, r) or explore(lr, rr)  # $ todo check for a single false,
 
 
-def compare(left: List, right: List , mixed: bool = False) -> bool:
-    print(f'STARTING comparison of left = {left} and righ = {right}')
+def compare(left: List, right: List, mixed: bool = False) -> bool:
+    print(f"STARTING comparison of left = {left} and righ = {right}")
     if not left and not right:
         return True
 
     for i, l in enumerate(left):
-        print('iteration: ', i)
+        print("iteration: ", i)
         if i >= len(right):
-            print('[INFO] right side ran out of items')
+            print("[INFO] right side ran out of items")
             if mixed:
                 return True
             return False
         r = right[i]
-        if isinstance(l, list) and isinstance(r,list):
-            print("Two lists detected, iterating over") # todo continue from heere
-            if not compare(l[:1],r[:1],mixed):
+        if isinstance(l, list) and isinstance(r, list):
+            print("Two lists detected, iterating over")  # todo continue from heere
+            if not compare(l[:1], r[:1], mixed):
                 return False
         elif type(l) != type(r):
-            print(f'types dont match left is {type(l)} and right is {type(r)}')
+            print(f"types dont match left is {type(l)} and right is {type(r)}")
             if type(l) == list:
-                return compare(l,[r], True)
+                return compare(l, [r], True)
             return compare([l], r, True)
         if l > r:
             return False
     return True
 
-def compare2(left: List, right: List , mixed: bool = False) -> bool:
+
+def compare2(left: List, right: List, mixed: bool = False) -> bool:
     if not left and not right:
         return True
     for i, l in enumerate(left):
-        print('iteration: ', i)
+        print("iteration: ", i)
         if i >= len(right):
-            print('[INFO] right side ran out of items')
+            print("[INFO] right side ran out of items")
             if mixed:
                 return True
             return False
         r = right[i]
-        print('l = ', l)
-        print('r = ', r)
-        print(f'types are =>> left is {type(l)} and right is {type(r)}')
-        if isinstance(l, list) and isinstance(r,list):
-            print("Two lists detected, iterating over") # todo continue from heere
-            return compare(l,r,mixed)
+        print("l = ", l)
+        print("r = ", r)
+        print(f"types are =>> left is {type(l)} and right is {type(r)}")
+        if isinstance(l, list) and isinstance(r, list):
+            print("Two lists detected, iterating over")  # todo continue from heere
+            return compare(l, r, mixed)
         elif type(l) != type(r):
-            print(f'types dont match left is {type(l)} and right is {type(r)}')
+            print(f"types dont match left is {type(l)} and right is {type(r)}")
             if type(l) == list:
-                return compare(l,[r], True)
+                return compare(l, [r], True)
             return compare([l], r, True)
         if l > r:
             return False
     return True
+
 
 def is_empty_line(line: str) -> Match[str] | None:
     return re.match(r"^$", line)
@@ -141,8 +143,8 @@ def parse_packet(packet: str) -> List[Token]:
                 t = Token(parent, [])
                 parent = t
             case "]":
-                temp = parent 
-                if parent.parent: # if we get back to root, do nothing
+                temp = parent
+                if parent.parent:  # if we get back to root, do nothing
                     parent = parent.parent
                     parent.val.append(temp.val)
             case "0":
@@ -173,5 +175,5 @@ def parse_packet(packet: str) -> List[Token]:
 
 
 if __name__ == "__main__":
-    # main("sample_input")
-    main("input")
+    main("sample_input")
+    # main("input")

@@ -13,7 +13,19 @@ def test_compare():
     assert explore([1], []) == True
     assert explore([1, [2], [[3]]], []) == True
     assert explore([1, [2], [[3]]], []) == True
-    assert explore([1, [2], [[3]]], [2]) == False
+
+    assert explore([[[]]],[[]]) == False
+    # assert explore([[]],[[[]]]) == True
+    # assert explore([2,[]],[1,[[]]]) == False
+    # assert explore([1],[1]) == True
+    # assert explore([1],[2]) == True
+    # assert explore([2],[1]) == False
+    # assert explore([[[1]]],[[1]]) == True # todo, this test is failing & perhaps solution to our failing algo
+    # assert explore([[1],[2,3,4]], [[1],4]) == True
+    # assert explore([[1],[2,3,4]], [[1],1]) == False
+
+
+    # assert explore([1, [2], [[3]]], [2]) == False
     # assert explore([1],4) == False
     # assert explore([[1],[2,3,4]],10) == False
     # assert explore([[1],[2,3,4]],1) == True

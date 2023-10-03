@@ -67,8 +67,14 @@ def explore(left: int | List, right: int | List, n:int = 0, modified = False):
     elif isinstance(left, list):
         l = left[0]
         lr = left[1:]
+        if not lr:
+            lr = None
     else: # left is int
-        l = left
+        if isinstance(right,list):
+            l = [left]
+            modified = True
+        else:
+            l = left
         lr = None
     # RIGHT
     if not right:
@@ -77,11 +83,17 @@ def explore(left: int | List, right: int | List, n:int = 0, modified = False):
     elif isinstance(right, list):
         r = right[0]
         rr = right[1:]
+        if not rr:
+            rr = None
     else: # right is int
-        r = right
+        if isinstance(left,list):
+            r = [right]
+            modified = True
+        else:
+            r = right
         rr = None
     print("exploring reminder of the list", lr, " ", rr)
-    return explore(l, r,n) and explore(lr, rr,n)
+    return explore(l, r,n, modified) and explore(lr, rr,n, modified)
 
 
 def compare(left: List, right: List, mixed: bool = False) -> bool:

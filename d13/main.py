@@ -71,7 +71,9 @@ def explore(left: int | List, right: int | List, n:int = 0, modified = False):
             lr = None
     else: # left is int
         if isinstance(right,list):
-            l = [left]
+            print(f'left is and int {left}, and right {right} is a list, upgrading left to a list')
+            # l = [left]
+            l = left
             modified = True
         else:
             l = left
@@ -87,13 +89,19 @@ def explore(left: int | List, right: int | List, n:int = 0, modified = False):
             rr = None
     else: # right is int
         if isinstance(left,list):
-            r = [right]
+            print(f'right is and int {right}, and left {left} is a list, upgrading right to a list')
+            # r = [right]
+            r = right
             modified = True
         else:
             r = right
         rr = None
-    print("exploring reminder of the list", lr, " ", rr)
-    return explore(l, r,n, modified) and explore(lr, rr,n, modified)
+    if not lr and not rr:
+        print('there is no reminder, returning simple comparison')
+        return explore(l, r,n, modified)
+    else:
+        print("exploring reminder of the list", lr, " ", rr)
+        return explore(l, r,n, modified) and explore(lr, rr,n, modified)
 
 
 def compare(left: List, right: List, mixed: bool = False) -> bool:

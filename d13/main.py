@@ -44,6 +44,10 @@ def explore(left: int | List, right: int | List, n:int = 0):
         print(f"===> RETURNING TRUE for left = {left} and right = {right}")
         return True
     if left and not right:
+        if modified:
+            print('returning true because right ran out of items, and INT was modified to a LIST"t')
+            print(f"===> RETURNING FALSE for left = {left} and right = {right}")
+            return True
         print('returning true because left has items and right doesn"t')
         print(f"===> RETURNING FALSE for left = {left} and right = {right}")
         return False

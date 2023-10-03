@@ -35,7 +35,7 @@ def main(filename):
     print(f"Sum of indices is {result}")
 
 
-def explore(left: int | List, right: int | List, n:int = 0):
+def explore(left: int | List, right: int | List, n:int = 0, modified = False):
     print(f'EXPLORE CALL NUMBER {n}')
     n+=1
     print(f"exploring left = {left} and right = {right}")
@@ -55,18 +55,18 @@ def explore(left: int | List, right: int | List, n:int = 0):
         print('returning true because left has no items and right does ')
         print(f"===> RETURNING TURE for left = {left} and right = {right}")
         return True
-    # base
+    # BASE
     if isinstance(left, int) and isinstance(right, int):
         print(f"this is the base, is {left } >= {right} ? ", left >= right)
         return left >= right
     print(f"l = {left} , r = {right}")
     if not left:
-        r = left
-        rr = left
+        r = None
+        rr = None
     elif isinstance(left, list):
         l = left[0]
         lr = left[1:]
-    else:
+    else: # left is int
         l = left
         lr = None
     if not right:

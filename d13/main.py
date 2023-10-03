@@ -60,6 +60,7 @@ def explore(left: int | List, right: int | List, n:int = 0, modified = False):
         print(f"this is the base, is {left } >= {right} ? ", left >= right)
         return left >= right
     print(f"l = {left} , r = {right}")
+    # LEFT
     if not left:
         r = None
         rr = None
@@ -69,21 +70,18 @@ def explore(left: int | List, right: int | List, n:int = 0, modified = False):
     else: # left is int
         l = left
         lr = None
+    # RIGHT
     if not right:
-        r = right
-        rr = right
+        r = None
+        rr = None
     elif isinstance(right, list):
         r = right[0]
         rr = right[1:]
-    else:
+    else: # right is int
         r = right
         rr = None
-    if  r and rr:
-        print("exploring reminder of the list", lr, " ", rr)
-        return explore(l, r,n) and explore(lr, rr,n)
-    if not r:
-        return explore(l,rr,n)
-    return explore(lr, rr,n)
+    print("exploring reminder of the list", lr, " ", rr)
+    return explore(l, r,n) and explore(lr, rr,n)
 
 
 def compare(left: List, right: List, mixed: bool = False) -> bool:
@@ -186,5 +184,5 @@ def parse_packet(packet: str) -> List[Token]:
 
 
 if __name__ == "__main__":
-    main("sample_input")
-    # main("input")
+    # main("sample_input")
+    main("input")

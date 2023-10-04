@@ -107,7 +107,6 @@ def compare(left: List, right: List, mixed: bool = False) -> bool:
     print(f"STARTING comparison of left = {left} and righ = {right}")
     if not left and not right:
         return True
-
     for i, l in enumerate(left):
         print("iteration: ", i)
         if i >= len(right):
@@ -120,33 +119,6 @@ def compare(left: List, right: List, mixed: bool = False) -> bool:
             print("Two lists detected, iterating over")
             if not compare(l[:1], r[:1], mixed):
                 return False
-        elif type(l) != type(r):
-            print(f"types dont match left is {type(l)} and right is {type(r)}")
-            if type(l) == list:
-                return compare(l, [r], True)
-            return compare([l], r, True)
-        if l > r:
-            return False
-    return True
-
-
-def compare2(left: List, right: List, mixed: bool = False) -> bool:
-    if not left and not right:
-        return True
-    for i, l in enumerate(left):
-        print("iteration: ", i)
-        if i >= len(right):
-            print("[INFO] right side ran out of items")
-            if mixed:
-                return True
-            return False
-        r = right[i]
-        print("l = ", l)
-        print("r = ", r)
-        print(f"types are =>> left is {type(l)} and right is {type(r)}")
-        if isinstance(l, list) and isinstance(r, list):
-            print("Two lists detected, iterating over")
-            return compare(l, r, mixed)
         elif type(l) != type(r):
             print(f"types dont match left is {type(l)} and right is {type(r)}")
             if type(l) == list:
@@ -203,5 +175,5 @@ def parse_packet(packet: str) -> List[Token]:
 
 
 if __name__ == "__main__":
-    # main("sample_input")
-    main("input")
+    main("sample_input")
+    # main("input") #440 last try

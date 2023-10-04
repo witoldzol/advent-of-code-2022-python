@@ -39,6 +39,10 @@ def main(filename):
 
 
 def explore(left: int | List, right: int | List, n:int = 0, modified = False):
+    if isinstance(left, list) and isinstance(right, int):
+        if len(left) > 1 and n != 0:
+            print('returning FALSE because len left is > than len right')
+            return False
     print(f'explore call number {n}')
     n+=1
     # print(f"[START]  LEFT = {left} and RIGHT = {right}")
@@ -95,12 +99,13 @@ def explore(left: int | List, right: int | List, n:int = 0, modified = False):
         else:
             r = right
         rr = None
-    print(f"L => {l}\nR => {r}\nleft reminder = {lr}\nright reminder = {rr}\n")
     if not lr and not rr:
         print('there is no reminder, returning simple comparison')
         return explore(l, r,n, modified)
     else:
-        return explore(l, r,n, modified) and explore(lr, rr,n, modified) # todo solve issue with modifier
+        print('going deeper, with reminder')
+        print(f"L => {l}\nR => {r}\nleft reminder = {lr}\nright reminder = {rr}\n")
+        return explore(l, r,n, modified) and explore(lr, rr,n, modified)
         # if we are  comparing a list vs int, we should 'upgrade' the int, and if the order is fine, we ignore number of elements
         # BUT, if the 'parent' list still has items, we should continue comparing them
         # so [1,2] vs 1 => true, in order

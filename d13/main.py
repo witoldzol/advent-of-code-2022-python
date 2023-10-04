@@ -38,7 +38,7 @@ def main(filename):
 def explore(left: int | List, right: int | List, n:int = 0, modified = False):
     print(f'EXPLORE CALL NUMBER {n}')
     n+=1
-    print(f"exploring left = {left} and right = {right}")
+    print(f"[START]  LEFT = {left} and RIGHT = {right}")
     if not left and not right:
         print('left and right are empty or null')
         print(f"===> RETURNING TRUE for left = {left} and right = {right}")
@@ -49,21 +49,20 @@ def explore(left: int | List, right: int | List, n:int = 0, modified = False):
             print(f"===> RETURNING FALSE for left = {left} and right = {right}")
             return True
         print('returning true because left has items and right doesn"t')
-        print(f"===> RETURNING FALSE for left = {left} and right = {right}")
+        print(f"===> RETURNING FALSE, left has items, right is out.")
         return False
     if not left and right:
         print('returning true because left has no items and right does ')
-        print(f"===> RETURNING TURE for left = {left} and right = {right}")
+        print(f"===> RETURNING TRUE for left = {left} and right = {right}")
         return True
     # BASE
     if isinstance(left, int) and isinstance(right, int):
         print(f"this is the base, is {left } >= {right} ? ", left >= right)
-        return left >= right
-    print(f"l = {left} , r = {right}")
+        return left <= right
     # LEFT
     if not left:
-        r = None
-        rr = None
+        l = None
+        lr = None
     elif isinstance(left, list):
         l = left[0]
         lr = left[1:]
@@ -96,11 +95,11 @@ def explore(left: int | List, right: int | List, n:int = 0, modified = False):
         else:
             r = right
         rr = None
+    print(f"L => {left}\nR => {right}\nleft reminder = {lr}\nright reminder = {rr}\n")
     if not lr and not rr:
         print('there is no reminder, returning simple comparison')
         return explore(l, r,n, modified)
     else:
-        print("exploring reminder of the list", lr, " ", rr)
         return explore(l, r,n, modified) and explore(lr, rr,n, modified)
 
 

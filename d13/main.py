@@ -39,10 +39,6 @@ def main(filename):
 
 
 def explore(left: int | List, right: int | List, n:int = 0, modified = False):
-    if isinstance(left, list) and isinstance(right, int):
-        if len(left) > 1 and n != 0:
-            print('returning FALSE because len left is > than len right')
-            return False
     print(f'explore call number {n}')
     n+=1
     # print(f"[START]  LEFT = {left} and RIGHT = {right}")

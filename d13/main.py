@@ -28,17 +28,20 @@ def main(filename):
                 x, y = packets
                 first_packet = parse_packet(x)
                 second_packet = parse_packet(y)
+                print(f'START NEW EXPLORATION ==================')
                 explore(first_packet, second_packet)
+                print(f'END OF EXPLORATION <<<<<<<<<<<<<<<<<<<<<')
                 if explore(first_packet, second_packet):
                     result += index
+                    print(f'Current Index {index}, current result {result}')
                 packets = []
     print(f"Sum of indices is {result}")
 
 
 def explore(left: int | List, right: int | List, n:int = 0, modified = False):
-    print(f'EXPLORE CALL NUMBER {n}')
+    print(f'explore call number {n}')
     n+=1
-    print(f"[START]  LEFT = {left} and RIGHT = {right}")
+    # print(f"[START]  LEFT = {left} and RIGHT = {right}")
     if not left and not right:
         print('left and right are empty or null')
         print(f"===> RETURNING TRUE for left = {left} and right = {right}")
@@ -46,18 +49,15 @@ def explore(left: int | List, right: int | List, n:int = 0, modified = False):
     if left and not right:
         if modified:
             print('returning true because right ran out of items, and INT was modified to a LIST"t')
-            print(f"===> RETURNING FALSE for left = {left} and right = {right}")
             return True
-        print('returning true because left has items and right doesn"t')
         print(f"===> RETURNING FALSE, left has items, right is out.")
         return False
     if not left and right:
-        print('returning true because left has no items and right does ')
-        print(f"===> RETURNING TRUE for left = {left} and right = {right}")
+        print('====> returning TRUE because left has no items and right does ')
         return True
     # BASE
     if isinstance(left, int) and isinstance(right, int):
-        print(f"this is the base, is {left } >= {right} ? ", left >= right)
+        print(f"this is the base, is {left } <= {right} ? ", left <= right)
         return left <= right
     # LEFT
     if not left:
@@ -95,12 +95,17 @@ def explore(left: int | List, right: int | List, n:int = 0, modified = False):
         else:
             r = right
         rr = None
-    print(f"L => {left}\nR => {right}\nleft reminder = {lr}\nright reminder = {rr}\n")
+    print(f"L => {l}\nR => {r}\nleft reminder = {lr}\nright reminder = {rr}\n")
     if not lr and not rr:
         print('there is no reminder, returning simple comparison')
         return explore(l, r,n, modified)
     else:
-        return explore(l, r,n, modified) and explore(lr, rr,n, modified)
+        return explore(l, r,n, modified) and explore(lr, rr,n, modified) # todo solve issue with modifier
+        # if we are  comparing a list vs int, we should 'upgrade' the int, and if the order is fine, we ignore number of elements
+        # BUT, if the 'parent' list still has items, we should continue comparing them
+        # so [1,2] vs 1 => true, in order
+        # but
+        # [[1,2],3] vs [4] => false, even if first comparison is ok, right side ran out of items on next item (3)
 
 
 def compare(left: List, right: List, mixed: bool = False) -> bool:

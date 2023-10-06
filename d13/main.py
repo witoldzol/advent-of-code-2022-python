@@ -38,7 +38,7 @@ def main(filename):
     print(f"Sum of indices is {result}")
 
 
-def explore(left: int | List, right: int | List, n:int = 0, modified = False):
+def explore(left: int | List, right: int | List, n:int = 0):
     print(f'explore call number {n}')
     n+=1
     # print(f"[START]  LEFT = {left} and RIGHT = {right}")
@@ -47,9 +47,6 @@ def explore(left: int | List, right: int | List, n:int = 0, modified = False):
         print(f"===> RETURNING TRUE for left = {left} and right = {right}")
         return True
     if left and not right:
-        if modified:
-            print('returning true because right ran out of items, and INT was modified to a LIST"t')
-            return True
         print(f"===> RETURNING FALSE, left has items, right is out.")
         return False
     if not left and right:
@@ -73,7 +70,6 @@ def explore(left: int | List, right: int | List, n:int = 0, modified = False):
             print(f'left is and int {left}, and right {right} is a list, upgrading left to a list')
             # l = [left]
             l = left
-            modified = True
         else:
             l = left
         lr = None
@@ -91,17 +87,16 @@ def explore(left: int | List, right: int | List, n:int = 0, modified = False):
             print(f'right is and int {right}, and left {left} is a list, upgrading right to a list')
             # r = [right]
             r = right
-            modified = True
         else:
             r = right
         rr = None
     if not lr and not rr:
         print('there is no reminder, returning simple comparison')
-        return explore(l, r,n, modified)
+        return explore(l, r,n)
     else:
         print('going deeper, with reminder')
         print(f"L => {l}\nR => {r}\nleft reminder = {lr}\nright reminder = {rr}\n")
-        return explore(l, r,n, modified) and explore(lr, rr,n, modified)
+        return explore(l, r,n) and explore(lr, rr,n)
 
 
 def is_empty_line(line: str) -> Match[str] | None:

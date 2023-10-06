@@ -9,6 +9,9 @@ from main import parse_packet
 
 
 def test_compare():
+    # assert explore([[1,2,1],1], [[1,1,1,],1]) == False
+    # assert explore([1, 1, 3, 1, 1] , [1, 1, 5, 1, 1]) == True
+    # assert explore([1, 1, 5, 1, 1] , [1, 1, 3, 1, 1]) == False
     # assert explore([[[]]],[[]]) == False
     # assert explore([1], [1]) == True
     # assert explore([1], []) == False
@@ -19,10 +22,10 @@ def test_compare():
     # assert explore([2],[1]) == False
     # assert explore([[[1]]],[[1]]) == True
     # assert explore([[1],[2,3,4]], [[1],1]) == False
-    # assert explore([[1],[2,3,4]], [[1],4]) == True
+    assert explore([[1],[2,3,4]], [[1],4]) == True
     # assert explore([1, [2], [[3]]], [2]) == False
-    assert explore([1,2],4) == True
-    assert explore([[1],[2,3,4]],10) == False
+    # assert explore([1,2],4) == True
+    # assert explore([[1],[2,3,4]],10) == False
     # assert explore([[1],[2,3,4]],1) == True
     # assert explore([],1) == False
     # assert compare([],[]) == True

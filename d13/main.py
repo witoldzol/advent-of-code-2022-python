@@ -25,11 +25,17 @@ def main(filename):
                 x, y = packets
                 first_packet = parse_packet(x)
                 second_packet = parse_packet(y)
-                print(f'START NEW EXPLORATION ==================')
+                print('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>')
+                print(f'START NEW EXPLORATION >>>>>>>>>>>>>>>>>>')
+                print(f"[START]  LEFT = {first_packet} and RIGHT = {second_packet}")
                 if explore(first_packet, second_packet):
                     result += index
+                    print('RESULT -------> IN ORDER')
                     print(f'Current Index {index}, current result {result}')
+                else:
+                    print('RESULT -------> OUT OF ORDER')
                 print(f'END OF EXPLORATION <<<<<<<<<<<<<<<<<<<<<')
+                print('<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<')
                 packets = []
     print(f"Sum of indices is {result}")
 
@@ -41,8 +47,8 @@ def explore(left:  List, right: List):
         left = left[1:]
         right = right[1:]
         result = compare(l,r)
-        if not result:
-            return False
+        if result != None:
+            return result
     if not left and right:
         return True
     if left and not right:
@@ -52,11 +58,11 @@ def explore(left:  List, right: List):
 
 def compare(left: int | List, right: int | List, n:int = 0):
     print(f'compare call number {n}')
-    print(f"[START]  LEFT = {left} and RIGHT = {right}")
+    print(f"[COMPARE]  LEFT = {left} and RIGHT = {right}")
     n+=1
     if not left and not right:
         print('=> REturn True, left and right are empty or null')
-        return True
+        return None
     if left and not right:
         print(f"===> RETURNING FALSE, left has items, right is out.")
         return False
@@ -66,10 +72,10 @@ def compare(left: int | List, right: int | List, n:int = 0):
     # BASE
     if isinstance(left, int) and isinstance(right, int):
         if left != right:
-            print(f"this is the base, is {left } < {right} ? ", left < right)
+            print(f"BASE CONDITION, is {left } < {right} ? ", left < right)
             return left < right
         print("=> RETURN True, left and right are  the same")
-        return True
+        return None
     # LEFT
     if not left:
         l = None
@@ -100,7 +106,10 @@ def compare(left: int | List, right: int | List, n:int = 0):
     else:
         print('going deeper, with reminder')
         print(f"L => {l}\nR => {r}\nleft reminder = {lr}\nright reminder = {rr}\n")
-        return compare(l, r,n) and compare(lr, rr,n)
+        r = compare(l,r,n)
+        if r == None:
+            return compare(lr,rr,n)
+    return r
 
 
 def is_empty_line(line: str) -> Match[str] | None:
@@ -149,5 +158,5 @@ def parse_packet(packet: str) -> List[Token]:
 
 
 if __name__ == "__main__":
-    main("sample_input")
-    # main("input") #440 last try
+    # main("sample_input")
+    main("input") #5867 last try

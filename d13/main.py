@@ -26,22 +26,36 @@ def main(filename):
                 first_packet = parse_packet(x)
                 second_packet = parse_packet(y)
                 print(f'START NEW EXPLORATION ==================')
-                explore(first_packet, second_packet)
-                print(f'END OF EXPLORATION <<<<<<<<<<<<<<<<<<<<<')
                 if explore(first_packet, second_packet):
                     result += index
                     print(f'Current Index {index}, current result {result}')
+                print(f'END OF EXPLORATION <<<<<<<<<<<<<<<<<<<<<')
                 packets = []
     print(f"Sum of indices is {result}")
 
 
-def explore(left: int | List, right: int | List, n:int = 0):
-    print(f'explore call number {n}')
+def explore(left:  List, right: List):
+    while left and right:
+        l = left[0]
+        r = right[0]
+        left = left[1:]
+        right = right[1:]
+        result = compare(l,r)
+        if not result:
+            return False
+    if not left and right:
+        return True
+    if left and not right:
+        return False
+    return True 
+
+
+def compare(left: int | List, right: int | List, n:int = 0):
+    print(f'compare call number {n}')
     print(f"[START]  LEFT = {left} and RIGHT = {right}")
     n+=1
     if not left and not right:
-        print('left and right are empty or null')
-        print(f"===> RETURNING TRUE for left = {left} and right = {right}")
+        print('=> REturn True, left and right are empty or null')
         return True
     if left and not right:
         print(f"===> RETURNING FALSE, left has items, right is out.")
@@ -51,10 +65,11 @@ def explore(left: int | List, right: int | List, n:int = 0):
         return True
     # BASE
     if isinstance(left, int) and isinstance(right, int):
-        print(f"this is the base, is {left } <= {right} ? ", left <= right)
-        if left == right:
+        if left != right:
+            print(f"this is the base, is {left } < {right} ? ", left < right)
             return left < right
-        return None
+        print("=> RETURN True, left and right are  the same")
+        return True
     # LEFT
     if not left:
         l = None
@@ -81,11 +96,11 @@ def explore(left: int | List, right: int | List, n:int = 0):
         rr = None
     if not lr and not rr:
         print('there is no reminder, returning simple comparison')
-        return explore(l, r,n)
+        return compare(l, r,n)
     else:
         print('going deeper, with reminder')
         print(f"L => {l}\nR => {r}\nleft reminder = {lr}\nright reminder = {rr}\n")
-        return explore(l, r,n) or explore(lr, rr,n)
+        return compare(l, r,n) and compare(lr, rr,n)
 
 
 def is_empty_line(line: str) -> Match[str] | None:

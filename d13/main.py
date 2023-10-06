@@ -104,39 +104,6 @@ def explore(left: int | List, right: int | List, n:int = 0, modified = False):
         return explore(l, r,n, modified) and explore(lr, rr,n, modified)
 
 
-# def compare(left: List, right: List, mixed: bool = False) -> bool:
-#     print(f"STARTING comparison of left = {left} and righ = {right}")
-#     if not left and not right:
-#         return True
-#     if isinstance(left, int) and isinstance(right,int):
-#         return left <= right
-#     for i, l in enumerate(left):
-#         print("iteration: ", i)
-#         if i >= len(right):
-#             print("[INFO] right side ran out of items")
-#             if mixed:
-#                 return True
-#             return False
-#         r = right[i]
-#         if isinstance(l, list) and isinstance(r, list):
-#             print("Two lists detected, iterating over")
-#             print(f'l={l}, r={r})')
-#             if r:
-#                 r = r[0]
-#             if l:
-#                 l = l[0]
-#             print(f'FOO {l[1:]},{r[1:]}')
-#             return compare(l,r,mixed) and compare(l[1:],r[1:],mixed)
-#         elif type(l) != type(r):
-#             print(f"types dont match left is {type(l)} and right is {type(r)}")
-#             if type(l) == list:
-#                 return compare(l, [r], True)
-#             return compare([l], r, True)
-#         if l > r:
-#             return False
-#     return True
-
-
 def is_empty_line(line: str) -> Match[str] | None:
     return re.match(r"^$", line)
 
@@ -183,5 +150,5 @@ def parse_packet(packet: str) -> List[Token]:
 
 
 if __name__ == "__main__":
-    main("sample_input")
-    # main("input") #440 last try
+    # main("sample_input")
+    main("input") #440 last try

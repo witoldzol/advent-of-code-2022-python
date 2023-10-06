@@ -17,9 +17,6 @@ def main(filename):
         packets = []
         for line in f:
             line = line.rstrip()
-            # print('===========')
-            # print(line)
-            # print('===========')
             if is_empty_line(line):
                 continue
             packets.append(line)
@@ -66,12 +63,7 @@ def explore(left: int | List, right: int | List, n:int = 0):
         if not lr:
             lr = None
     else: # left is int
-        if isinstance(right,list):
-            print(f'left is and int {left}, and right {right} is a list, upgrading left to a list')
-            # l = [left]
-            l = left
-        else:
-            l = left
+        l = left
         lr = None
     # RIGHT
     if not right:
@@ -83,12 +75,7 @@ def explore(left: int | List, right: int | List, n:int = 0):
         if not rr:
             rr = None
     else: # right is int
-        if isinstance(left,list):
-            print(f'right is and int {right}, and left {left} is a list, upgrading right to a list')
-            # r = [right]
-            r = right
-        else:
-            r = right
+        r = right
         rr = None
     if not lr and not rr:
         print('there is no reminder, returning simple comparison')
@@ -145,5 +132,5 @@ def parse_packet(packet: str) -> List[Token]:
 
 
 if __name__ == "__main__":
-    # main("sample_input")
-    main("input") #440 last try
+    main("sample_input")
+    # main("input") #440 last try

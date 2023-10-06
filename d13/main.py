@@ -109,7 +109,8 @@ def compare(left: int | List, right: int | List, n:int = 0):
         r = compare(l,r,n)
         if r == None:
             return compare(lr,rr,n)
-    return r
+        else:
+            return r # todo - not sure about this logic, do some testing
 
 
 def is_empty_line(line: str) -> Match[str] | None:

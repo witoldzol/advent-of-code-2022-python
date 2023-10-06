@@ -37,8 +37,8 @@ def main(filename):
 
 def explore(left: int | List, right: int | List, n:int = 0):
     print(f'explore call number {n}')
+    print(f"[START]  LEFT = {left} and RIGHT = {right}")
     n+=1
-    # print(f"[START]  LEFT = {left} and RIGHT = {right}")
     if not left and not right:
         print('left and right are empty or null')
         print(f"===> RETURNING TRUE for left = {left} and right = {right}")
@@ -52,7 +52,9 @@ def explore(left: int | List, right: int | List, n:int = 0):
     # BASE
     if isinstance(left, int) and isinstance(right, int):
         print(f"this is the base, is {left } <= {right} ? ", left <= right)
-        return left <= right
+        if left == right:
+            return left < right
+        return None
     # LEFT
     if not left:
         l = None
@@ -83,7 +85,7 @@ def explore(left: int | List, right: int | List, n:int = 0):
     else:
         print('going deeper, with reminder')
         print(f"L => {l}\nR => {r}\nleft reminder = {lr}\nright reminder = {rr}\n")
-        return explore(l, r,n) and explore(lr, rr,n)
+        return explore(l, r,n) or explore(lr, rr,n)
 
 
 def is_empty_line(line: str) -> Match[str] | None:

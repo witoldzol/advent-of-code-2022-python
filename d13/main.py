@@ -56,10 +56,8 @@ def explore(left:  List, right: List):
     return True 
 
 
-def compare(left: int | List, right: int | List, n:int = 0):
-    print(f'compare call number {n}')
+def compare(left: int | List, right: int | List):
     print(f"[COMPARE]  LEFT = {left} and RIGHT = {right}")
-    n+=1
     if not left and not right:
         print('=> REturn True, left and right are empty or null')
         return None
@@ -102,13 +100,13 @@ def compare(left: int | List, right: int | List, n:int = 0):
         rr = None
     if not lr and not rr:
         print('there is no reminder, returning simple comparison')
-        return compare(l, r,n)
+        return compare(l, r)
     else:
         print('going deeper, with reminder')
         print(f"L => {l}\nR => {r}\nleft reminder = {lr}\nright reminder = {rr}\n")
-        r = compare(l,r,n)
+        r = compare(l,r)
         if r == None:
-            return compare(lr,rr,n)
+            return compare(lr,rr)
         else:
             return r # todo - not sure about this logic, do some testing
 
@@ -159,5 +157,5 @@ def parse_packet(packet: str) -> List[Token]:
 
 
 if __name__ == "__main__":
-    # main("sample_input")
-    main("input") #5867 last try
+    main("sample_input")
+    # main("input") #5867 last try

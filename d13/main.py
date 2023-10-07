@@ -36,79 +36,74 @@ def main(filename):
                     print('RESULT -------> OUT OF ORDER')
                 print(f'END OF EXPLORATION <<<<<<<<<<<<<<<<<<<<<')
                 print('<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<')
+                print('')
                 packets = []
     print(f"Sum of indices is {result}")
 
 
 def explore(left:  List, right: List):
+    if not left and right:
+        print(f"[ RIGHT ran out of items ]  LEFT = {left} and RIGHT = {right}")
+        return True
+    if left and not right:
+        print(f"[ LEFT ran out of items ]  LEFT = {left} and RIGHT = {right}")
+        return False
     while left and right:
         l = left[0]
         r = right[0]
         left = left[1:]
         right = right[1:]
+        print(f'comparing left { left } to right { right }')
         result = compare(l,r)
         if result != None:
             return result
-    if not left and right:
-        return True
-    if left and not right:
-        return False
-    return True 
+        if not left and right:
+            print(f"[ RIGHT ran out of items ]  LEFT = {left} and RIGHT = {right}")
+            return True
+        if left and not right:
+            print(f"[ LEFT ran out of items ]  LEFT = {left} and RIGHT = {right}")
+            return False
+    print(f"[ RETURNING TRUE as default ]  LEFT = {left} and RIGHT = {right}")
+    return True
+
 
 
 def compare(left: int | List, right: int | List):
     print(f"[COMPARE]  LEFT = {left} and RIGHT = {right}")
     if not left and not right:
-        print('=> REturn True, left and right are empty or null')
+        print('=> RETURN NONE, left and right are empty or null')
         return None
     if left and not right:
-        print(f"===> RETURNING FALSE, left has items, right is out.")
+        print(f"===> RETURN FALSE, left has items, right is out.")
         return False
     if not left and right:
-        print('====> returning TRUE because left has no items and right does ')
+        print('====> RETURN TRUE because left has no items and right does ')
         return True
     # BASE
     if isinstance(left, int) and isinstance(right, int):
         if left != right:
             print(f"BASE CONDITION, is {left } < {right} ? ", left < right)
             return left < right
-        print("=> RETURN True, left and right are  the same")
+        print("=> RETURN NONE, left and right are  the same")
         return None
-    # LEFT
-    if not left:
-        l = None
+    if isinstance(left, list) and isinstance(right, int):
+        right = [right]
+    elif isinstance(right, list) and isinstance(left, int):
+        left = [left]
+    l = left[0]
+    lr = left[1:]
+    if not lr:
         lr = None
-    elif isinstance(left, list):
-        l = left[0]
-        lr = left[1:]
-        if not lr:
-            lr = None
-    else: # left is int
-        l = left
-        lr = None
-    # RIGHT
-    if not right:
-        r = None
+    r = right[0]
+    rr = right[1:]
+    if not rr:
         rr = None
-    elif isinstance(right, list):
-        r = right[0]
-        rr = right[1:]
-        if not rr:
-            rr = None
-    else: # right is int
-        r = right
-        rr = None
-    if not lr and not rr:
-        print('there is no reminder, returning simple comparison')
-        return compare(l, r)
+    print(f"GOING DEEPER\nL => {l}\nR => {r}\nleft reminder = {lr}\nright reminder = {rr}\n")
+    r = compare(l,r)
+    if r == None:
+        return compare(lr,rr)
     else:
-        print('going deeper, with reminder')
-        print(f"L => {l}\nR => {r}\nleft reminder = {lr}\nright reminder = {rr}\n")
-        r = compare(l,r)
-        if r == None:
-            return compare(lr,rr)
-        else:
-            return r # todo - not sure about this logic, do some testing
+        return r # todo - not sure about this logic, do some testing
 
 
 def is_empty_line(line: str) -> Match[str] | None:
@@ -157,5 +152,5 @@ def parse_packet(packet: str) -> List[Token]:
 
 
 if __name__ == "__main__":
-    main("sample_input")
-    # main("input") #5867 last try
+    # main("sample_input")
+    main("input") #5867 last try

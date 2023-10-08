@@ -55,14 +55,14 @@ def test_compare():
     assert compare2([[1],[2,3,4]], [[1],4]) == True
     assert compare2([[1,2],[2,3,4]], [[1,1],4]) == False
     assert compare2([1, [2], [[3]]], [2]) == True
-    assert compare2([],[]) == True
+    assert compare2([],[]) == None
     assert compare2([[[]]],[[]]) == False
     assert compare2([[]],[[[]]]) == True
     assert compare2([2,[]],[1,[[]]]) == False
     assert compare2([1],[1]) == None
     assert compare2([1],[2]) == True
     assert compare2([2],[1]) == False
-    assert compare2([[[1]]],[[1]]) == True # todo, this test is failing & perhaps solution to our failing algo
+    assert compare2([[[1]]],[[1]]) == None
     assert compare2([[1],[2,3,4]], [[1],4]) == True
     assert compare2([[1],[2,3,4]], [[1],1]) == False
     assert compare2( [[],[2,7]] , [[2],[6]]) == True

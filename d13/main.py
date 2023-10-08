@@ -80,6 +80,7 @@ def compare2(p1: int|List, p2):
     elif isinstance(p1, list) and isinstance(p2, list):
         i = 0
         while i<len(p1) and i<len(p2):
+            print(f'Im in a loop, comparing {p1[i]} and {p2[i]}')
             c = compare2(p1[i],p2[i])
             i += 1
             if  c == True:
@@ -99,7 +100,7 @@ def compare2(p1: int|List, p2):
     elif isinstance(p1, int) and isinstance(p2, list):
         return compare2([p1],p2)
     else:
-        return compare2([p2],p1)
+        return compare2(p1,[p2])
 
 
 # def compare(left: int | List, right: int | List):

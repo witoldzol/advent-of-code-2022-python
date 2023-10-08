@@ -28,7 +28,7 @@ def main(filename):
                 print('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>')
                 print(f'START NEW EXPLORATION >>>>>>>>>>>>>>>>>>')
                 print(f"[START]  LEFT = {first_packet} and RIGHT = {second_packet}")
-                if explore(first_packet, second_packet):
+                if explore(first_packet, second_packet) == True:
                     result += index
                     print('RESULT -------> IN ORDER')
                     print(f'Current Index {index}, current result {result}')
@@ -54,7 +54,7 @@ def explore(left:  List, right: List):
         left = left[1:]
         right = right[1:]
         print(f'comparing left { left } to right { right }')
-        result = compare(l,r)
+        result = compare2(l,r)
         if result != None:
             return result
         if not left and right:
@@ -68,6 +68,7 @@ def explore(left:  List, right: List):
 
 def compare2(p1: int|List, p2):
     # both are ints
+    print(f"[compare2]  LEFT = {p1} and RIGHT = {p2}")
     if isinstance(p1, int) and isinstance(p2, int):
         if p1 > p2:
             return False 
@@ -76,47 +77,67 @@ def compare2(p1: int|List, p2):
         else:
             return None
     # both are lists
-    # if isinstance(p1, list) and isinstance(p2, list):
-    #     i = 0
-    #     while i<len(p1) and i<len(p2):
-    # one is int other is list
-
-def compare(left: int | List, right: int | List):
-    print(f"[COMPARE]  LEFT = {left} and RIGHT = {right}")
-    if not left and not right:
-        print('=> RETURN NONE, left and right are empty or null')
-        return None
-    if left and not right:
-        print(f"===> RETURN FALSE, left has items, right is out.")
-        return False
-    if not left and right:
-        print('====> RETURN TRUE because left has no items and right does ')
-        return True
-    # BASE
-    if isinstance(left, int) and isinstance(right, int):
-        if left != right:
-            print(f"BASE CONDITION, is {left } < {right} ? ", left < right)
-            return left < right
-        print("=> RETURN NONE, left and right are  the same")
-        return None
-    if isinstance(left, list) and isinstance(right, int):
-        right = [right]
-    elif isinstance(right, list) and isinstance(left, int):
-        left = [left]
-    l = left[0]
-    lr = left[1:]
-    if not lr:
-        lr = None
-    r = right[0]
-    rr = right[1:]
-    if not rr:
-        rr = None
-    print(f"GOING DEEPER\nL => {l}\nR => {r}\nleft reminder = {lr}\nright reminder = {rr}\n")
-    r = compare(l,r)
-    if r == None:
-        return compare(lr,rr)
+    elif isinstance(p1, list) and isinstance(p2, list):
+        i = 0
+        while i<len(p1) and i<len(p2):
+            c = compare2(p1[i],p2[i])
+            i += 1
+            if  c == True:
+                return True
+            elif c == False:
+                return False
+            # if items are equal, continue loop
+        # if left out of items, return True
+        if i == len(p1) and i < len(p2):
+            return True
+        # if right out of items, return False
+        elif i == len(p2) and i < len(p1):
+            return False
+        # if both are  equal, return None
+        else:
+            return None
+    elif isinstance(p1, int) and isinstance(p2, list):
+        return compare2([p1],p2)
     else:
-        return r # todo - not sure about this logic, do some testing
+        return compare2([p2],p1)
+
+
+# def compare(left: int | List, right: int | List):
+#     print(f"[COMPARE]  LEFT = {left} and RIGHT = {right}")
+#     if not left and not right:
+#         print('=> RETURN NONE, left and right are empty or null')
+#         return None
+#     if left and not right:
+#         print(f"===> RETURN FALSE, left has items, right is out.")
+#         return False
+#     if not left and right:
+#         print('====> RETURN TRUE because left has no items and right does ')
+#         return True
+#     # BASE
+#     if isinstance(left, int) and isinstance(right, int):
+#         if left != right:
+#             print(f"BASE CONDITION, is {left } < {right} ? ", left < right)
+#             return left < right
+#         print("=> RETURN NONE, left and right are  the same")
+#         return None
+#     if isinstance(left, list) and isinstance(right, int):
+#         right = [right]
+#     elif isinstance(right, list) and isinstance(left, int):
+#         left = [left]
+#     l = left[0]
+#     lr = left[1:]
+#     if not lr:
+#         lr = None
+#     r = right[0]
+#     rr = right[1:]
+#     if not rr:
+#         rr = None
+#     print(f"GOING DEEPER\nL => {l}\nR => {r}\nleft reminder = {lr}\nright reminder = {rr}\n")
+#     r = compare(l,r)
+#     if r == None:
+#         return compare(lr,rr)
+#     else:
+#         return r # todo - not sure about this logic, do some testing
 
 
 def is_empty_line(line: str) -> Match[str] | None:

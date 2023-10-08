@@ -66,7 +66,20 @@ def explore(left:  List, right: List):
     print(f"[ RETURNING TRUE as default ]  LEFT = {left} and RIGHT = {right}")
     return True
 
-
+def compare2(p1: int|List, p2):
+    # both are ints
+    if isinstance(p1, int) and isinstance(p2, int):
+        if p1 > p2:
+            return False 
+        elif p2 > p1:
+            return True
+        else:
+            return None
+    # both are lists
+    # if isinstance(p1, list) and isinstance(p2, list):
+    #     i = 0
+    #     while i<len(p1) and i<len(p2):
+    # one is int other is list
 
 def compare(left: int | List, right: int | List):
     print(f"[COMPARE]  LEFT = {left} and RIGHT = {right}")

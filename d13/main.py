@@ -9,6 +9,14 @@ class Token:
     parent: "Token"
     val: List
 
+def main2(filename):
+    with open(filename, 'r') as f:
+        input = f.read()
+        for group in input.split('\n\n'):
+            print(group.split('\n'))
+            print("=====")
+            # p1,p2 = group.split('\n')
+            # print(p1)
 
 def main(filename):
     index = 0
@@ -28,7 +36,7 @@ def main(filename):
                 print('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>')
                 print(f'START NEW EXPLORATION >>>>>>>>>>>>>>>>>>')
                 print(f"[START]  LEFT = {first_packet} and RIGHT = {second_packet}")
-                if explore(first_packet, second_packet) == True:
+                if compare2(first_packet, second_packet) == True:
                     result += index
                     print('RESULT -------> IN ORDER')
                     print(f'Current Index {index}, current result {result}')
@@ -188,4 +196,4 @@ def parse_packet(packet: str) -> List[Token]:
 
 if __name__ == "__main__":
     # main("sample_input")
-    main("input") #5867 last try
+    main2("input") #5867 last try

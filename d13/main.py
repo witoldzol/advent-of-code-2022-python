@@ -11,12 +11,14 @@ class Token:
 
 def main2(filename):
     with open(filename, 'r') as f:
-        input = f.read()
-        for group in input.split('\n\n'):
-            print(group.split('\n'))
-            print("=====")
-            # p1,p2 = group.split('\n')
-            # print(p1)
+        input = f.read().strip()
+        result = 0
+        for i, group in enumerate(input.split('\n\n')):
+            p1,p2 = group.split('\n')
+            if compare2(p1,p2) == True:
+                result += 1 + i
+        print('RESULT is {result}')
+
 
 def main(filename):
     index = 0
@@ -141,7 +143,7 @@ def compare2(p1: int|List, p2):
 #     rr = right[1:]
 #     if not rr:
 #         rr = None
-#     print(f"GOING DEEPER\nL => {l}\nR => {r}\nleft reminder = {lr}\nright reminder = {rr}\n")
+#     print(f" DEEPER\nL => {l}\nR => {r}\nleft reminder = {lr}\nright reminder = {rr}\n")
 #     r = compare(l,r)
 #     if r == None:
 #         return compare(lr,rr)

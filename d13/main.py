@@ -1,3 +1,4 @@
+from re import finditer
 from typing import List
 from dataclasses import dataclass
 
@@ -8,6 +9,7 @@ class Token:
     val: List
 
 def main(filename):
+    packets=[]
     with open(filename, 'r') as f:
         input = f.read().strip()
         result = 0
@@ -15,16 +17,46 @@ def main(filename):
             p1,p2 = group.split('\n')
             p1 = eval(p1)
             p2 = eval(p2)
-            print(f"[START]  LEFT = {p1} and RIGHT = {p2}")
-            print(f'INDEX = {i}')
-            if compare(p1,p2) == -1:
-                result += 1 + i
-        print(f'RESULT is {result}')
+            packets.append(p1)
+            packets.append(p2)
+        #     print(f"[START]  LEFT = {p1} and RIGHT = {p2}")
+        #     print(f'INDEX = {i}')
+        #     if compare(p1,p2) == -1:
+        #         result += 1 + i
+        # print(f'RESULT is {result}')
+    packets.append([[2]])
+    packets.append([[6]])
+    out = bubble_sort(packets)
+    first_separator_index = 0
+    second_separator_index = 0
+    for i,p in enumerate(out):
+        if p == [[2]]:
+            first_separator_index = i + 1
+        elif p == [[6]]:
+            second_separator_index = i + 1
+    print('RESULT ', first_separator_index*second_separator_index)
+
+
+
+def bubble_sort(input: List) -> List:
+    # k = 0
+    # for i in range(len(input)-k):
+    for k in range(len(input)):
+        for i in range(len(input)-1):
+            p1 = input[i]
+            p2 = input[i+1]
+            if compare(p1,p2) <= 0:
+                continue
+            else:
+                temp = p1
+                input[i] = p2
+                input[i+1] = temp
+    return input
 
 
 def compare(p1: int|List, p2):
     # both are ints
-    print(f"[compare2]  LEFT = {p1} and RIGHT = {p2}")
+    #print(f"[compare2]  LEFT = {p1} and RIGHT = {p2}")
     if isinstance(p1, int) and isinstance(p2, int):
         if p1 > p2:
             return 1 
@@ -36,7 +68,7 @@ def compare(p1: int|List, p2):
     elif isinstance(p1, list) and isinstance(p2, list):
         i = 0
         while i<len(p1) and i<len(p2):
-            print(f'Im in a loop, comparing {p1[i]} and {p2[i]}')
+            #print(f'Im in a loop, comparing {p1[i]} and {p2[i]}')
             c = compare(p1[i],p2[i])
             i += 1
             if  c == -1:
@@ -62,3 +94,4 @@ def compare(p1: int|List, p2):
 
 if __name__ == "__main__":
     main("input")
+    # main("sample_input")

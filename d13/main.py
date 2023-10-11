@@ -1,4 +1,3 @@
-from re import finditer
 from typing import List
 from dataclasses import dataclass
 
@@ -12,18 +11,12 @@ def main(filename):
     packets=[]
     with open(filename, 'r') as f:
         input = f.read().strip()
-        result = 0
         for i, group in enumerate(input.split('\n\n')):
             p1,p2 = group.split('\n')
             p1 = eval(p1)
             p2 = eval(p2)
             packets.append(p1)
             packets.append(p2)
-        #     print(f"[START]  LEFT = {p1} and RIGHT = {p2}")
-        #     print(f'INDEX = {i}')
-        #     if compare(p1,p2) == -1:
-        #         result += 1 + i
-        # print(f'RESULT is {result}')
     packets.append([[2]])
     packets.append([[6]])
     out = bubble_sort(packets)
@@ -39,10 +32,8 @@ def main(filename):
 
 
 def bubble_sort(input: List) -> List:
-    # k = 0
-    # for i in range(len(input)-k):
     for k in range(len(input)):
-        for i in range(len(input)-1):
+        for i in range(len(input)-1-k):
             p1 = input[i]
             p2 = input[i+1]
             if compare(p1,p2) <= 0:

@@ -2,7 +2,8 @@ from typing import List
 
 def main(filename):
     coords = get_coords(filename)
-    print(coords)
+    cave = draw_cave(coords)
+    print(cave)
 
 def get_coords(filename: str) -> List[List[int]]:
     with open(filename, 'r') as input:
@@ -14,6 +15,8 @@ def get_coords(filename: str) -> List[List[int]]:
                 result.append(out)
     return result
 
+def draw_cave(coords: List[List[int]]) -> List[List[str]]:
+    return [[]]
 
 if __name__ == "__main__":
     main('sample_input')

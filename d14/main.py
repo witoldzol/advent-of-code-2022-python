@@ -4,7 +4,8 @@ from typing import List
 def main(filename):
     coords = get_coords(filename)
     cave = draw_cave(coords)
-    print(cave)
+    for row in cave:
+        print(row)
 
 def get_coords(filename: str) -> List[List[int]]:
     with open(filename, 'r') as input:
@@ -31,8 +32,11 @@ def draw_cave(coords: List[List[int]]) -> List[List[str]]:
             min_y = y
         elif y > max_y:
             max_y = y
-    for  # todo finish drawing a cave 2d matrix
-    return [[]]
+    cave = [[] for _ in range(min_x,max_x)]
+    for x in cave:
+        for _ in range(min_y,max_y):
+            x.append('.')
+    return cave
 
 if __name__ == "__main__":
     main('sample_input')

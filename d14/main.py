@@ -1,5 +1,5 @@
 import sys
-from typing import List
+from typing import List, Tuple
 
 def main(filename):
     coords = get_coords(filename)
@@ -17,7 +17,7 @@ def get_coords(filename: str) -> List[List[int]]:
                 result.append(out)
     return result
 
-def draw_cave(coords: List[List[int]]) -> List[List[str]]:
+def get_min_max_x_y(coords: List[List[int]]) -> Tuple[int, int, int, int]:
     min_x = sys.maxsize
     min_y = 0
     max_x = -1
@@ -32,10 +32,21 @@ def draw_cave(coords: List[List[int]]) -> List[List[str]]:
             min_y = y
         elif y > max_y:
             max_y = y
+    return min_x, max_x, min_y, max_y
+
+def draw_cave(coords: List[List[int]]) -> List[List[str]]:
+    min_x, max_x, min_y, max_y = get_min_max_x_y(coords)
+    # populate with dots
     cave = [[] for _ in range(min_x,max_x)]
     for x in cave:
         for _ in range(min_y,max_y):
             x.append('.')
+    for x,y in coords:
+        x = x - min_x
+        y = y - min_y
+        print('x ', x)
+        print(y)
+        cave[x][y] = '#'
     return cave
 
 if __name__ == "__main__":

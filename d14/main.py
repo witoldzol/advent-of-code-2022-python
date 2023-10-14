@@ -61,13 +61,16 @@ def draw_cave(coords: List[List[int]]) -> List[List[str]]:
         start_x, start_y = start
         end_x, end_y = end
         print(start_x, ' ', end_x)
-        start_x = start_x - min_x
-        start_y = start_y - min_y
+        start_x = start_x - min_x - 1
+        start_y = start_y - min_y - 1
         end_x = end_x - min_x - 1
         end_y = end_y - min_y - 1
-        # print(start_x, ' ', end_x)
-        # for range(start_x,end_x):
-
+        print(f'start_x ' ,start_x, ' end_x ', end_x)
+        print(f'start_y ' ,start_y, ' end_y ', end_y)
+        for x in range(start_x,end_x+1):
+            for y in  range(start_y,end_y+1):
+                print(f'drawing # in cell {x} , {y}')
+                cave[x][y] = '#'
         # for x,y in coords:
         #     x = x - min_x - 1
         #     y = y - min_y - 1

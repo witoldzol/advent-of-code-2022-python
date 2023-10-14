@@ -3,9 +3,9 @@ from typing import List, Tuple
 
 def main(filename):
     coords = get_coords(filename)
-    cave = draw_cave(coords)
-    for row in cave:
-        print(row)
+    # cave = draw_cave(coords)
+    # for row in cave:
+    #     print(row)
 
 
 def get_coords(filename: str) -> List[List[int]]:
@@ -13,9 +13,15 @@ def get_coords(filename: str) -> List[List[int]]:
         result = []
         for line in input:
             coords = line.strip().split('->')
+            temp = []
             for c in coords:
                 out = [int(x) for x in c.split(',')]
-                result.append(out)
+                temp.append(out)
+            result.append(temp)
+            temp = []
+    print("========================================")
+    print(result)
+    print("========================================")
     return result
 
 def get_min_max_x_y(coords: List[List[int]]) -> Tuple[int, int, int, int]:

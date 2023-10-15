@@ -3,7 +3,7 @@ from typing import List, Tuple
 
 def main(filename):
     coords = get_coords(filename)
-    # cave = draw_cave(coords)
+    cave = draw_cave(coords)
     # for row in cave:
     #     print(row)
 
@@ -63,27 +63,28 @@ def draw_cave(coords: List[List[int]]) -> List[List[str]]:
         for _ in range(min_y,max_y):
             x.append('.')
     chunks = get_chunks(coords, 2)
-    for start,end in chunks:
-        start_x, start_y = start
-        end_x, end_y = end
-        print(start_x, ' ', end_x)
-        start_x = start_x - min_x - 1
-        start_y = start_y - min_y - 1
-        end_x = end_x - min_x - 1
-        end_y = end_y - min_y - 1
-        start_y = min(start_y,end_y)
-        end_y = max(start_y, end_y)
-        print(f'start_x ' ,start_x, ' end_x ', end_x)
-        print(f'start_y ' ,start_y, ' end_y ', end_y)
-        for x in range(start_x,end_x+1):
-            for y in  range(start_y,end_y+1):
-                print(f'drawing # in cell {x} , {y}')
-                cave[x][y] = '#'
-        # for x,y in coords:
-        #     x = x - min_x - 1
-        #     y = y - min_y - 1
-        #     cave[x][y] = '#'
-    return cave
-
+    print('chunks ', chunks)
+    # for start,end in chunks:
+    #     start_x, start_y = start
+    #     end_x, end_y = end
+    #     print(start_x, ' ', end_x)
+    #     start_x = start_x - min_x - 1
+    #     start_y = start_y - min_y - 1
+    #     end_x = end_x - min_x - 1
+    #     end_y = end_y - min_y - 1
+    #     start_y = min(start_y,end_y)
+    #     end_y = max(start_y, end_y)
+    #     print(f'start_x ' ,start_x, ' end_x ', end_x)
+    #     print(f'start_y ' ,start_y, ' end_y ', end_y)
+    #     for x in range(start_x,end_x+1):
+    #         for y in  range(start_y,end_y+1):
+    #             print(f'drawing # in cell {x} , {y}')
+    #             cave[x][y] = '#'
+    #     # for x,y in coords:
+    #     #     x = x - min_x - 1
+    #     #     y = y - min_y - 1
+    #     #     cave[x][y] = '#'
+    # return cave
+    #
 if __name__ == "__main__":
     main('sample_input')

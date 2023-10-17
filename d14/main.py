@@ -43,34 +43,22 @@ def get_min_max_x_y(coords: List[List[List[int]]]) -> Tuple[int, int, int, int]:
 
 
 
-def draw_cave(coords: List[List[int]]) -> List[List[str]]:
+def draw_cave(coords: List[List[List[int]]]) -> List[List[str]]:
+    # draw empty cave
     min_x, max_x, min_y, max_y = get_min_max_x_y(coords)
     cave = [[] for _ in range(min_x,max_x)]
     for x in cave:
         for _ in range(min_y,max_y):
             x.append('.')
-    # print('chunks ', chunks)
-    # for start,end in chunks:
-    #     start_x, start_y = start
-    #     end_x, end_y = end
-    #     print(start_x, ' ', end_x)
-    #     start_x = start_x - min_x - 1
-    #     start_y = start_y - min_y - 1
-    #     end_x = end_x - min_x - 1
-    #     end_y = end_y - min_y - 1
-    #     start_y = min(start_y,end_y)
-    #     end_y = max(start_y, end_y)
-    #     print(f'start_x ' ,start_x, ' end_x ', end_x)
-    #     print(f'start_y ' ,start_y, ' end_y ', end_y)
-    #     for x in range(start_x,end_x+1):
-    #         for y in  range(start_y,end_y+1):
-    #             print(f'drawing # in cell {x} , {y}')
-    #             cave[x][y] = '#'
-    #     # for x,y in coords:
-    #     #     x = x - min_x - 1
-    #     #     y = y - min_y - 1
-    #     #     cave[x][y] = '#'
+    # draw rocks
+    # [[498,4 , 498,6 , 496,6],[....],[....]]
+    for c in coords:
+        print(c)
+
+
+
+
+    # done
     return cave
-    #
 if __name__ == "__main__":
     main('sample_input')

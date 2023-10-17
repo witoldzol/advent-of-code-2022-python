@@ -53,11 +53,22 @@ def draw_cave(coords: List[List[List[int]]]) -> List[List[str]]:
     # draw rocks
     # [[498,4 , 498,6 , 496,6],[....],[....]]
     for c in coords:
-        print(c)
-
-
-
-
+        for i in range(len(c)-1):
+            start_x,start_y = c[i]
+            print(f'drawing {start_x},{start_y}')
+            end_x,end_y = c[i+1]
+            # adjust to 0 index
+            start_x = start_x-min_x-1
+            start_y = start_y-min_y-1
+            end_x = end_x-min_x-1
+            end_y = end_y-min_y-1
+            if start_x - end_x == 0:
+                for i in range(start_y, end_y):
+                    cave[start_x][i] = '#'
+            else:
+                pass
+                for i in range(start_x, end_x):
+                    cave[i][start_y] = '#'
     # done
     return cave
 if __name__ == "__main__":

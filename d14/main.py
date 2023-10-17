@@ -60,8 +60,8 @@ def draw_cave(coords: List[List[List[int]]]) -> List[List[str]]:
             # adjust to 0 index
             start_x = start_x-min_x-1
             start_y = start_y-min_y-1
-            end_x = end_x-min_x
-            end_y = end_y-min_y
+            end_x = end_x-min_x-1
+            end_y = end_y-min_y-1
             print('start x ', start_x)
             print('start y ', start_y)
             print('end x ', end_x)

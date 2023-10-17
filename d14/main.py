@@ -49,7 +49,6 @@ def draw_cave(coords: List[List[int]]) -> List[List[str]]:
     for x in cave:
         for _ in range(min_y,max_y):
             x.append('.')
-    chunks = get_chunks(coords, 2)
     # print('chunks ', chunks)
     # for start,end in chunks:
     #     start_x, start_y = start

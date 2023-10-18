@@ -39,6 +39,7 @@ def get_min_max_x_y(coords: List[List[List[int]]]) -> Tuple[int, int, int, int]:
                 min_y = y
             elif y > max_y:
                 max_y = y
+    print(f"[LOG] min_x = {min_x}, min_y = {min_y}, max_x = {max_x}, max_y = {max_y}")
     return min_x, max_x, min_y, max_y
 
 
@@ -46,9 +47,9 @@ def get_min_max_x_y(coords: List[List[List[int]]]) -> Tuple[int, int, int, int]:
 def draw_cave(coords: List[List[List[int]]]) -> List[List[str]]:
     # draw empty cave
     min_x, max_x, min_y, max_y = get_min_max_x_y(coords)
-    cave = [[] for _ in range(min_x,max_x)]
+    cave = [[] for _ in range(min_x,max_x+1)]
     for x in cave:
-        for _ in range(min_y,max_y):
+        for _ in range(min_y,max_y+1):
             x.append('.')
     # draw rocks
     # [[498,4 , 498,6 , 496,6],[....],[....]]
@@ -61,7 +62,7 @@ def draw_cave(coords: List[List[List[int]]]) -> List[List[str]]:
             start_x = start_x-min_x-1
             start_y = start_y-min_y-1
             end_x = end_x-min_x-1
-            end_y = end_y-min_y-1
+            end_y = end_y-min_y
             print('start x ', start_x)
             print('start y ', start_y)
             print('end x ', end_x)

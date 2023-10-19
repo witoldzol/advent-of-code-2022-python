@@ -46,7 +46,11 @@ def get_min_max_x_y(coords: List[List[List[int]]]) -> Tuple[int, int, int, int]:
     print(f"[LOG] min_x = {min_x}, min_y = {min_y}, max_x = {max_x}, max_y = {max_y}")
     return min_x, max_x, min_y, max_y
 
-
+def swap(x,y):
+    temp = x
+    x = y
+    y = temp
+    return x,y
 
 def draw_cave(coords: List[List[List[int]]]) -> List[List[str]]:
     # draw empty cave
@@ -69,13 +73,12 @@ def draw_cave(coords: List[List[List[int]]]) -> List[List[str]]:
             print('start x ', start_x, 'end x ', end_x)
             print('start y ', start_y, 'end y ', end_y)
             if start_x > end_x:
-                temp = start_x
-                start_x = end_x
-                end_x = temp
+                start_x,end_x = swap(start_x,end_x)
             if start_y > end_y:
-                temp = start_y
-                start_y = end_y
-                end_y = temp
+                start_y,end_y = swap(start_y,end_y)
+            # swap x & y
+            start_x, start_y = swap(start_x, start_y)
+            end_x, end_y = swap(end_x, end_y)
             if start_x - end_x == 0:
                 for i in range(start_y, end_y+1):
                     cave[start_x][i] = '#'

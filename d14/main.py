@@ -4,7 +4,11 @@ from typing import List, Tuple
 def main(filename):
     coords = get_coords(filename)
     cave = draw_cave(coords)
-    for row in cave:
+    x_labels = [f"{i}" for i in range(len(cave))]
+    print('[x]', end='')
+    print(x_labels)
+    for i,row in enumerate(cave):
+        print(f"[{i}]", end='')
         print(row)
 
 

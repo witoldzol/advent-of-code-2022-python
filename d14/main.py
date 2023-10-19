@@ -12,7 +12,7 @@ def main(filename):
         print(row)
 
 
-def get_coords(filename: str) -> List[List[int]]:
+def get_coords(filename: str) ->List[List[List[int]]]:
     with open(filename, 'r') as input:
         result = []
         for line in input:
@@ -30,6 +30,7 @@ def get_coords(filename: str) -> List[List[int]]:
 
 def get_min_max_x_y(coords: List[List[List[int]]]) -> Tuple[int, int, int, int]:
     min_x = sys.maxsize
+    # min_x = 0
     min_y = 0
     max_x = -1
     max_y = -1
@@ -43,6 +44,7 @@ def get_min_max_x_y(coords: List[List[List[int]]]) -> Tuple[int, int, int, int]:
                 min_y = y
             elif y > max_y:
                 max_y = y
+    # max_x, max_y = swap(max_x, max_y)
     print(f"[LOG] min_x = {min_x}, min_y = {min_y}, max_x = {max_x}, max_y = {max_y}")
     return min_x, max_x, min_y, max_y
 
@@ -52,7 +54,8 @@ def swap(x,y):
     y = temp
     return x,y
 
-def draw_cave(coords: List[List[List[int]]]) -> List[List[str]]:
+# todo - I think we  have to swap x & y coords in the array as well
+def draw_cave(coords: List[List[List[int]]]) -> List[List[int]]:
     # draw empty cave
     min_x, max_x, min_y, max_y = get_min_max_x_y(coords)
     cave = [[] for _ in range(min_x,max_x+1)]
@@ -90,3 +93,4 @@ def draw_cave(coords: List[List[List[int]]]) -> List[List[str]]:
     return cave
 if __name__ == "__main__":
     main('sample_input')
+    # main('input')

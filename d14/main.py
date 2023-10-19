@@ -58,14 +58,12 @@ def draw_cave(coords: List[List[List[int]]]) -> List[List[str]]:
             end_x,end_y = c[i+1]
             print(f'drawing {start_x},{start_y} ->{end_x},{end_y}')
             # adjust to 0 index
-            start_x = start_x-min_x-1
-            start_y = start_y-min_y-1
-            end_x = end_x-min_x-1
+            start_x = start_x-min_x
+            start_y = start_y-min_y
+            end_x = end_x-min_x
             end_y = end_y-min_y
-            print('start x ', start_x)
-            print('start y ', start_y)
-            print('end x ', end_x)
-            print('end y ', end_y)
+            print('start x ', start_x, 'end x ', end_x)
+            print('start y ', start_y, 'end y ', end_y)
             if start_x > end_x:
                 temp = start_x
                 start_x = end_x
@@ -75,11 +73,11 @@ def draw_cave(coords: List[List[List[int]]]) -> List[List[str]]:
                 start_y = end_y
                 end_y = temp
             if start_x - end_x == 0:
-                for i in range(start_y, end_y):
+                for i in range(start_y, end_y+1):
                     cave[start_x][i] = '#'
             else:
                 pass
-                for i in range(start_x, end_x):
+                for i in range(start_x, end_x+1):
                     cave[i][start_y] = '#'
     # done
     return cave

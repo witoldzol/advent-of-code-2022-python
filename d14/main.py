@@ -23,9 +23,7 @@ def get_coords(filename: str) ->List[List[List[int]]]:
                 temp.append(out)
             result.append(temp)
             temp = []
-    print("========================================")
     print(result)
-    print("========================================")
     return result
 
 def get_min_max_x_y(coords: List[List[List[int]]]) -> Tuple[int, int, int, int]:

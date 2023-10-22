@@ -78,8 +78,8 @@ def draw_cave(coords: List[List[List[int]]]) -> List[List[int]]:
             if start_y > end_y:
                 start_y,end_y = swap(start_y,end_y)
             # swap x & y
-            start_x, start_y = swap(start_x, start_y)
-            end_x, end_y = swap(end_x, end_y)
+            # start_x, start_y = swap(start_x, start_y)
+            # end_x, end_y = swap(end_x, end_y)
             if start_x - end_x == 0:
                 for i in range(start_y, end_y+1):
                     cave[start_x][i] = '#'

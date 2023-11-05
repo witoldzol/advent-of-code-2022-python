@@ -1,6 +1,7 @@
 import sys
 from typing import List, Tuple
 
+
 def main(filename):
     coords = get_coords(filename)
     cave = draw_cave(coords)
@@ -24,32 +25,6 @@ def get_coords(filename: str) ->List[List[List[int]]]:
             result.append(temp)
     print(result)
     return result
-
-def get_min_max_x_y(coords: List[List[List[int]]]) -> Tuple[int, int, int, int]:
-    min_x = sys.maxsize
-    # min_x = 0
-    min_y = 0
-    max_x = -1
-    max_y = -1
-    for c in coords:
-        for x,y in c:
-            if x < min_x:
-                min_x = x
-            elif x > max_x:
-                max_x = x
-            if y < min_y:
-                min_y = y
-            elif y > max_y:
-                max_y = y
-    # max_x, max_y = swap(max_x, max_y)
-    print(f"[LOG] min_x = {min_x}, min_y = {min_y}, max_x = {max_x}, max_y = {max_y}")
-    return min_x, max_x, min_y, max_y
-
-def swap(x,y):
-    temp = x
-    x = y
-    y = temp
-    return x,y
 
 # todo - I think we  have to swap x & y coords in the array as well
 def draw_cave(coords: List[List[List[int]]]) -> List[List[int]]:
@@ -88,6 +63,33 @@ def draw_cave(coords: List[List[List[int]]]) -> List[List[int]]:
                     cave[i][start_y] = '#'
     # done
     return cave
+
+def get_min_max_x_y(coords: List[List[List[int]]]) -> Tuple[int, int, int, int]:
+    min_x = sys.maxsize
+    # min_x = 0
+    min_y = 0
+    max_x = -1
+    max_y = -1
+    for c in coords:
+        for x,y in c:
+            if x < min_x:
+                min_x = x
+            elif x > max_x:
+                max_x = x
+            if y < min_y:
+                min_y = y
+            elif y > max_y:
+                max_y = y
+    # max_x, max_y = swap(max_x, max_y)
+    print(f"[LOG] min_x = {min_x}, min_y = {min_y}, max_x = {max_x}, max_y = {max_y}")
+    return min_x, max_x, min_y, max_y
+
+def swap(x,y):
+    temp = x
+    x = y
+    y = temp
+    return x,y
+
 if __name__ == "__main__":
     main('sample_input')
     # main('input')

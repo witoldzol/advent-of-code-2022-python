@@ -26,10 +26,9 @@ def get_coords(filename: str) ->List[List[List[int]]]:
     print(result)
     return result
 
-# todo - I think we  have to swap x & y coords in the array as well
 def draw_cave(coords: List[List[List[int]]]) -> List[List[int]]:
     # draw empty cave
-    # min_x, max_x, min_y, max_y = get_min_max_x_y(coords)
+    # swapped x and y
     min_y, max_y, min_x, max_x = get_min_max_x_y(coords)
     cave = [[] for _ in range(min_x,max_x+1)]
     for x in cave:
@@ -38,6 +37,7 @@ def draw_cave(coords: List[List[List[int]]]) -> List[List[int]]:
     # draw rocks
     for c in coords:
         for i in range(len(c)-1):
+            # swapped x and y
             start_y,start_x = c[i]
             end_y, end_x = c[i+1]
             print(f'drawing {start_x},{start_y} ->{end_x},{end_y}')

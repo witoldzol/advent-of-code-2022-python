@@ -16,13 +16,12 @@ def get_coords(filename: str) ->List[List[List[int]]]:
     with open(filename, 'r') as input:
         result = []
         for line in input:
-            coords = line.strip().split('->')
             temp = []
+            coords = line.strip().split('->')
             for c in coords:
                 out = [int(x) for x in c.split(',')]
                 temp.append(out)
             result.append(temp)
-            temp = []
     print(result)
     return result
 

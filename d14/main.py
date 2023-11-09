@@ -1,6 +1,8 @@
 import sys
 from typing import List, Tuple
 
+SAND_ENTRY_POINT = 500
+
 def main(filename):
     coords = parse_coords(filename)
     cave, entry_coordinates = draw_cave(coords)
@@ -14,7 +16,7 @@ def print_cave(cave) -> None:
 
 def move_sand(cave:List[List[str]],sand_coords: Tuple[int,int]) -> None:
     x,y = sand_coords
-    one_below = cave[x][y+1] # cave axis are swapped, x=>y, y=>x, so we move down the x (aka y) axis
+    one_below = cave[x][y+1]
     if one_below == '.':
         print('empty space, sand is moving down')
         cave[x][y+1] = '*'
@@ -37,7 +39,6 @@ def parse_coords(filename: str) ->List[List[List[int]]]:
 def draw_cave(coords: List[List[List[int]]]) -> List[List[str]]:
     # draw empty cave
     min_x, max_x, min_y, max_y = get_min_max_x_y(coords)
-    sand_entry_point = 500 - min_x
     cave = [[] for _ in range(min_x,max_x+1)]
     for x in cave:
         for _ in range(min_y,max_y+1):
@@ -45,10 +46,10 @@ def draw_cave(coords: List[List[List[int]]]) -> List[List[str]]:
     # draw rocks
     for c in coords:
         for i in range(len(c)-1):
+            print(f'[LOG] raw coords = {c}')
             start_x,start_y = c[i]
-            end_y, end_x = c[i+1]
-            print(f'drawing {start_x},{start_y} ->{end_x},{end_y}')
-            # adjust to 0 index
+            end_x, end_y = c[i+1]
+            print(f'[LOG] drawing {start_x},{start_y} ->{end_x},{end_y}')
             start_x = start_x-min_x
             start_y = start_y-min_y
             end_x = end_x-min_x
@@ -66,8 +67,8 @@ def draw_cave(coords: List[List[List[int]]]) -> List[List[str]]:
                 pass
                 for i in range(start_x, end_x+1):
                     cave[i][start_y] = '#'
-    cave[sand_entry_point][0] = '+'
-    return cave, (sand_entry_point,0)
+    cave[SAND_ENTRY_POINT][0] = '+'
+    return cave, (SAND_ENTRY_POINT,0)
 
 def get_min_max_x_y(coords: List[List[List[int]]]) -> Tuple[int, int, int, int]:
     min_x = 0
@@ -76,12 +77,8 @@ def get_min_max_x_y(coords: List[List[List[int]]]) -> Tuple[int, int, int, int]:
     max_y = -1
     for c in coords:
         for x,y in c:
-            if x < min_x:
-                min_x = x
-            elif x > max_x:
+            if x > max_x:
                 max_x = x
-            if y < min_y:
-                min_y = y
             elif y > max_y:
                 max_y = y
     print(f"[LOG] min_x = {min_x}, min_y = {min_y}, max_x = {max_x}, max_y = {max_y}")

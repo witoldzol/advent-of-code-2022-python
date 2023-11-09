@@ -1,25 +1,27 @@
 import sys
 from typing import List, Tuple
 
-#todo -> refactor to use actual coordinates, and add print function that swaps axis and reflects the example graphics
-
 def main(filename):
-    coords = get_coords(filename)
-    cave, entry_coordinates = draw_cave(coords) #entry coords are not swapped!, we have real x,y
+    coords = parse_coords(filename)
+    cave, entry_coordinates = draw_cave(coords)
     move_sand(cave, entry_coordinates)
-    for row in cave:
+    print_cave(cave)
+
+def print_cave(cave) -> None:
+    for row in cave[490:]:
         print(row)
+
 
 def move_sand(cave:List[List[str]],sand_coords: Tuple[int,int]) -> None:
     x,y = sand_coords
-    one_below = cave[x+1][y] # cave axis are swapped, x=>y, y=>x, so we move down the x (aka y) axis
+    one_below = cave[x][y+1] # cave axis are swapped, x=>y, y=>x, so we move down the x (aka y) axis
     if one_below == '.':
         print('empty space, sand is moving down')
-        cave[x+1][y] = '*'
+        cave[x][y+1] = '*'
 
 
 
-def get_coords(filename: str) ->List[List[List[int]]]:
+def parse_coords(filename: str) ->List[List[List[int]]]:
     with open(filename, 'r') as input:
         result = []
         for line in input:
@@ -34,10 +36,8 @@ def get_coords(filename: str) ->List[List[List[int]]]:
 
 def draw_cave(coords: List[List[List[int]]]) -> List[List[str]]:
     # draw empty cave
-    # swapped x and y
-    min_y, max_y, min_x, max_x = get_min_max_x_y(coords)
-    # we already swapped x for y=> we still need to use actual x value here
-    sand_entry_point = 500 - min_y
+    min_x, max_x, min_y, max_y = get_min_max_x_y(coords)
+    sand_entry_point = 500 - min_x
     cave = [[] for _ in range(min_x,max_x+1)]
     for x in cave:
         for _ in range(min_y,max_y+1):
@@ -45,8 +45,7 @@ def draw_cave(coords: List[List[List[int]]]) -> List[List[str]]:
     # draw rocks
     for c in coords:
         for i in range(len(c)-1):
-            # swapped x and y
-            start_y,start_x = c[i]
+            start_x,start_y = c[i]
             end_y, end_x = c[i+1]
             print(f'drawing {start_x},{start_y} ->{end_x},{end_y}')
             # adjust to 0 index
@@ -67,12 +66,11 @@ def draw_cave(coords: List[List[List[int]]]) -> List[List[str]]:
                 pass
                 for i in range(start_x, end_x+1):
                     cave[i][start_y] = '#'
-    # sand entry point - axis are swapped!, normally it would be cave[500][0]
-    cave[0][sand_entry_point] = '+'
-    return cave, (0,sand_entry_point)
+    cave[sand_entry_point][0] = '+'
+    return cave, (sand_entry_point,0)
 
 def get_min_max_x_y(coords: List[List[List[int]]]) -> Tuple[int, int, int, int]:
-    min_x = sys.maxsize
+    min_x = 0
     min_y = 0
     max_x = -1
     max_y = -1

@@ -4,10 +4,18 @@ from typing import List, Tuple
 
 def main(filename):
     coords = get_coords(filename)
-    cave, sand_entry_point = draw_cave(coords)
-    print(f'entry{sand_entry_point}')
+    cave, entry_coordinates = draw_cave(coords) #entry coords are not swapped!, we have real x,y
+    move_sand(cave, entry_coordinates)
     for row in cave:
         print(row)
+
+def move_sand(cave:List[List[str]],sand_coords: Tuple[int,int]) -> None:
+    x,y = sand_coords
+    one_below = cave[x+1][y] # cave axis are swapped, x=>y, y=>x, so we move down the x (aka y) axis
+    if one_below == '.':
+        print('empty space, sand is moving down')
+        cave[x+1][y] = '*'
+
 
 
 def get_coords(filename: str) ->List[List[List[int]]]:
@@ -23,7 +31,7 @@ def get_coords(filename: str) ->List[List[List[int]]]:
     print(result)
     return result
 
-def draw_cave(coords: List[List[List[int]]]) -> List[List[int]]:
+def draw_cave(coords: List[List[List[int]]]) -> List[List[str]]:
     # draw empty cave
     # swapped x and y
     min_y, max_y, min_x, max_x = get_min_max_x_y(coords)
@@ -60,7 +68,7 @@ def draw_cave(coords: List[List[List[int]]]) -> List[List[int]]:
                     cave[i][start_y] = '#'
     # sand entry point - axis are swapped!, normally it would be cave[500][0]
     cave[0][sand_entry_point] = '+'
-    return cave, sand_entry_point
+    return cave, (0,sand_entry_point)
 
 def get_min_max_x_y(coords: List[List[List[int]]]) -> Tuple[int, int, int, int]:
     min_x = sys.maxsize

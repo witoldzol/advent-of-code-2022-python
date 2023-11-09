@@ -4,7 +4,8 @@ from typing import List, Tuple
 
 def main(filename):
     coords = get_coords(filename)
-    cave = draw_cave(coords)
+    cave, sand_entry_point = draw_cave(coords)
+    print(f'entry{sand_entry_point}')
     for row in cave:
         print(row)
 
@@ -26,6 +27,8 @@ def draw_cave(coords: List[List[List[int]]]) -> List[List[int]]:
     # draw empty cave
     # swapped x and y
     min_y, max_y, min_x, max_x = get_min_max_x_y(coords)
+    # we already swapped x for y=> we still need to use actual x value here
+    sand_entry_point = 500 - min_y
     cave = [[] for _ in range(min_x,max_x+1)]
     for x in cave:
         for _ in range(min_y,max_y+1):
@@ -55,7 +58,9 @@ def draw_cave(coords: List[List[List[int]]]) -> List[List[int]]:
                 pass
                 for i in range(start_x, end_x+1):
                     cave[i][start_y] = '#'
-    return cave
+    # sand entry point - axis are swapped!, normally it would be cave[500][0]
+    cave[0][sand_entry_point] = '+'
+    return cave, sand_entry_point
 
 def get_min_max_x_y(coords: List[List[List[int]]]) -> Tuple[int, int, int, int]:
     min_x = sys.maxsize

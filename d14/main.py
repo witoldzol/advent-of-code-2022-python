@@ -1,6 +1,7 @@
 import sys
 from typing import List, Tuple
 
+#todo -> refactor to use actual coordinates, and add print function that swaps axis and reflects the example graphics
 
 def main(filename):
     coords = get_coords(filename)

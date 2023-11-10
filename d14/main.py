@@ -3,6 +3,8 @@ from typing import List, Tuple
 
 SAND_ENTRY_POINT = 500
 
+from logging import log
+
 def main(filename):
     coords = parse_coords(filename)
     cave, entry_coordinates = draw_cave(coords)
@@ -14,12 +16,23 @@ def print_cave(cave) -> None:
         print(row)
 
 
-def move_sand(cave:List[List[str]],sand_coords: Tuple[int,int]) -> None:
+def move_sand(cave:List[List[str]],sand_coords: Tuple[int,int]) -> int:
     x,y = sand_coords
-    one_below = cave[x][y+1]
-    if one_below == '.':
-        print('empty space, sand is moving down')
-        cave[x][y+1] = '*'
+    i = 1
+    # check if there is entrypoint is free
+    if cave[x][y+i] != '.':
+        log.info('Entrypoint is blocked, no more sand can go through')
+        return -1
+    # go all the way down
+    while cave[x][y+i] == '.':
+        i+=1
+    # go to the end
+    if cave[x][y+i] != '.':
+        log.info('No more space for sand to move directly down')
+        return -1
+    # go to the left
+    # check if we are in bounds
+    if x-1 >= 0 and x-1 < len(cave):
 
 
 

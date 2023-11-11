@@ -83,7 +83,7 @@ def parse_coords(filename: str) -> List[List[List[int]]]:
     return result
 
 
-def draw_cave(coords: List[List[List[int]]]) -> List[List[str]]:
+def draw_cave(coords: List[List[List[int]]]) -> Tuple[List[List[str]], Tuple[int, int]]:
     # draw empty cave
     min_x, max_x, min_y, max_y = get_min_max_x_y(coords)
     cave = [[] for _ in range(min_x, max_x + 1)]

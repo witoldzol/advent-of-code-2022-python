@@ -25,7 +25,7 @@ def main(filename):
 def print_cave(cave) -> None:
     with open("cave", "w") as f:
         for row in cave[490:]:
-            f.write(" ".join(row))
+            f.write("".join(row))
             f.write("\n")
 
 

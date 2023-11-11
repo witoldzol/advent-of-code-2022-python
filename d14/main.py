@@ -17,15 +17,16 @@ def main(filename):
     cave, entry_coordinates = draw_cave(coords)
     i = 0
     while move_sand(cave, entry_coordinates) == 0:
-        i+=1
-    log.warn(f'Total number of sand pieces that came to rest = {i}')
-    # print_cave(cave)
+        i += 1
+    log.warn(f"Total number of sand pieces that came to rest = {i}")
+    print_cave(cave)
 
 
 def print_cave(cave) -> None:
-    for row in cave[490:]:
-        print(row)
-
+    with open("cave", "w") as f:
+        for row in cave[490:]:
+            f.write(" ".join(row))
+            f.write("\n")
 
 
 def move_sand(cave: List[List[str]], sand_coords: Tuple[int, int]) -> int:
@@ -38,12 +39,12 @@ def move_sand(cave: List[List[str]], sand_coords: Tuple[int, int]) -> int:
         log.error("Entrypoint is blocked, no more sand can go through")
         return -1
     while True:
-        try: 
+        try:
             # go down?
             if cave[x][y + i] == ".":
                 log.info(f"Moving `down`, {x},{y+i}")
                 i += 1
-                current_drop+=1
+                current_drop += 1
                 if current_drop > max_drop:
                     log.info("We found the abbys, ending program")
                     return 1
@@ -92,7 +93,7 @@ def draw_cave(coords: List[List[List[int]]]) -> List[List[str]]:
     # draw rocks
     for c in coords:
         for i in range(len(c) - 1):
-            log.debug(f'Raw coords = {c}')
+            log.debug(f"Raw coords = {c}")
             start_x, start_y = c[i]
             end_x, end_y = c[i + 1]
             log.debug(f"Drawing {start_x},{start_y} ->{end_x},{end_y}")
@@ -141,4 +142,4 @@ def swap(x, y):
 
 if __name__ == "__main__":
     # main("sample_input")
-    main('input')
+    main("input")

@@ -19,7 +19,7 @@ def main(filename):
     while move_sand(cave, entry_coordinates) == 0:
         i+=1
     log.warn(f'Total number of sand pieces that came to rest = {i}')
-    print_cave(cave)
+    # print_cave(cave)
 
 
 def print_cave(cave) -> None:
@@ -140,5 +140,5 @@ def swap(x, y):
 
 
 if __name__ == "__main__":
-    main("sample_input")
-    # main('input')
+    # main("sample_input")
+    main('input')

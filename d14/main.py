@@ -6,11 +6,10 @@ import logging as log
 SAND_ENTRY_POINT = 500
 
 
-def set_logger():
-    parser = argparse.ArgumentParser()
-    parser.add_argument("-log")
-    log_level = parser.parse_args().log
-    log.basicConfig(level=log_level)
+parser = argparse.ArgumentParser()
+parser.add_argument("-log")
+log_level = parser.parse_args().log
+log.basicConfig(level=log_level)
 
 
 def main(filename):
@@ -19,7 +18,7 @@ def main(filename):
     i = 0
     while move_sand(cave, entry_coordinates) == 0:
         i+=1
-    log.info('Total number of sand pieces that came to rest = {i}')
+    log.warn(f'Total number of sand pieces that came to rest = {i}')
     print_cave(cave)
 
 
@@ -28,11 +27,7 @@ def print_cave(cave) -> None:
         print(row)
 
 
-# + 0,0
-# check if below clear
-# . add 1 -> start point //
-# //
-#
+
 def move_sand(cave: List[List[str]], sand_coords: Tuple[int, int]) -> int:
     x, y = sand_coords
     i = 1
@@ -43,8 +38,8 @@ def move_sand(cave: List[List[str]], sand_coords: Tuple[int, int]) -> int:
         log.error("Entrypoint is blocked, no more sand can go through")
         return -1
     while True:
-        # go down?
         try: 
+            # go down?
             if cave[x][y + i] == ".":
                 log.info(f"Moving `down`, {x},{y+i}")
                 i += 1

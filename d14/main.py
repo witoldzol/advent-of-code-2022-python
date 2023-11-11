@@ -1,7 +1,7 @@
 import sys
 from typing import List, Tuple
 import argparse
-import logging
+import logging as log
 
 SAND_ENTRY_POINT = 500
 
@@ -10,14 +10,16 @@ def set_logger():
     parser = argparse.ArgumentParser()
     parser.add_argument("-log")
     log_level = parser.parse_args().log
-    logging.basicConfig(level=log_level)
+    log.basicConfig(level=log_level)
 
 
 def main(filename):
-    set_logger()
     coords = parse_coords(filename)
     cave, entry_coordinates = draw_cave(coords)
-    move_sand(cave, entry_coordinates)
+    i = 0
+    while move_sand(cave, entry_coordinates) == 0:
+        i+=1
+    log.info('Total number of sand pieces that came to rest = {i}')
     print_cave(cave)
 
 
@@ -32,40 +34,39 @@ def print_cave(cave) -> None:
 # //
 #
 def move_sand(cave: List[List[str]], sand_coords: Tuple[int, int]) -> int:
-    logging.info("wow")
     x, y = sand_coords
-    x_off = 0
-    y_off = 1
-    # check if there is entrypoint is free
-    if cave[x][y + y_off] != ".":
-        logging.error("Entrypoint is blocked, no more sand can go through")
+    i = 1
+    max_drop = 1000
+    current_drop = 0
+    # check if entrypoint is free
+    if cave[x][y + i] != ".":
+        log.error("Entrypoint is blocked, no more sand can go through")
         return -1
     while True:
         # go down?
-        if cave[x][y + y_off] == ".":
-            logging.info(f"Moving `down`, {x},{y+y_off}")
-            y_off += 1
+        if cave[x][y + i] == ".":
+            log.info(f"Moving `down`, {x},{y+i}")
+            i += 1
+            current_drop+=1
+            if current_drop > max_drop:
+                log.info("We found the abbys, ending program")
+                return 1
         # go left?
-        elif cave[x - 1][y + y_off] == ".":
+        elif cave[x - 1][y + i] == ".":
+            log.info(f"Moving `left`, {x},{y+i}")
             x -= 1
             continue
-        elif cave[x + 1][y + y_off] == ".":
+        elif cave[x + 1][y + i] == ".":
+            log.info(f"Moving `right`, {x},{y+i}")
             x += 1
             continue
         else:
-            logging.info(
-                f"Cant move any further, sand coming to rest at location {x},{y+y_off-1}"
+            log.info(
+                f"Cant move any further, sand coming to rest at location {x},{y+i-1}"
             )
+            cave[x][y + i - 1] = "o"
             break
-
-    cave[x][y + y_off - 1] = "o"
-    # go to the end
-    # if cave[x][y+i] != '.':
-    #     log.info('No more space for sand to move directly down')
-    #     return -1
-    # # go to the left
-    # # check if we are in bounds
-    # if x-1 >= 0 and x-1 < len(cave):
+    return 0
 
 
 def parse_coords(filename: str) -> List[List[List[int]]]:

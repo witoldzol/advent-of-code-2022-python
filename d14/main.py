@@ -1,9 +1,9 @@
-import sys
 from typing import List, Tuple
 import argparse
 import logging as log
 
 SAND_ENTRY_POINT = 500
+CAVE_EXTENSION_OFFSET = 1100
 
 
 parser = argparse.ArgumentParser()
@@ -18,11 +18,18 @@ def main(filename):
     i = 0
     while move_sand(cave, entry_coordinates) == 0:
         i += 1
-    log.warn(f"Total number of sand pieces that came to rest = {i}")
-    print_cave(cave)
+    # we add one, because we didn't count the last piece of sand that blocked the entrance
+    log.warn(f"Total number of sand pieces that came to rest = {i + 1}")
+    # print_cave(cave)
+    save_cave(cave)
 
 
 def print_cave(cave) -> None:
+    for row in cave[490:]:
+        log.info(row)
+
+
+def save_cave(cave) -> None:
     with open("cave", "w") as f:
         for row in cave[490:]:
             f.write("".join(row))
@@ -32,11 +39,13 @@ def print_cave(cave) -> None:
 def move_sand(cave: List[List[str]], sand_coords: Tuple[int, int]) -> int:
     x, y = sand_coords
     i = 1
-    max_drop = 1000
-    current_drop = 0
     # check if entrypoint is free
-    if cave[x][y + i] != ".":
-        log.error("Entrypoint is blocked, no more sand can go through")
+    if (
+        cave[x][y + i] != "."
+        and cave[x - 1][y + i] != "."
+        and cave[x + 1][y + 1] != "."
+    ):
+        log.error("Entrypoint is blocked directly below, left and right!")
         return -1
     while True:
         try:
@@ -44,10 +53,6 @@ def move_sand(cave: List[List[str]], sand_coords: Tuple[int, int]) -> int:
             if cave[x][y + i] == ".":
                 log.info(f"Moving `down`, {x},{y+i}")
                 i += 1
-                current_drop += 1
-                if current_drop > max_drop:
-                    log.info("We found the abbys, ending program")
-                    return 1
             # go left?
             elif cave[x - 1][y + i] == ".":
                 log.info(f"Moving `left`, {x},{y+i}")
@@ -84,11 +89,13 @@ def parse_coords(filename: str) -> List[List[List[int]]]:
 
 
 def draw_cave(coords: List[List[List[int]]]) -> Tuple[List[List[str]], Tuple[int, int]]:
-    # draw empty cave
     min_x, max_x, min_y, max_y = get_min_max_x_y(coords)
+    min_x -= CAVE_EXTENSION_OFFSET
+    max_x += CAVE_EXTENSION_OFFSET
     cave = [[] for _ in range(min_x, max_x + 1)]
+    # draw empty cave
     for x in cave:
-        for _ in range(min_y, max_y + 1):
+        for _ in range(min_y, max_y + 1 + CAVE_EXTENSION_OFFSET):
             x.append(".")
     # draw rocks
     for c in coords:
@@ -111,11 +118,16 @@ def draw_cave(coords: List[List[List[int]]]) -> Tuple[List[List[str]], Tuple[int
                 for i in range(start_y, end_y + 1):
                     cave[start_x][i] = "#"
             else:
-                pass
                 for i in range(start_x, end_x + 1):
                     cave[i][start_y] = "#"
-    cave[SAND_ENTRY_POINT][0] = "+"
-    return cave, (SAND_ENTRY_POINT, 0)
+    # draw the floor, max + offset
+    for x in range(min_x, max_x + 1):
+        cave[x][max_y + 2] = "#"
+
+    cave[SAND_ENTRY_POINT + CAVE_EXTENSION_OFFSET][
+        0
+    ] = "+"  # add two because we widened the cave by 2 place
+    return cave, (SAND_ENTRY_POINT + CAVE_EXTENSION_OFFSET, 0)
 
 
 def get_min_max_x_y(coords: List[List[List[int]]]) -> Tuple[int, int, int, int]:
@@ -142,4 +154,4 @@ def swap(x, y):
 
 if __name__ == "__main__":
     # main("sample_input")
-    main("input")
+    main("input")  # 1135 -> too low

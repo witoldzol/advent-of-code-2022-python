@@ -44,28 +44,32 @@ def move_sand(cave: List[List[str]], sand_coords: Tuple[int, int]) -> int:
         return -1
     while True:
         # go down?
-        if cave[x][y + i] == ".":
-            log.info(f"Moving `down`, {x},{y+i}")
-            i += 1
-            current_drop+=1
-            if current_drop > max_drop:
-                log.info("We found the abbys, ending program")
-                return 1
-        # go left?
-        elif cave[x - 1][y + i] == ".":
-            log.info(f"Moving `left`, {x},{y+i}")
-            x -= 1
-            continue
-        elif cave[x + 1][y + i] == ".":
-            log.info(f"Moving `right`, {x},{y+i}")
-            x += 1
-            continue
-        else:
-            log.info(
-                f"Cant move any further, sand coming to rest at location {x},{y+i-1}"
-            )
-            cave[x][y + i - 1] = "o"
-            break
+        try: 
+            if cave[x][y + i] == ".":
+                log.info(f"Moving `down`, {x},{y+i}")
+                i += 1
+                current_drop+=1
+                if current_drop > max_drop:
+                    log.info("We found the abbys, ending program")
+                    return 1
+            # go left?
+            elif cave[x - 1][y + i] == ".":
+                log.info(f"Moving `left`, {x},{y+i}")
+                x -= 1
+                continue
+            elif cave[x + 1][y + i] == ".":
+                log.info(f"Moving `right`, {x},{y+i}")
+                x += 1
+                continue
+            else:
+                log.info(
+                    f"Cant move any further, sand coming to rest at location {x},{y+i-1}"
+                )
+                cave[x][y + i - 1] = "o"
+                break
+        except IndexError as e:
+            log.info("We found the abbys, ending program")
+            return 1
     return 0
 
 
@@ -93,16 +97,16 @@ def draw_cave(coords: List[List[List[int]]]) -> List[List[str]]:
     # draw rocks
     for c in coords:
         for i in range(len(c) - 1):
-            print(f"[LOG] raw coords = {c}")
+            log.debug(f'Raw coords = {c}')
             start_x, start_y = c[i]
             end_x, end_y = c[i + 1]
-            print(f"[LOG] drawing {start_x},{start_y} ->{end_x},{end_y}")
+            log.debug(f"Drawing {start_x},{start_y} ->{end_x},{end_y}")
             start_x = start_x - min_x
             start_y = start_y - min_y
             end_x = end_x - min_x
             end_y = end_y - min_y
-            print("start x ", start_x, "end x ", end_x)
-            print("start y ", start_y, "end y ", end_y)
+            log.debug("start x ", start_x, "end x ", end_x)
+            log.debug("start y ", start_y, "end y ", end_y)
             if start_x > end_x:
                 start_x, end_x = swap(start_x, end_x)
             if start_y > end_y:

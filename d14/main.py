@@ -99,6 +99,7 @@ def draw_cave(coords: List[List[List[int]]]) -> Tuple[List[List[str]], Tuple[int
             x.append(".")
     # draw rocks
     for c in coords:
+        # -1 because we have a moving window, that grabs 1,2; 2,3; 3;4 ...
         for i in range(len(c) - 1):
             log.debug(f"Raw coords = {c}")
             start_x, start_y = c[i]

@@ -13,8 +13,8 @@ for l in lines:
             dy = y - prev[1]
             len_ = max(abs(dx), abs(dy))
             for i in range(len_):
-                xx = prev[0] + i * (1 if dx > 0 else (-1 if dx < 0 else 0))
-                yy = prev[1] + i * (1 if dy > 0 else (-1 if dy < 0 else 0))
+                xx = prev[0] + (i * (1 if dx > 0 else (-1 if dx < 0 else 0)))
+                yy = prev[1] + (i * (1 if dy > 0 else (-1 if dy < 0 else 0)))
                 R.add((xx, yy))
         prev = (x, y)
 # entrypoint

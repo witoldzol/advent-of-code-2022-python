@@ -1,4 +1,4 @@
-from typing import Tuple, List
+from typing import Tuple, List, Set
 import re
 import logging as log
 import argparse
@@ -39,15 +39,24 @@ def generate_manhatan_lengths(coords: Tuple[int,int,int,int]):
     dx=abs(sx-bx)
     dy=abs(sy-by)
     dd = max(dx,dy)
-    for x in range(0, dd+1):
+    for x in range(sx, sx+dd+1):
         m_lenghts.append((x,dd-x))
-    for x in range(-dd,1):
+    for x in range(-dd-sx,sx+1):
         m_lenghts.append((x,dd+x))
-    for y in range(0, dd+1):
+    for y in range(sy, sy+dd+1):
         m_lenghts.append((dd-y,y))
-    for y in range(-dd,1):
+    for y in range(-dd-sy,sy+1):
         m_lenghts.append((dd+y,y))
     return m_lenghts
+
+def print_matrix(coords: Set[Tuple[int,int]], row: int):
+    i = 0
+    for c in coords:
+        x,y = c
+        if y == row:
+            print(x,y)
+            i+=1
+    print(f'Total items in {row} is {i}')
 
 
 def main(filename):
@@ -58,11 +67,9 @@ def main(filename):
     for c in coords[6:7]:
         m_lens = generate_manhatan_lengths(c)
         for l in m_lens:
-            x,y = l
-            print(x,y)
-
-
-
+            C.add(l)
+    print(C)
+    # print_matrix(C, 10)
 
 
 if __name__ == "__main__":

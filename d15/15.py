@@ -105,8 +105,8 @@ def print_matrix(coords: Dict[Tuple[int, int], str]):
 def main(filename):
     C = {}
     coords = parse_data(filename)
-    for c in coords:
-    # for c in coords[6:7]:
+    # for c in coords:
+    for c in coords[6:7]:
         sx, sy, bx, by = c
         C[(sx, sy)] = "S"
         C[(bx, by)] = "B"
@@ -121,5 +121,5 @@ def main(filename):
 
 if __name__ == "__main__":
     # main("input")
-    # main("sample_input")
-    main("small_sample_input")
+    main("sample_input")
+    # main("small_sample_input")

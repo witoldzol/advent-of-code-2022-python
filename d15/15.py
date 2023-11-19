@@ -51,7 +51,23 @@ def generate_manhatan_lengths(coords: Tuple[int, int, int, int]):
 
 
 def fill_the_borders(borders: Dict[Tuple[int, int], str]) -> Dict[Tuple[int, int], str]:
-    return {}
+    # iterate over map, find start (min x)and end(max x) of each row (y axis)
+    # then, fill out all 'empty' row fields
+    row_min_max = {}
+    for k,v in borders.items():
+        # min max x for each y
+        # dict of key = y, (min,max) x
+        x,y = k
+        if y not in row_min_max:
+            row_min_max[y] = (x,None)
+        else:
+            min,max = row_min_max[y] # max is always None
+            if x < min:
+                row_min_max[y] = (x,min)
+            else:
+                row_min_max[y] = (min,x)
+    print(row_min_max)
+    return row_min_max
 
 
 def print_matrix(coords: Dict[Tuple[int, int], str]):
@@ -81,8 +97,8 @@ def main(filename):
             if l not in C:
                 C[l] = "#"
         # fill out the rest of the fields inside the outline created by the lenghts
-
-    print_matrix(C)
+    fill_the_borders(C)
+    # print_matrix(C)
 
 
 if __name__ == "__main__":

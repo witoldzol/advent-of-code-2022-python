@@ -50,7 +50,7 @@ def generate_manhatan_lengths(coords: Tuple[int, int, int, int]):
         log.debug(f'+x,+y quadrant edge: {edge}')
         m_lenghts.append(edge)
     #-x, y
-        edge = (sx-dd+i,sy+dd-i)
+        edge = (sx-dd+i,sy+i)
         log.debug(f'index = {i}, range = {d}')
         log.debug(f'+x,+y quadrant edge: {edge}')
         m_lenghts.append(edge)

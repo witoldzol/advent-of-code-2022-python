@@ -1,3 +1,4 @@
+import enum
 from typing import Tuple, List, Dict
 import re
 import logging as log
@@ -42,28 +43,27 @@ def generate_manhatan_lengths(coords: Tuple[int, int, int, int]):
     log.debug(f'Delta y = {dy}')
     dd = max(dx, dy)  # get max difference between sonar & beacon
     log.debug(f'Max Delta = {dd}')
-    # 2-2,2-0
-    # 2-1,2-1
-    # 2+1,2+1
-    # 2+2,2+0
-
-    # 2,2 sonar
-    # 2,4 beacon
-    # max = 2
-    # start x + max 
-    # start y + max 
-    # start x - max 
-    # start y - max 
-    for i,id in enumerate(range(dd)):
-
-    for x in range(sx, sx + dd + 1):
-        m_lenghts.append((x, dd - x))
-    for x in range(sx-dd, sx + 1):
-        m_lenghts.append((x, dd + x))
-    for y in range(sy, sy + dd + 1):
-        m_lenghts.append((dd - y, y))
-    for y in range(-dd - sy, sy + 1):
-        m_lenghts.append((dd + y, y))
+    for i,d in enumerate(range(dd,-1,-1)):
+    #x ,y
+        edge = (sx+dd-i,sy+i)
+        log.debug(f'index = {i}, range = {d}')
+        log.debug(f'+x,+y quadrant edge: {edge}')
+        m_lenghts.append(edge)
+    #-x, y
+        edge = (sx-dd+i,sy+dd-i)
+        log.debug(f'index = {i}, range = {d}')
+        log.debug(f'+x,+y quadrant edge: {edge}')
+        m_lenghts.append(edge)
+    # #x, -y
+        edge = (sx+dd-i,sy-i)
+        log.debug(f'index = {i}, range = {d}')
+        log.debug(f'+x,+y quadrant edge: {edge}')
+        m_lenghts.append(edge)
+    # #-x,-y
+        edge = (sx-dd+i,sy-i)
+        log.debug(f'index = {i}, range = {d}')
+        log.debug(f'+x,+y quadrant edge: {edge}')
+        m_lenghts.append(edge)
     log.debug(f"Manhattan lenghts = {m_lenghts}")
     return m_lenghts
 

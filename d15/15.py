@@ -37,16 +37,34 @@ def generate_manhatan_lengths(coords: Tuple[int, int, int, int]):
     m_lenghts = []
     sx, sy, bx, by = coords
     dx = abs(sx - bx)
+    log.debug(f'Delta x = {dx}')
     dy = abs(sy - by)
+    log.debug(f'Delta y = {dy}')
     dd = max(dx, dy)  # get max difference between sonar & beacon
+    log.debug(f'Max Delta = {dd}')
+    # 2-2,2-0
+    # 2-1,2-1
+    # 2+1,2+1
+    # 2+2,2+0
+
+    # 2,2 sonar
+    # 2,4 beacon
+    # max = 2
+    # start x + max 
+    # start y + max 
+    # start x - max 
+    # start y - max 
+    for i,id in enumerate(range(dd)):
+
     for x in range(sx, sx + dd + 1):
         m_lenghts.append((x, dd - x))
-    for x in range(-dd - sx, sx + 1):
+    for x in range(sx-dd, sx + 1):
         m_lenghts.append((x, dd + x))
     for y in range(sy, sy + dd + 1):
         m_lenghts.append((dd - y, y))
     for y in range(-dd - sy, sy + 1):
         m_lenghts.append((dd + y, y))
+    log.debug(f"Manhattan lenghts = {m_lenghts}")
     return m_lenghts
 
 
@@ -87,8 +105,8 @@ def print_matrix(coords: Dict[Tuple[int, int], str]):
 def main(filename):
     C = {}
     coords = parse_data(filename)
-    # for c in coords:
-    for c in coords[6:7]:
+    for c in coords:
+    # for c in coords[6:7]:
         sx, sy, bx, by = c
         C[(sx, sy)] = "S"
         C[(bx, by)] = "B"
@@ -98,9 +116,10 @@ def main(filename):
                 C[l] = "#"
         # fill out the rest of the fields inside the outline created by the lenghts
     fill_the_borders(C)
-    # print_matrix(C)
+    print_matrix(C)
 
 
 if __name__ == "__main__":
     # main("input")
-    main("sample_input")
+    # main("sample_input")
+    main("small_sample_input")

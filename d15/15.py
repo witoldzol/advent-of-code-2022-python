@@ -1,4 +1,4 @@
-from typing import Tuple, List, Set
+from typing import Tuple, List, Dict
 import re
 import logging as log
 import argparse
@@ -49,27 +49,35 @@ def generate_manhatan_lengths(coords: Tuple[int,int,int,int]):
         m_lenghts.append((dd+y,y))
     return m_lenghts
 
-def print_matrix(coords: Set[Tuple[int,int]], row: int):
-    i = 0
-    for c in coords:
-        x,y = c
-        if y == row:
-            print(x,y)
-            i+=1
-    print(f'Total items in {row} is {i}')
+def print_matrix(coords: Dict[Tuple[int,int],str]):
+    matrix = [ ['.']*25 for _ in range(25)]
+    for k,v in coords.items():
+        x,y = k
+        try:
+            matrix[x][y] = v
+        except Exception as e:
+            print(e)
+            print('==============')
+            print(f'coords = {x},{y}')
+    for row in matrix:
+        print(row)
+
 
 
 def main(filename):
-    C = set()
+    C = {}
     coords = parse_data(filename)
     # for c in coords:
-    lens = {}
     for c in coords[6:7]:
+        sx,sy,bx,by = c
+        C[(sx,sy)] = 'S'
+        C[(bx,by)] = 'B'
         m_lens = generate_manhatan_lengths(c)
         for l in m_lens:
-            C.add(l)
-    print(C)
-    # print_matrix(C, 10)
+            if l not in C:
+                C[l] = '#'
+    # print(C)
+    print_matrix(C)
 
 
 if __name__ == "__main__":

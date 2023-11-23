@@ -4,10 +4,11 @@ import re
 import logging as log
 import argparse
 
-parser = argparse.ArgumentParser()
-parser.add_argument("-log")
-log_level = parser.parse_args().log
-log.basicConfig(level=log_level)
+def parse_args():
+    parser = argparse.ArgumentParser()
+    parser.add_argument("-log")
+    log_level = parser.parse_args().log
+    log.basicConfig(level=log_level)
 
 
 def parse_line(line: str) -> Tuple[int, int, int, int]:
@@ -35,37 +36,39 @@ def parse_data(filename) -> List[Tuple[int, int, int, int]]:
 
 
 def generate_manhatan_lengths(coords: Tuple[int, int, int, int]):
-    m_lenghts = []
+    m_lenghts = set()
     sx, sy, bx, by = coords
     dx = abs(sx - bx)
     log.debug(f'Delta x = {dx}')
     dy = abs(sy - by)
     log.debug(f'Delta y = {dy}')
     dd = max(dx, dy)  # get max difference between sonar & beacon
+    if not dd:
+        return []
     log.debug(f'Max Delta = {dd}')
     for i,d in enumerate(range(dd,-1,-1)):
     #x ,y
         edge = (sx+dd-i,sy+i)
         log.debug(f'index = {i}, range = {d}')
         log.debug(f'+x,+y quadrant edge: {edge}')
-        m_lenghts.append(edge)
+        m_lenghts.add(edge)
     #-x, y
         edge = (sx-dd+i,sy+i)
         log.debug(f'index = {i}, range = {d}')
         log.debug(f'+x,+y quadrant edge: {edge}')
-        m_lenghts.append(edge)
+        m_lenghts.add(edge)
     # #x, -y
         edge = (sx+dd-i,sy-i)
         log.debug(f'index = {i}, range = {d}')
         log.debug(f'+x,+y quadrant edge: {edge}')
-        m_lenghts.append(edge)
+        m_lenghts.add(edge)
     # #-x,-y
         edge = (sx-dd+i,sy-i)
         log.debug(f'index = {i}, range = {d}')
         log.debug(f'+x,+y quadrant edge: {edge}')
-        m_lenghts.append(edge)
+        m_lenghts.add(edge)
     log.debug(f"Manhattan lenghts = {m_lenghts}")
-    return m_lenghts
+    return list(m_lenghts)
 
 
 def fill_the_borders(borders: Dict[Tuple[int, int], str]):
@@ -108,10 +111,12 @@ def print_matrix(coords: Dict[Tuple[int, int], str]):
 
 
 def main(filename):
+    parse_args()
     C = {}
     coords = parse_data(filename)
     # for c in coords:
-    for c in coords[6:7]:
+    for c in coords[5:6]:
+        print(f'COOOORS : {c}')
         sx, sy, bx, by = c
         C[(sx, sy)] = "S"
         C[(bx, by)] = "B"
@@ -120,7 +125,7 @@ def main(filename):
             if l not in C:
                 C[l] = "#"
         # fill out the rest of the fields inside the outline created by the lenghts
-    fill_the_borders(C)
+    # fill_the_borders(C)
     print_matrix(C)
 
 

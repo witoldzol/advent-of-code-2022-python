@@ -42,7 +42,7 @@ def generate_manhatan_lengths(coords: Tuple[int, int, int, int]):
     log.debug(f'Delta x = {dx}')
     dy = abs(sy - by)
     log.debug(f'Delta y = {dy}')
-    dd = max(dx, dy)  # get max difference between sonar & beacon
+    dd = dx+dy
     if not dd:
         return []
     log.debug(f'Max Delta = {dd}')
@@ -68,6 +68,7 @@ def generate_manhatan_lengths(coords: Tuple[int, int, int, int]):
         log.debug(f'+x,+y quadrant edge: {edge}')
         m_lenghts.add(edge)
     log.debug(f"Manhattan lenghts = {m_lenghts}")
+    print(f"Manhattan lenghts = {m_lenghts}")
     return list(m_lenghts)
 
 
@@ -109,6 +110,15 @@ def print_matrix(coords: Dict[Tuple[int, int], str]):
     for row in matrix:
         print(row)
 
+def count_non_empty_fields(coords: Dict[Tuple[int,int], str], row: int) -> None:
+    count = 0
+    for k,v in coords.items():
+        x,y = k
+        if y == row and v == '#':
+            count +=1
+    print(f'Total count is {count}')
+
+
 
 def main(filename):
     parse_args()
@@ -121,12 +131,15 @@ def main(filename):
         C[(sx, sy)] = "S"
         C[(bx, by)] = "B"
         m_lens = generate_manhatan_lengths(c)
+        # create outline
         for l in m_lens:
             if l not in C:
                 C[l] = "#"
         # fill out the rest of the fields inside the outline created by the lenghts
-    # fill_the_borders(C)
+    fill_the_borders(C)
     print_matrix(C)
+    row = 10
+    count_non_empty_fields(C,row)
 
 
 if __name__ == "__main__":

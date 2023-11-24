@@ -4,6 +4,7 @@ import re
 import logging as log
 import argparse
 
+
 def parse_args():
     parser = argparse.ArgumentParser()
     parser.add_argument("-log")
@@ -39,33 +40,33 @@ def generate_manhatan_lengths(coords: Tuple[int, int, int, int]):
     m_lenghts = set()
     sx, sy, bx, by = coords
     dx = abs(sx - bx)
-    log.debug(f'Delta x = {dx}')
+    log.debug(f"Delta x = {dx}")
     dy = abs(sy - by)
-    log.debug(f'Delta y = {dy}')
-    dd = dx+dy
+    log.debug(f"Delta y = {dy}")
+    dd = dx + dy
     if not dd:
         return []
-    log.debug(f'Max Delta = {dd}')
-    for i,d in enumerate(range(dd,-1,-1)):
-    #x ,y
-        edge = (sx+dd-i,sy+i)
-        log.debug(f'index = {i}, range = {d}')
-        log.debug(f'+x,+y quadrant edge: {edge}')
+    log.debug(f"Max Delta = {dd}")
+    for i, d in enumerate(range(dd, -1, -1)):
+        # x ,y
+        edge = (sx + dd - i, sy + i)
+        log.debug(f"index = {i}, range = {d}")
+        log.debug(f"+x,+y quadrant edge: {edge}")
         m_lenghts.add(edge)
-    #-x, y
-        edge = (sx-dd+i,sy+i)
-        log.debug(f'index = {i}, range = {d}')
-        log.debug(f'+x,+y quadrant edge: {edge}')
+        # -x, y
+        edge = (sx - dd + i, sy + i)
+        log.debug(f"index = {i}, range = {d}")
+        log.debug(f"+x,+y quadrant edge: {edge}")
         m_lenghts.add(edge)
-    # #x, -y
-        edge = (sx+dd-i,sy-i)
-        log.debug(f'index = {i}, range = {d}')
-        log.debug(f'+x,+y quadrant edge: {edge}')
+        # #x, -y
+        edge = (sx + dd - i, sy - i)
+        log.debug(f"index = {i}, range = {d}")
+        log.debug(f"+x,+y quadrant edge: {edge}")
         m_lenghts.add(edge)
-    # #-x,-y
-        edge = (sx-dd+i,sy-i)
-        log.debug(f'index = {i}, range = {d}')
-        log.debug(f'+x,+y quadrant edge: {edge}')
+        # #-x,-y
+        edge = (sx - dd + i, sy - i)
+        log.debug(f"index = {i}, range = {d}")
+        log.debug(f"+x,+y quadrant edge: {edge}")
         m_lenghts.add(edge)
     log.debug(f"Manhattan lenghts = {m_lenghts}")
     print(f"Manhattan lenghts = {m_lenghts}")
@@ -76,29 +77,30 @@ def fill_the_borders(borders: Dict[Tuple[int, int], str]):
     # iterate over map, find start (min x)and end(max x) of each row (y axis)
     # then, fill out all 'empty' row fields
     row_min_max = {}
-    for k,v in borders.items():
+    for k, v in borders.items():
         # min max x for each y
         # dict of key = y, (min,max) x
-        x,y = k
+        x, y = k
         if y not in row_min_max:
-            row_min_max[y] = (x,None)
+            row_min_max[y] = (x, None)
         else:
-            min,max = row_min_max[y] # max is always None
+            min, max = row_min_max[y]  # max is always None
             if x < min:
-                row_min_max[y] = (x,min)
+                row_min_max[y] = (x, min)
             else:
-                row_min_max[y] = (min,x)
-    for y,v in row_min_max.items():
-        start_x,end_x = v
+                row_min_max[y] = (min, x)
+    for y, v in row_min_max.items():
+        start_x, end_x = v
         if not end_x:
             end_x = start_x
-        for x in range(start_x,end_x):
-            if (x,y) not in borders:
-                borders[(x,y)] = '#'
+        for x in range(start_x, end_x):
+            if (x, y) not in borders:
+                borders[(x, y)] = "#"
 
 
 def print_matrix(coords: Dict[Tuple[int, int], str]):
-    matrix = [["."] * 25 for _ in range(25)]
+    n = 35
+    matrix = [["."] * n for _ in range(n)]
     for k, v in coords.items():
         x, y = k
         try:
@@ -110,23 +112,26 @@ def print_matrix(coords: Dict[Tuple[int, int], str]):
     for row in matrix:
         print(row)
 
-def count_non_empty_fields(coords: Dict[Tuple[int,int], str], row: int) -> None:
-    count = 0
-    for k,v in coords.items():
-        x,y = k
-        if y == row and v == '#':
-            count +=1
-    print(f'Total count is {count}')
 
+def count_non_empty_fields(coords: Dict[Tuple[int, int], str], row: int) -> None:
+    count = 0
+    for k, v in coords.items():
+        x, y = k
+        if y == row and v == "#":
+            count += 1
+    print(f"Total count is {count}")
 
 
 def main(filename):
     parse_args()
     C = {}
     coords = parse_data(filename)
-    # for c in coords:
-    for c in coords[5:6]:
-        print(f'COOOORS : {c}')
+    for c in coords:
+        sx, sy, bx, by = c
+        C[(sx, sy)] = "S"
+        C[(bx, by)] = "B"
+    for c in coords[6:7]:
+        print(f"COOOORS : {c}")
         sx, sy, bx, by = c
         C[(sx, sy)] = "S"
         C[(bx, by)] = "B"
@@ -139,7 +144,7 @@ def main(filename):
     fill_the_borders(C)
     print_matrix(C)
     row = 10
-    count_non_empty_fields(C,row)
+    count_non_empty_fields(C, row)
 
 
 if __name__ == "__main__":

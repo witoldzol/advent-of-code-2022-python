@@ -131,6 +131,7 @@ def count_non_empty_fields(coords: Dict[Tuple[int, int], str], row: int) -> None
 def fill_the_borders2(coords, lens: List[Tuple[int,int]]):
     # iterate over map, find start (min x)and end(max x) of each row (y axis)
     # then, fill out all 'empty' row fields
+    print(f'filling the borders {lens=}')
     row_min_max = {}
     for l in lens:
         x,y = l
@@ -172,7 +173,8 @@ def main(filename):
             if l not in C:
                 C[l] = "#"
         # fill out the rest of the fields inside the outline created by the lenghts
-        fill_the_borders2(C,m_lens)
+        # fill_the_borders2(C,m_lens)
+        fill_the_borders(C)
     # print_matrix(C)
     row = 2000000
     count_non_empty_fields(C, row)
@@ -182,3 +184,4 @@ if __name__ == "__main__":
     main("input")
     # main("sample_input")
     # main("small_sample_input")
+    # last answer = 3972794 ( too low )

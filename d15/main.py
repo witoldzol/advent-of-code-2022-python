@@ -4,6 +4,7 @@ import re
 import logging as log
 import argparse
 
+ROW = 2000000
 
 def parse_args():
     parser = argparse.ArgumentParser()
@@ -36,7 +37,7 @@ def parse_data(filename) -> List[Tuple[int, int, int, int]]:
     return coords
 
 
-def generate_manhatan_lengths(coords: Tuple[int, int, int, int]):
+def generate_manhatan_lengths(coords: Tuple[int, int, int, int]) -> List[Tuple[int,int]]:
     m_lenghts = set()
     sx, sy, bx, by = coords
     dx = abs(sx - bx)
@@ -47,29 +48,34 @@ def generate_manhatan_lengths(coords: Tuple[int, int, int, int]):
     if not dd:
         return []
     log.debug(f"Max Delta = {dd}")
-    for i, d in enumerate(range(dd, -1, -1)):
+    if sy <= ROW:
+        dd = ROW - sy
+    else:
+        dd = sy - ROW
+    print(f'{dd=}')
+    # for i, d in enumerate(range(dd, -1, -1)):
+    for i in range(dd, dd+1):
         # x ,y
         edge = (sx + dd - i, sy + i)
-        log.debug(f"index = {i}, range = {d}")
+        log.debug(f" range = {i}")
         log.debug(f"+x,+y quadrant edge: {edge}")
         m_lenghts.add(edge)
         # -x, y
         edge = (sx - dd + i, sy + i)
-        log.debug(f"index = {i}, range = {d}")
+        log.debug(f" range = {i}")
         log.debug(f"+x,+y quadrant edge: {edge}")
         m_lenghts.add(edge)
         # #x, -y
         edge = (sx + dd - i, sy - i)
-        log.debug(f"index = {i}, range = {d}")
+        log.debug(f" range = {i}")
         log.debug(f"+x,+y quadrant edge: {edge}")
         m_lenghts.add(edge)
         # #-x,-y
         edge = (sx - dd + i, sy - i)
-        log.debug(f"index = {i}, range = {d}")
+        log.debug(f" range = {i}")
         log.debug(f"+x,+y quadrant edge: {edge}")
         m_lenghts.add(edge)
     log.debug(f"Manhattan lenghts = {m_lenghts}")
-    print(f"Manhattan lenghts = {m_lenghts}")
     return list(m_lenghts)
 
 
@@ -122,6 +128,30 @@ def count_non_empty_fields(coords: Dict[Tuple[int, int], str], row: int) -> None
     print(f"Total count is {count}")
 
 
+def fill_the_borders2(coords, lens: List[Tuple[int,int]]):
+    # iterate over map, find start (min x)and end(max x) of each row (y axis)
+    # then, fill out all 'empty' row fields
+    row_min_max = {}
+    for l in lens:
+        x,y = l
+        if y not in row_min_max:
+            row_min_max[y] = (x, None)
+        else:
+            min, max = row_min_max[y]  # max is always None
+            if x < min:
+                row_min_max[y] = (x, min)
+            else:
+                row_min_max[y] = (min, x)
+    for y, v in row_min_max.items():
+        start_x, end_x = v
+        if not end_x:
+            end_x = start_x
+        for x in range(start_x, end_x):
+            if (x, y) not in coords:
+                coords[(x, y)] = "#"
+                print(f'filling the borders {(x,y)=}')
+
+
 def main(filename):
     parse_args()
     C = {}
@@ -130,8 +160,9 @@ def main(filename):
         sx, sy, bx, by = c
         C[(sx, sy)] = "S"
         C[(bx, by)] = "B"
-    for c in coords[6:7]:
-        print(f"COOOORS : {c}")
+    # for c in coords[6:7]:
+    for c in coords:
+        # print(f"COOOORS : {c}")
         sx, sy, bx, by = c
         C[(sx, sy)] = "S"
         C[(bx, by)] = "B"
@@ -141,13 +172,13 @@ def main(filename):
             if l not in C:
                 C[l] = "#"
         # fill out the rest of the fields inside the outline created by the lenghts
-    fill_the_borders(C)
-    print_matrix(C)
-    row = 10
+        fill_the_borders2(C,m_lens)
+    # print_matrix(C)
+    row = 2000000
     count_non_empty_fields(C, row)
 
 
 if __name__ == "__main__":
-    # main("input")
-    main("sample_input")
+    main("input")
+    # main("sample_input")
     # main("small_sample_input")

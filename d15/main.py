@@ -174,8 +174,8 @@ def main(filename):
 
 
 if __name__ == "__main__":
-    main("input")
-    # main("sample_input")
+    # main("input")
+    main("sample_input")
     # main("small_sample_input")
     # last answer = 3972794 ( too low )
     # answer 2 = 5850248 ( too high )

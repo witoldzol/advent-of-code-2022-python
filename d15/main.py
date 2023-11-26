@@ -53,42 +53,33 @@ def generate_manhatan_lengths(coords: Tuple[int, int, int, int]) -> List[Tuple[i
     else:
         i = sy - ROW
     print(f'{i=}')
-    # for i, d in enumerate(range(dd, -1, -1)):
     # x ,y
     edge = (sx + dd - i, sy + i)
-    log.debug(f" range = {i}")
-    log.debug(f"+x,+y quadrant edge: {edge}")
     if edge[1] == ROW:
         m_lenghts.add(edge)
+        log.debug(f"+x,+y quadrant edge: {edge}")
     # -x, y
     edge = (sx - dd + i, sy + i)
-    log.debug(f" range = {i}")
-    log.debug(f"+x,+y quadrant edge: {edge}")
     if edge[1] == ROW:
         m_lenghts.add(edge)
+        log.debug(f"+x,+y quadrant edge: {edge}")
     # #x, -y
     edge = (sx + dd - i, sy - i)
-    log.debug(f" range = {i}")
-    log.debug(f"+x,+y quadrant edge: {edge}")
     if edge[1] == ROW:
         m_lenghts.add(edge)
+        log.debug(f"+x,+y quadrant edge: {edge}")
     # #-x,-y
     edge = (sx - dd + i, sy - i)
-    log.debug(f" range = {i}")
-    log.debug(f"+x,+y quadrant edge: {edge}")
     if edge[1] == ROW:
         m_lenghts.add(edge)
+        log.debug(f"+x,+y quadrant edge: {edge}")
     log.debug(f"Manhattan lenghts = {m_lenghts}")
     return list(m_lenghts)
 
 
 def fill_the_borders(borders: Dict[Tuple[int, int], str]):
-    # iterate over map, find start (min x)and end(max x) of each row (y axis)
-    # then, fill out all 'empty' row fields
     row_min_max = {}
     for k, v in borders.items():
-        # min max x for each y
-        # dict of key = y, (min,max) x
         x, y = k
         if y not in row_min_max:
             row_min_max[y] = (x, None)
@@ -132,9 +123,6 @@ def count_non_empty_fields(coords: Dict[Tuple[int, int], str], row: int) -> None
 
 
 def fill_the_borders2(coords, lens: List[Tuple[int,int]]):
-    # iterate over map, find start (min x)and end(max x) of each row (y axis)
-    # then, fill out all 'empty' row fields
-    # print(f'filling the borders {lens=}')
     row_min_max = {}
     for l in lens:
         x,y = l
@@ -153,7 +141,6 @@ def fill_the_borders2(coords, lens: List[Tuple[int,int]]):
         for x in range(start_x, end_x):
             if (x, y) not in coords:
                 coords[(x, y)] = "#"
-                # print(f'filling the borders {(x,y)=}')
 
 
 def main(filename):

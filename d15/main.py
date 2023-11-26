@@ -178,6 +178,9 @@ def main(filename):
     # print_matrix(C)
     row = 2000000
     count_non_empty_fields(C, row)
+    for k,v in C.items():
+        if v != '#':
+            print(v)
 
 
 if __name__ == "__main__":

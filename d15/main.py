@@ -148,9 +148,6 @@ def main(filename):
         # fill out the rest of the fields inside the outline created by the lenghts
         fill_the_borders2(C, m_lens)
     count_non_empty_fields(C, ROW)
-    for k, v in C.items():
-        if v != "#":
-            print(v)
 
 
 ROW = 2000000

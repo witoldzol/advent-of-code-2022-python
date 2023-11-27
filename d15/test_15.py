@@ -6,18 +6,18 @@ from main import generate_manhatan_lengths
 
 from unittest import mock
 
-@mock.patch('main.ROW', 3) # todo - make a param, handle case when row is outside of bounds
+@mock.patch('main.ROW', 3)
 def test_generate_manhatan_lengths():
     coords = (2, 2, 2, 2)
-    actual = generate_manhatan_lengths(coords)
+    actual = generate_manhatan_lengths(coords, 3)
     assert [] == actual
     coords = (2, 2, 2, 3)
-    actual = generate_manhatan_lengths(coords)
-    expected = [(3, 2), (2, 3), (1, 2), (2, 1)]
+    actual = generate_manhatan_lengths(coords, 3)
+    expected = [(2, 3)]
     assert sorted(expected) == sorted(actual)
     coords = (2, 2, 2, 4)
-    actual = generate_manhatan_lengths(coords)
-    expected = [(0, 2), (1, 1), (1, 3), (2, 0), (2, 4), (3, 1), (3, 3), (4, 2)]
+    actual = generate_manhatan_lengths(coords, 3)
+    expected = [(1, 3),(3, 3)]
     assert sorted(expected) == sorted(actual)
 
 def test_fill_the_borders2():

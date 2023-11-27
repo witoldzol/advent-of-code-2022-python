@@ -37,7 +37,7 @@ def parse_data(filename) -> List[Tuple[int, int, int, int]]:
     return coords
 
 
-def generate_manhatan_lengths(coords: Tuple[int, int, int, int]) -> List[Tuple[int,int]]:
+def generate_manhatan_lengths(coords: Tuple[int, int, int, int], row: int) -> List[Tuple[int,int]]:
     m_lenghts = set()
     sx, sy, bx, by = coords
     dx = abs(sx - bx)
@@ -48,29 +48,29 @@ def generate_manhatan_lengths(coords: Tuple[int, int, int, int]) -> List[Tuple[i
     if not dd:
         return []
     log.debug(f"Max Delta = {dd}")
-    if sy <= ROW:
-        i = ROW - sy
+    if sy <= row:
+        i = row - sy
     else:
-        i = sy - ROW
+        i = sy - row
     print(f'{i=}')
     # x ,y
     edge = (sx + dd - i, sy + i)
-    if edge[1] == ROW:
+    if edge[1] == row:
         m_lenghts.add(edge)
         log.debug(f"+x,+y quadrant edge: {edge}")
     # -x, y
     edge = (sx - dd + i, sy + i)
-    if edge[1] == ROW:
+    if edge[1] == row:
         m_lenghts.add(edge)
         log.debug(f"+x,+y quadrant edge: {edge}")
     # #x, -y
     edge = (sx + dd - i, sy - i)
-    if edge[1] == ROW:
+    if edge[1] == row:
         m_lenghts.add(edge)
         log.debug(f"+x,+y quadrant edge: {edge}")
     # #-x,-y
     edge = (sx - dd + i, sy - i)
-    if edge[1] == ROW:
+    if edge[1] == row:
         m_lenghts.add(edge)
         log.debug(f"+x,+y quadrant edge: {edge}")
     log.debug(f"Manhattan lenghts = {m_lenghts}")
@@ -157,7 +157,7 @@ def main(filename):
         sx, sy, bx, by = c
         C[(sx, sy)] = "S"
         C[(bx, by)] = "B"
-        m_lens = generate_manhatan_lengths(c)
+        m_lens = generate_manhatan_lengths(c, ROW)
         # create outline
         for l in m_lens:
             if l not in C:
@@ -166,8 +166,7 @@ def main(filename):
         fill_the_borders2(C,m_lens)
         # fill_the_borders(C)
     # print_matrix(C)
-    row = 2000000
-    count_non_empty_fields(C, row)
+    count_non_empty_fields(C, ROW)
     for k,v in C.items():
         if v != '#':
             print(v)

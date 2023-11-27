@@ -1,3 +1,4 @@
+import cProfile
 from typing import Tuple, List, Dict
 import re
 import logging as log
@@ -153,4 +154,5 @@ def main(filename):
 ROW = 2000000
 
 if __name__ == "__main__":
-    main("input")
+
+    cProfile.run('main("input")',sort='cumtime')

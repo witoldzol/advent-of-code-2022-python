@@ -1,6 +1,12 @@
+from main import generate_manhatan_lengths_slow
 from main import fill_the_borders2
 from main import generate_manhatan_lengths
 
+
+def test_generate_manhatan_lengths_slow():
+    coords = (2, 2, 2, 2)
+    actual = generate_manhatan_lengths_slow(coords)
+    assert 0 == actual
 
 def test_generate_manhatan_lengths():
     coords = (2, 2, 2, 2)

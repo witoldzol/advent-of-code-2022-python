@@ -1,14 +1,7 @@
-from math import exp
-from typing import Tuple
-
-# from d15.main import fill_the_borders2
 from main import fill_the_borders2
 from main import generate_manhatan_lengths
 
-from unittest import mock
 
-
-@mock.patch("main.ROW", 3)
 def test_generate_manhatan_lengths():
     coords = (2, 2, 2, 2)
     actual = generate_manhatan_lengths(coords, 3)

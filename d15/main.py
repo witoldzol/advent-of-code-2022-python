@@ -151,8 +151,10 @@ def main(filename):
     count_non_empty_fields(C, ROW)
 
 
-ROW = 2000000
+# ROW = 2000000
+ROW = 10
 
 if __name__ == "__main__":
-
-    cProfile.run('main("input")',sort='cumtime')
+    main('sample_input')
+    # cProfile.run('main("sample_input")',sort='cumtime')
+    # cProfile.run('main("input")',sort='cumtime')

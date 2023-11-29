@@ -41,8 +41,23 @@ def generate_manhatan_lengths_slow(coords: Tuple[int, int, int, int]) -> List[Tu
     dx = sx - bx
     dy = sy - by
     dd = abs(dx) + abs(dy)
-    return dd
-
+    if not dd:
+        return []
+    ml = set()
+    for i in range(0,dd+1):
+        # x,y
+        c = (sx+i,sy+dd-i)
+        ml.add(c)
+        # -x, y
+        c = (sx-i,sy+dd-i)
+        ml.add(c)
+        # x, -y
+        c = (sx+dd-i,sy-i)
+        ml.add(c)
+        # -x, -y
+        c = (sx-dd+i,sy-i)
+        ml.add(c)
+    return list(ml)
 
 def generate_manhatan_lengths(
     coords: Tuple[int, int, int, int], row: int
@@ -149,13 +164,15 @@ def main(filename):
         sx, sy, bx, by = c
         C[(sx, sy)] = "S"
         C[(bx, by)] = "B"
-        m_lens = generate_manhatan_lengths(c, ROW)
+        # m_lens = generate_manhatan_lengths(c, ROW)
+        m_lens = generate_manhatan_lengths_slow(c)
         # create outline
         for l in m_lens:
             if l not in C:
                 C[l] = "#"
         # fill out the rest of the fields inside the outline created by the lenghts
         fill_the_borders2(C, m_lens)
+    print_matrix(C)
     count_non_empty_fields(C, ROW)
 
 
@@ -163,6 +180,7 @@ def main(filename):
 ROW = 10
 
 if __name__ == "__main__":
-    main('sample_input')
+    # main('sample_input')
+    main('small_sample_input')
     # cProfile.run('main("sample_input")',sort='cumtime')
     # cProfile.run('main("input")',sort='cumtime')

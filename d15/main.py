@@ -110,14 +110,14 @@ def generate_manhatan_lengths(
 
 
 def print_matrix(coords: Dict[Tuple[int, int], str]):
-    n = 35
+    n = 20
     matrix = [["."] * n for _ in range(n)]
     for k, v in coords.items():
         x, y = k
         try:
             matrix[x][y] = v
-        except Exception as e:
-            print(e)
+        except Exception:
+            pass
     for row in matrix:
         print(row)
 
@@ -151,6 +151,20 @@ def fill_the_borders2(coords, lens: List[Tuple[int, int]]):
             if (x, y) not in coords:
                 coords[(x, y)] = "#"
 
+def find_empty_field(coords: Dict[Tuple[int,int],str]):
+    arr = []
+    for _ in range(20):
+        a = ['.'] * 20
+        arr.append(a)
+    for k,v in coords.items():
+        x,y = k
+        if x < len(arr) and y < len(arr[0]):
+            arr[x][y] = v
+    for x in range(len(arr)):
+        for y in range(len(arr[x])):
+            if arr[x][y] == '.':
+                print(f'found the spot {x,y}')
+
 
 def main(filename):
     parse_args()
@@ -173,14 +187,15 @@ def main(filename):
         # fill out the rest of the fields inside the outline created by the lenghts
         fill_the_borders2(C, m_lens)
     print_matrix(C)
-    count_non_empty_fields(C, ROW)
+    # count_non_empty_fields(C, ROW)
+    find_empty_field(C)
 
 
 # ROW = 2000000
 ROW = 10
 
 if __name__ == "__main__":
-    # main('sample_input')
-    main('small_sample_input')
+    main('sample_input')
+    # main('small_sample_input')
     # cProfile.run('main("sample_input")',sort='cumtime')
     # cProfile.run('main("input")',sort='cumtime')

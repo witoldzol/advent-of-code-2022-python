@@ -3,6 +3,7 @@ from typing import Tuple, List, Dict
 import re
 import logging as log
 import argparse
+import numpy as np
 
 
 def parse_args():

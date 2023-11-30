@@ -166,6 +166,21 @@ def find_empty_field(coords: Dict[Tuple[int,int],str]):
             if arr[x][y] == '.':
                 print(f'found the spot {x,y}')
 
+def generate_manhatan_rangese(coords: Tuple[int, int, int, int]) -> List[List[Tuple[int,int]]]:
+    sx, sy, bx, by = coords
+    dx = abs(sx - bx)
+    log.debug(f"Delta x = {dx}")
+    dy = abs(sy - by)
+    log.debug(f"Delta y = {dy}")
+    dd = dx + dy
+    print(f'{dd=}')
+    ddd = dd // 2
+    print(f'{ddd=}')
+    minx_miny = (sx-ddd, sy-ddd)
+    minx_maxy = (sx-ddd, sy+ddd)
+    maxx_maxy = (sx+ddd, sy+ddd)
+    maxx_miny = (sx+ddd, sy-ddd)
+    return [ minx_miny , minx_maxy , maxx_maxy , maxx_miny]
 
 def main(filename):
     parse_args()
@@ -179,24 +194,45 @@ def main(filename):
         sx, sy, bx, by = c
         C[(sx, sy)] = "S"
         C[(bx, by)] = "B"
-        # m_lens = generate_manhatan_lengths(c, ROW)
-        m_lens = generate_manhatan_lengths_slow(c)
-        # create outline
-        for l in m_lens:
-            if l not in C:
-                C[l] = "#"
-        # fill out the rest of the fields inside the outline created by the lenghts
-        fill_the_borders2(C, m_lens)
-    print_matrix(C)
+        m_ranges = generate_manhatan_rangese(c)
+        for r in m_ranges:
+            print(r)
+        # todo - find overlaps and check for uncovered spots in 0-4mil matrix
+    # print_matrix(C)
     # count_non_empty_fields(C, ROW)
-    find_empty_field(C)
+    # find_empty_field(C)
+
+# def main(filename):
+#     parse_args()
+#     C = {}
+#     coords = parse_data(filename)
+#     for c in coords:
+#         sx, sy, bx, by = c
+#         C[(sx, sy)] = "S"
+#         C[(bx, by)] = "B"
+#     for c in coords:
+#         sx, sy, bx, by = c
+#         C[(sx, sy)] = "S"
+#         C[(bx, by)] = "B"
+#         # m_lens = generate_manhatan_lengths(c, ROW)
+#         m_lens = generate_manhatan_lengths_slow(c)
+#         # create outline
+#         for l in m_lens:
+#             if l not in C:
+#                 C[l] = "#"
+#         # fill out the rest of the fields inside the outline created by the lenghts
+#         fill_the_borders2(C, m_lens)
+#     print_matrix(C)
+#     # count_non_empty_fields(C, ROW)
+#     find_empty_field(C)
 
 
 # ROW = 2000000
 ROW = 10
 
 if __name__ == "__main__":
-    main('sample_input')
+    main('input')
+    # main('sample_input')
     # main('small_sample_input')
     # cProfile.run('main("sample_input")',sort='cumtime')
     # cProfile.run('main("input")',sort='cumtime')

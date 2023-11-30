@@ -1,6 +1,7 @@
 from main import generate_manhatan_lengths_slow
 from main import fill_the_borders2
 from main import generate_manhatan_lengths
+from main import generate_manhatan_rangese
 
 
 def test_generate_manhatan_lengths_slow():
@@ -44,3 +45,8 @@ def test_fill_the_borders2():
     subset_m_lenghts = [(1736480, 2000000), (-104297, 2000000)]
     fill_the_borders2(coords=coords, lens=subset_m_lenghts)
     assert expected == len(coords)
+
+def test_manhatan_ranges():
+    coords = (2, 2, 4, 4)
+    actual = generate_manhatan_rangese(coords)
+    print(actual)

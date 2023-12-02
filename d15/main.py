@@ -5,6 +5,7 @@ import logging as log
 import argparse
 import numpy as np
 
+MAX_REGION = 4_000_000
 
 def parse_args():
     parser = argparse.ArgumentParser()
@@ -166,7 +167,7 @@ def find_empty_field(coords: Dict[Tuple[int,int],str]):
             if arr[x][y] == '.':
                 print(f'found the spot {x,y}')
 
-def generate_manhatan_rangese(coords: Tuple[int, int, int, int]) -> List[List[Tuple[int,int]]]:
+def generate_manhatan_ranges(coords: Tuple[int, int, int, int]) -> Tuple[int,int,int,int]:
     sx, sy, bx, by = coords
     dx = abs(sx - bx)
     log.debug(f"Delta x = {dx}")
@@ -176,15 +177,27 @@ def generate_manhatan_rangese(coords: Tuple[int, int, int, int]) -> List[List[Tu
     print(f'{dd=}')
     ddd = dd // 2
     print(f'{ddd=}')
-    minx_miny = (sx-ddd, sy-ddd)
-    minx_maxy = (sx-ddd, sy+ddd)
-    maxx_maxy = (sx+ddd, sy+ddd)
-    maxx_miny = (sx+ddd, sy-ddd)
-    return [ minx_miny , minx_maxy , maxx_maxy , maxx_miny]
+    min_x = (sx-ddd)
+    max_x = (sx+ddd)
+    min_y = (sy-ddd)
+    may_y = (sy+ddd)
+    return (min_x, max_x,min_y, may_y)
+
+
+def map_ranges(ranges: List[Tuple[int,int,int,int]]):
+    map = {}
+    # for i in range(MAX_REGION):
+    for i in range(10):
+        for r in ranges:
+            min_x,max_x, min_y,max_y = r
+            print({min_x,max_x, min_y,max_y})
+    return map
+
 
 def main(filename):
     parse_args()
     C = {}
+    ranges = []
     coords = parse_data(filename)
     for c in coords:
         sx, sy, bx, by = c
@@ -194,13 +207,10 @@ def main(filename):
         sx, sy, bx, by = c
         C[(sx, sy)] = "S"
         C[(bx, by)] = "B"
-        m_ranges = generate_manhatan_rangese(c)
-        for r in m_ranges:
-            print(r)
-        # todo - find overlaps and check for uncovered spots in 0-4mil matrix
-    # print_matrix(C)
-    # count_non_empty_fields(C, ROW)
-    # find_empty_field(C)
+        m_ranges = generate_manhatan_ranges(c)
+        ranges.append(m_ranges)
+    map_ranges(ranges)
+
 
 # def main(filename):
 #     parse_args()

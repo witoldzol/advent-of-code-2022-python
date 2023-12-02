@@ -1,7 +1,7 @@
 from main import generate_manhatan_lengths_slow
 from main import fill_the_borders2
 from main import generate_manhatan_lengths
-from main import generate_manhatan_rangese
+from main import generate_manhatan_ranges
 
 
 def test_generate_manhatan_lengths_slow():
@@ -48,5 +48,9 @@ def test_fill_the_borders2():
 
 def test_manhatan_ranges():
     coords = (2, 2, 4, 4)
-    actual = generate_manhatan_rangese(coords)
-    print(actual)
+    actual = generate_manhatan_ranges(coords)
+    assert [(0,4),(0,4)] == actual
+    coords = (2, 2, 4, 4)
+    actual = generate_manhatan_ranges(coords)
+    assert [(0,4),(0,4)] == actual
+

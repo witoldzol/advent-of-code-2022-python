@@ -1,3 +1,4 @@
+from main import merge_overlapping,is_overlapping
 from main import generate_manhatan_lengths_slow
 from main import fill_the_borders2
 from main import generate_manhatan_lengths
@@ -54,3 +55,17 @@ def test_manhatan_ranges():
     actual = generate_manhatan_ranges(coords)
     assert [(0,4),(0,4)] == actual
 
+def test_is_overlapping():
+    from_map = (3,6)
+    new_range = (4,6)
+    actual= is_overlapping(new_range, from_map)
+    assert actual == True
+
+    from_map = (3,6)
+    new_range = (7,9)
+    actual= is_overlapping(new_range, from_map)
+    assert actual == False
+# def test_merge_overlapping():
+#     from_map = (3,6)
+#     new_range = (4,6)
+#     assert merge_overlapping(new_range, from_map) == (3,6)

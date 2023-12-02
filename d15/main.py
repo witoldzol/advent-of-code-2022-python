@@ -183,6 +183,14 @@ def generate_manhatan_ranges(coords: Tuple[int, int, int, int]) -> Tuple[int,int
     may_y = (sy+ddd)
     return (min_x, max_x,min_y, may_y)
 
+def is_overlapping(new_range: Tuple[int,int], from_map:Tuple[int,int]):
+    s = sorted([new_range,from_map], key=lambda tuple: tuple[0])
+    return s[0][1] >= s[1][0]
+
+def merge_overlapping(new_range: Tuple[int,int], from_map:Tuple[int,int]):
+    s = sorted([new_range,from_map], key=lambda tuple: tuple[0])
+    print(s)
+    return ()
 
 def map_ranges(ranges: List[Tuple[int,int,int,int]]):
     map = {}
@@ -190,7 +198,16 @@ def map_ranges(ranges: List[Tuple[int,int,int,int]]):
     for i in range(10):
         for r in ranges:
             min_x,max_x, min_y,max_y = r
-            print({min_x,max_x, min_y,max_y})
+            # print({min_x,max_x, min_y,max_y})
+            if i >=min_x and i <= max_x:
+                print(f'Row {i} found in range {min_x} - {max_x}')
+                if i in map:
+                    # check if the new range overlaps with the existing ones
+                    for r in map[i]:
+                        if is_overlapping((min_y,max_y),r):
+                            pass
+                            
+
     return map
 
 

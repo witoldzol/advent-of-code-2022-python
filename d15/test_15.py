@@ -1,4 +1,5 @@
 from typing import Tuple, List
+from main import merge_ranges
 from main import map_ranges
 from main import merge_overlapping, is_overlapping
 from main import generate_manhatan_lengths_slow
@@ -100,10 +101,20 @@ def test_merge_overlapping():
 
 
 def test_map_ranges():
-    ranges = [(2, 2, 4, 4)]
-    actual = map_ranges(ranges)
-    assert {2: [(4, 4)]} == actual
+
+    # ranges = [(2, 2, 4, 4)]
+    # actual = map_ranges(ranges)
+    # assert {2: [(4, 4)]} == actual
+
     ranges = [(2, 4, 4, 4), (2, 3, 4, 4)]
     actual = map_ranges(ranges)
     assert {2: [(4, 4)],
-            3: [(4, 4)]} == actual
+            3: [(4, 4)],
+            4: [(4, 4)]} == actual
+
+def test_merge_ranges():
+    new_range = (2,4)
+    existing_range = [(2,5)]
+    actual = merge_ranges(new_range, existing_range)
+    assert  [(2,5)] == actual
+

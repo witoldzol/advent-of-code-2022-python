@@ -192,24 +192,25 @@ def merge_overlapping(new_range: Tuple[int,int], from_map:Tuple[int,int]):
     if s[0][1] > s[1][1]:
         return (s[0][0],s[0][1])
     else:
-        return (s[0][0],s[0][1])
+        return (s[0][0],s[1][1])
+
+def merge_ranges(new_range:Tuple[int,int], existing: List[Tuple[int,int]]):
+    return []
 
 # we populate a map of ranges that can't have the beacon
 def map_ranges(ranges: List[Tuple[int,int,int,int]]):
     map = {}
-    # for i in range(MAX_REGION):
-    for i in range(10):
-        for r in ranges:
-            min_x,max_x, min_y,max_y = r
-            # print({min_x,max_x, min_y,max_y})
-            if i >=min_x and i <= max_x:
-                print(f'Row {i} found in range {min_x} - {max_x}')
-                if i in map:
-                    # check if the new range overlaps with the existing ones
-                    for r in map[i]:
-                        if is_overlapping((min_y,max_y),r):
-                            pass
-                            
+    # SETUP
+    for r in ranges:
+        min_x,max_x, min_y,max_y = r
+        y_range = (min_y,max_y)
+        # RANGE
+        for i in range(min_x,max_x+1):
+            # check map
+            if i in map:
+                map[i] = merge_ranges(y_range, map[i])
+            else:
+                map[i] = [y_range] # wrap in a list
     return map
 
 

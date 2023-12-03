@@ -7,6 +7,7 @@ import numpy as np
 
 MAX_REGION = 4_000_000
 
+
 def parse_args():
     parser = argparse.ArgumentParser()
     parser.add_argument("-log")
@@ -38,28 +39,31 @@ def parse_data(filename) -> List[Tuple[int, int, int, int]]:
     return coords
 
 
-def generate_manhatan_lengths_slow(coords: Tuple[int, int, int, int]) -> List[Tuple[int,int]]:
-    sx,sy,bx,by = coords
+def generate_manhatan_lengths_slow(
+    coords: Tuple[int, int, int, int]
+) -> List[Tuple[int, int]]:
+    sx, sy, bx, by = coords
     dx = sx - bx
     dy = sy - by
     dd = abs(dx) + abs(dy)
     if not dd:
         return []
     ml = set()
-    for i in range(0,dd+1):
+    for i in range(0, dd + 1):
         # x,y
-        c = (sx+i,sy+dd-i)
+        c = (sx + i, sy + dd - i)
         ml.add(c)
         # -x, y
-        c = (sx-i,sy+dd-i)
+        c = (sx - i, sy + dd - i)
         ml.add(c)
         # x, -y
-        c = (sx+dd-i,sy-i)
+        c = (sx + dd - i, sy - i)
         ml.add(c)
         # -x, -y
-        c = (sx-dd+i,sy-i)
+        c = (sx - dd + i, sy - i)
         ml.add(c)
     return list(ml)
+
 
 def generate_manhatan_lengths(
     coords: Tuple[int, int, int, int], row: int
@@ -153,64 +157,72 @@ def fill_the_borders2(coords, lens: List[Tuple[int, int]]):
             if (x, y) not in coords:
                 coords[(x, y)] = "#"
 
-def find_empty_field(coords: Dict[Tuple[int,int],str]):
+
+def find_empty_field(coords: Dict[Tuple[int, int], str]):
     arr = []
     for _ in range(20):
-        a = ['.'] * 20
+        a = ["."] * 20
         arr.append(a)
-    for k,v in coords.items():
-        x,y = k
+    for k, v in coords.items():
+        x, y = k
         if x < len(arr) and y < len(arr[0]):
             arr[x][y] = v
     for x in range(len(arr)):
         for y in range(len(arr[x])):
-            if arr[x][y] == '.':
-                print(f'found the spot {x,y}')
+            if arr[x][y] == ".":
+                print(f"found the spot {x,y}")
 
-def generate_manhatan_ranges(coords: Tuple[int, int, int, int]) -> Tuple[int,int,int,int]:
+
+def generate_manhatan_ranges(
+    coords: Tuple[int, int, int, int]
+) -> Tuple[int, int, int, int]:
     sx, sy, bx, by = coords
     dx = abs(sx - bx)
     log.debug(f"Delta x = {dx}")
     dy = abs(sy - by)
     log.debug(f"Delta y = {dy}")
     dd = dx + dy
-    print(f'{dd=}')
+    print(f"{dd=}")
     ddd = dd // 2
-    print(f'{ddd=}')
-    min_x = (sx-ddd)
-    max_x = (sx+ddd)
-    min_y = (sy-ddd)
-    may_y = (sy+ddd)
-    return (min_x, max_x,min_y, may_y)
+    print(f"{ddd=}")
+    min_x = sx - ddd
+    max_x = sx + ddd
+    min_y = sy - ddd
+    may_y = sy + ddd
+    return (min_x, max_x, min_y, may_y)
 
-def is_overlapping(new_range: Tuple[int,int], from_map:Tuple[int,int]):
-    s = sorted([new_range,from_map], key=lambda tuple: tuple[0])
+
+def is_overlapping(new_range: Tuple[int, int], from_map: Tuple[int, int]):
+    s = sorted([new_range, from_map], key=lambda tuple: tuple[0])
     return s[0][1] >= s[1][0]
 
-def merge_overlapping(new_range: Tuple[int,int], from_map:Tuple[int,int]):
-    s = sorted([new_range,from_map], key=lambda tuple: tuple[0])
-    if s[0][1] > s[1][1]:
-        return (s[0][0],s[0][1])
-    else:
-        return (s[0][0],s[1][1])
 
-def merge_ranges(new_range:Tuple[int,int], existing: List[Tuple[int,int]]):
+def merge_overlapping(new_range: Tuple[int, int], from_map: Tuple[int, int]):
+    s = sorted([new_range, from_map], key=lambda tuple: tuple[0])
+    if s[0][1] > s[1][1]:
+        return (s[0][0], s[0][1])
+    else:
+        return (s[0][0], s[1][1])
+
+
+def merge_ranges(new_range: Tuple[int, int], existing: List[Tuple[int, int]]):
     return []
 
+
 # we populate a map of ranges that can't have the beacon
-def map_ranges(ranges: List[Tuple[int,int,int,int]]):
+def map_ranges(ranges: List[Tuple[int, int, int, int]]):
     map = {}
     # SETUP
     for r in ranges:
-        min_x,max_x, min_y,max_y = r
-        y_range = (min_y,max_y)
+        min_x, max_x, min_y, max_y = r
+        y_range = (min_y, max_y)
         # RANGE
-        for i in range(min_x,max_x+1):
+        for i in range(min_x, max_x + 1):
             # check map
             if i in map:
                 map[i] = merge_ranges(y_range, map[i])
             else:
-                map[i] = [y_range] # wrap in a list
+                map[i] = [y_range]  # wrap in a list
     return map
 
 
@@ -261,7 +273,7 @@ def main(filename):
 ROW = 10
 
 if __name__ == "__main__":
-    main('input')
+    main("input")
     # main('sample_input')
     # main('small_sample_input')
     # cProfile.run('main("sample_input")',sort='cumtime')

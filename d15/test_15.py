@@ -113,6 +113,7 @@ def test_map_ranges():
             4: [(4, 4)]} == actual
 
 def test_merge_ranges():
+    # one existing range, contains new range
     new_range = (2,4)
     existing_range = [(2,5)]
     actual = merge_ranges(new_range, existing_range)

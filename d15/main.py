@@ -206,11 +206,12 @@ def merge_overlapping(new_range: Tuple[int, int], from_map: Tuple[int, int]):
 
 
 def merge_ranges(a: Tuple[int, int], b: List[Tuple[int, int]]) -> List[Tuple[int,int]]:
+    # breakpoint()
     a_min,a_max = a
     for i,curr in enumerate(b):
         b_min,b_max = curr
         # new item is smaller
-        if a_max < b_max:
+        if a_max < b_min:
             b.insert(i, a)
             return b
         # new item is bigger

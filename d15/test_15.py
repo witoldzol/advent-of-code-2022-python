@@ -119,3 +119,14 @@ def test_merge_ranges():
     actual = merge_ranges(new_range, existing_range)
     assert  [(2,5)] == actual
 
+    # left extended
+    new_range = (1,4)
+    existing_range = [(2,5)]
+    actual = merge_ranges(new_range, existing_range)
+    assert  [(1,5)] == actual
+    
+    # right extended
+    new_range = (3,6)
+    existing_range = [(2,5)]
+    actual = merge_ranges(new_range, existing_range)
+    assert  [(2,6)] == actual

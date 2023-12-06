@@ -130,3 +130,27 @@ def test_merge_ranges():
     existing_range = [(2,5)]
     actual = merge_ranges(new_range, existing_range)
     assert  [(2,6)] == actual
+
+    # right extended multiple times
+    new_range = (1,6)
+    existing_range = [(1,2),(4,5)]
+    actual = merge_ranges(new_range, existing_range)
+    assert  [(1,6)] == actual
+
+    # second item extended
+    new_range = (4,6)
+    existing_range = [(1,2),(4,5)]
+    actual = merge_ranges(new_range, existing_range)
+    assert  [(1,2),(4,6)] == actual
+
+    # no-op, first item
+    new_range = (1,2)
+    existing_range = [(1,2),(4,5)]
+    actual = merge_ranges(new_range, existing_range)
+    assert  [(1,2),(4,5)] == actual
+
+    # no-op, second item
+    new_range = (4,5)
+    existing_range = [(1,2),(4,5)]
+    actual = merge_ranges(new_range, existing_range)
+    assert  [(1,2),(4,5)] == actual

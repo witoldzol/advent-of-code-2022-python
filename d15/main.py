@@ -240,7 +240,7 @@ def merge_ranges(a: Tuple[int, int], b: List[Tuple[int, int]]) -> List[Tuple[int
 
 
 # we populate a map of ranges that can't have the beacon
-def map_ranges(ranges: List[Tuple[int, int, int, int]]):
+def map_ranges(ranges: List[Tuple[int, int, int, int]]) -> Dict[int, Tuple[int,int]]:
     map = {}
     # SETUP
     for r in ranges:
@@ -254,6 +254,18 @@ def map_ranges(ranges: List[Tuple[int, int, int, int]]):
             else:
                 map[i] = [y_range]  # wrap in a list
     return map
+
+
+def invert_map_row(x: int ,y_range: Tuple[int,int])->Tuple[int,Tuple[int,int]]:
+    return (1,(0,MAX_REGION))
+
+
+def invert_map(map: Dict[int,Tuple[int,int]]):
+    inverted_map = {}
+    for x,y_range in map.items():
+        a,b = invert_map_row(x,y_range)
+        inverted_map[a] = b
+    return inverted_map
 
 
 def main(filename):

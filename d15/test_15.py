@@ -1,4 +1,6 @@
 from typing import Tuple, List
+from main import invert_map_row
+from main import MAX_REGION
 from main import merge_ranges
 from main import map_ranges
 from main import merge_overlapping, is_overlapping
@@ -154,3 +156,8 @@ def test_merge_ranges():
     existing_range = [(1,2),(4,5)]
     actual = merge_ranges(new_range, existing_range)
     assert  [(1,2),(4,5)] == actual
+
+def test_invert_map_row():
+    # map = (1, (100,200))
+    actual = invert_map_row(1,(100,200))
+    assert (1, (0,99),(201,MAX_REGION)) == actual

@@ -90,7 +90,7 @@ def generate_manhatan_lengths(
         i = row - sy
     else:
         i = sy - row
-    print(f"{i=}")
+    # print(f"{i=}")
     # x ,y
     edge = (sx + dd - i, sy + i)
     if edge[1] == row:
@@ -182,9 +182,9 @@ def generate_manhatan_ranges(
     dy = abs(sy - by)
     log.debug(f"Delta y = {dy}")
     dd = dx + dy
-    print(f"{dd=}")
+    # print(f"{dd=}")
     ddd = dd // 2
-    print(f"{ddd=}")
+    # print(f"{ddd=}")
     min_x = sx - ddd
     max_x = sx + ddd
     min_y = sy - ddd
@@ -248,12 +248,10 @@ def map_ranges(ranges: List[Tuple[int, int, int, int]]):
         y_range = (min_y, max_y)
         # RANGE
         for i in range(min_x, max_x + 1):
-            print(f'map i===> {i}')
             # check map
             if i in map:
                 map[i] = merge_ranges(y_range, map[i])
             else:
-                print(f'setting map[i] == {i} == {y_range}')
                 map[i] = [y_range]  # wrap in a list
     return map
 
@@ -273,7 +271,11 @@ def main(filename):
         C[(bx, by)] = "B"
         m_ranges = generate_manhatan_ranges(c)
         ranges.append(m_ranges)
-    map_ranges(ranges)
+    map = map_ranges(ranges)
+
+    for i in range(MAX_REGION + 1):
+        if i not in map:
+            print(i)
 
 
 # def main(filename):

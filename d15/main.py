@@ -256,15 +256,43 @@ def map_ranges(ranges: List[Tuple[int, int, int, int]]) -> Dict[int, Tuple[int,i
     return map
 
 
-def invert_map_row(x: int ,y_range: Tuple[int,int])->Tuple[int,Tuple[int,int]]:
-    return (1,(0,MAX_REGION))
+def invert_map_row(y_range: List[Tuple[int,int]])->List[Tuple[int,Tuple[int,int]]]:
+    inverted_ranges = []
+    prev = None
+    for r in y_range:
+        y_min,y_max = r
+        # modify ranges
+        if y_min < 0:
+            y_min = 0
+        if y_max < 0:
+            y_max = 0
+        if y_min > MAX_REGION:
+            y_min = MAX_REGION
+        if y_max > MAX_REGION:
+            y_max = MAX_REGION
+        if y_min == 0 and y_max == 0:
+            continue
+        if y_min == 0:
+            prev = (y_max+1, MAX_REGION)
+            inverted_ranges.append(prev)
+            continue
+        if not prev:
+            inverted_ranges.append((0, y_min-1))
+            prev = (y_max+1,MAX_REGION)
+            inverted_ranges.append(prev)
+        else:
+            updated_prev = (prev[0], y_min-1)
+            inverted_ranges[-1] = updated_prev
+            prev = (y_max+1,MAX_REGION)
+            inverted_ranges.append(prev)
+    return inverted_ranges
 
 
-def invert_map(map: Dict[int,Tuple[int,int]]):
+def invert_map(map: Dict[int,List[Tuple[int,int]]]):
     inverted_map = {}
     for x,y_range in map.items():
-        a,b = invert_map_row(x,y_range)
-        inverted_map[a] = b
+        inverted = invert_map_row(y_range)
+        inverted_map[x] = inverted
     return inverted_map
 
 

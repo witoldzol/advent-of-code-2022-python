@@ -158,6 +158,15 @@ def test_merge_ranges():
     assert  [(1,2),(4,5)] == actual
 
 def test_invert_map_row():
-    # map = (1, (100,200))
-    actual = invert_map_row(1,(100,200))
-    assert (1, (0,99),(201,MAX_REGION)) == actual
+    ranges = [(100,200)]
+    actual = invert_map_row(ranges)
+    assert [(0,99),(201,MAX_REGION)] == actual
+    ranges = [(100,200), (300,400)]
+    actual = invert_map_row(ranges)
+    assert [(0,99),(201,299),(401,MAX_REGION)] == actual
+    ranges = [(-100,50),(100,200), (300,400)]
+    actual = invert_map_row(ranges)
+    assert [(51,99),(201,299),(401,MAX_REGION)] == actual
+    ranges = [(-200,-100),(100,200), (300,400)]
+    actual = invert_map_row(ranges)
+    assert [(0,99),(201,299),(401,MAX_REGION)] == actual

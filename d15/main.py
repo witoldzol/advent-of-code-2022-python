@@ -240,7 +240,7 @@ def merge_ranges(a: Tuple[int, int], b: List[Tuple[int, int]]) -> List[Tuple[int
 
 
 # we populate a map of ranges that can't have the beacon
-def map_ranges(ranges: List[Tuple[int, int, int, int]]) -> Dict[int, Tuple[int,int]]:
+def map_ranges(ranges: List[Tuple[int, int, int, int]]) -> Dict[int, List[Tuple[int,int]]]:
     map = {}
     # SETUP
     for r in ranges:
@@ -288,7 +288,7 @@ def invert_map_row(y_range: List[Tuple[int,int]])->List[Tuple[int,Tuple[int,int]
     return inverted_ranges
 
 
-def invert_map(map: Dict[int,List[Tuple[int,int]]]):
+def invert_map(map: Dict[int,List[Tuple[int,int]]]) -> Dict[int,List[Tuple[int,int]]]:
     inverted_map = {}
     for x,y_range in map.items():
         inverted = invert_map_row(y_range)
@@ -312,10 +312,10 @@ def main(filename):
         m_ranges = generate_manhatan_ranges(c)
         ranges.append(m_ranges)
     map = map_ranges(ranges)
-
-    for i in range(MAX_REGION + 1):
-        if i not in map:
-            print(i)
+    inverted_map = invert_map(map)
+    for k,v in inverted_map.items():
+        if len(v) > 1:
+            print(f'X = {k}, Y = {v}')
 
 
 # def main(filename):

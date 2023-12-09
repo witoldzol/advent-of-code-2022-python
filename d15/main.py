@@ -172,8 +172,25 @@ def find_empty_field(coords: Dict[Tuple[int, int], str]):
             if arr[x][y] == ".":
                 print(f"found the spot {x,y}")
 
-
 def generate_manhatan_ranges(
+    coords: Tuple[int, int, int, int]
+) -> Tuple[int, int, int, int]:
+    sx, sy, bx, by = coords
+    dx = abs(sx - bx)
+    log.debug(f"Delta x = {dx}")
+    dy = abs(sy - by)
+    log.debug(f"Delta y = {dy}")
+    dd = dx + dy
+    # print(f"{dd=}")
+    ddd = dd // 2
+    # print(f"{ddd=}")
+    min_x = sx - ddd
+    max_x = sx + ddd
+    min_y = sy - ddd
+    may_y = sy + ddd
+    return (min_x, max_x, min_y, may_y)
+
+def generate_manhatan_ranges_square(
     coords: Tuple[int, int, int, int]
 ) -> Tuple[int, int, int, int]:
     sx, sy, bx, by = coords

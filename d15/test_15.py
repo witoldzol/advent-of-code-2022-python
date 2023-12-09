@@ -1,4 +1,5 @@
 from typing import Tuple, List
+from main import generate_manhatan_ranges
 from main import invert_map_row
 from main import MAX_REGION
 from main import merge_ranges
@@ -7,7 +8,7 @@ from main import merge_overlapping, is_overlapping
 from main import generate_manhatan_lengths_slow
 from main import fill_the_borders2
 from main import generate_manhatan_lengths
-from main import generate_manhatan_ranges
+from main import generate_manhatan_ranges_square
 
 
 def test_generate_manhatan_lengths_slow():
@@ -78,9 +79,9 @@ def test_fill_the_borders2():
     assert expected == len(coords)
 
 
-def test_manhatan_ranges():
+def test_manhatan_ranges_square():
     coords = (2, 2, 4, 4)
-    actual = generate_manhatan_ranges(coords)
+    actual = generate_manhatan_ranges_square(coords)
     assert (0, 4, 0, 4) == actual
 
 

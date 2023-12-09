@@ -172,9 +172,43 @@ def find_empty_field(coords: Dict[Tuple[int, int], str]):
             if arr[x][y] == ".":
                 print(f"found the spot {x,y}")
 
+def merge_ranges(a: Tuple[int, int], b: List[Tuple[int, int]]) -> List[Tuple[int,int]]:
+    if not b:
+        return [a]
+    # breakpoint()
+    a_min,a_max = a
+    for i,curr in enumerate(b):
+        b_min,b_max = curr
+        # new item is smaller
+        if a_max < b_min:
+            b.insert(i, a)
+            return b
+        # new item is bigger
+        elif a_min > b_max:
+            # if last item in b
+            if i == (len(b) - 1):
+                b.append(a)
+                return b
+            else:
+                continue
+        # new item overlaps on left
+        elif a_max >= b_min and a_max <= b_max:
+            b[i] = (a_min, b_max)
+            return b
+        # new item overlaps on right
+        elif a_min >= b_min and a_max > b_max:
+            temp = (b_min, a_max)
+            del b[i]
+            return merge_ranges(temp, b)
+        # new item overlaps on both sides
+        else:
+            del b[i]
+            return merge_ranges(a, b)
+
+
 def generate_manhatan_ranges(
     list_of_coords: List[Tuple[int, int, int, int]]
-) -> Tuple[int, int, int, int]:
+    ) -> Dict[int,List[Tuple[int,int]]]:
     map = {}
     for coords in list_of_coords:
         sx, sy, bx, by = coords
@@ -183,16 +217,40 @@ def generate_manhatan_ranges(
         dy = abs(sy - by)
         log.debug(f"Delta y = {dy}")
         dd = dx + dy
-        # down -> up
+        # down -> start for x
         for i in range(dd): # last range element excluded, we will grab it in second loop
-            x = 
+            x =  sx - dd + i
+            if x < 0 or x > MAX_REGION:
+                continue
+            y_min = sy - i
+            y_max = sy + i
+            if y_min < 0:
+                y_min = 0
+            if y_max < 0:
+                y_max = 0
+            if y_min > MAX_REGION:
+                y_min = MAX_REGION
+            if y_max > MAX_REGION:
+                y_max = MAX_REGION
+            if y_min == 0 and y_max == 0:
+                continue
+            if x not in map:
+                map[x] = [(y_min, y_max)]
+            else:
+                map[x] = merge_ranges((y_min,y_max), map[x])
+        # start -> up range for x 
+        for k in range(dd+1): # we include the whole range this time
+            x = sx + k
+            if x < 0 or x > MAX_REGION:
+                continue
+            y_min = sy - dd + k
+            y_max = sy + dd - k
+            if x not in map:
+                map[x] = [(y_min, y_max)]
+            else:
+                map[x] = merge_ranges((y_min,y_max), map[x])
+    return map
 
-
-    min_x = sx - ddd
-    max_x = sx + ddd
-    min_y = sy - ddd
-    may_y = sy + ddd
-    return (min_x, max_x, min_y, may_y)
 
 def generate_manhatan_ranges_square(
     coords: Tuple[int, int, int, int]
@@ -226,38 +284,6 @@ def merge_overlapping(new_range: Tuple[int, int], from_map: Tuple[int, int]):
         return (s[0][0], s[1][1])
 
 
-def merge_ranges(a: Tuple[int, int], b: List[Tuple[int, int]]) -> List[Tuple[int,int]]:
-    if not b:
-        return [a]
-    # breakpoint()
-    a_min,a_max = a
-    for i,curr in enumerate(b):
-        b_min,b_max = curr
-        # new item is smaller
-        if a_max < b_min:
-            b.insert(i, a)
-            return b
-        # new item is bigger
-        elif a_min > b_max:
-            # if last item in b
-            if i == (len(b) - 1):
-                b.append(a)
-                return b
-            else:
-                continue
-        # new item overlaps on left
-        elif a_max >= b_min and a_max <= b_max:
-            b[i] = (a_min, b_max)
-            return b
-        # new item overlaps on right
-        elif a_min >= b_min and a_max > b_max:
-            temp = (b_min, a_max)
-            del b[i]
-            return merge_ranges(temp, b)
-        # new item overlaps on both sides
-        else:
-            del b[i]
-            return merge_ranges(a, b)
 
 
 # we populate a map of ranges that can't have the beacon
@@ -320,7 +346,6 @@ def invert_map(map: Dict[int,List[Tuple[int,int]]]) -> Dict[int,List[Tuple[int,i
 def main(filename):
     parse_args()
     C = {}
-    ranges = []
     coords = parse_data(filename)
     # for c in coords:
     #     sx, sy, bx, by = c
@@ -330,9 +355,7 @@ def main(filename):
     #     sx, sy, bx, by = c
     #     C[(sx, sy)] = "S"
     #     C[(bx, by)] = "B"
-    m_ranges = generate_manhatan_ranges(coords)
-    ranges.append(m_ranges)
-    map = map_ranges(ranges)
+    map = generate_manhatan_ranges(coords)
     inverted_map = invert_map(map)
     for k,v in inverted_map.items():
         if len(v) > 1:

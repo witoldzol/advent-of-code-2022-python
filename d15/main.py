@@ -356,6 +356,13 @@ def main(filename):
     #     C[(sx, sy)] = "S"
     #     C[(bx, by)] = "B"
     map = generate_manhatan_ranges(coords)
+    with open('output', 'a') as f:
+        for k,v in map.items():
+            if len(v) > 1:
+                print(f'X = {k}, Y = {v}')
+                f.write(f'X = {k}, Y = {v}\n')
+
+    return
     inverted_map = invert_map(map)
     for k,v in inverted_map.items():
         if len(v) > 1:
@@ -391,8 +398,8 @@ def main(filename):
 ROW = 10
 
 if __name__ == "__main__":
-    main("input")
-    # main('sample_input')
+    # main("input")
+    main('sample_input')
     # main('small_sample_input')
     # cProfile.run('main("sample_input")',sort='cumtime')
     # cProfile.run('main("input")',sort='cumtime')

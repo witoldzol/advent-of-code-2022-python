@@ -173,17 +173,21 @@ def find_empty_field(coords: Dict[Tuple[int, int], str]):
                 print(f"found the spot {x,y}")
 
 def generate_manhatan_ranges(
-    coords: Tuple[int, int, int, int]
+    list_of_coords: List[Tuple[int, int, int, int]]
 ) -> Tuple[int, int, int, int]:
-    sx, sy, bx, by = coords
-    dx = abs(sx - bx)
-    log.debug(f"Delta x = {dx}")
-    dy = abs(sy - by)
-    log.debug(f"Delta y = {dy}")
-    dd = dx + dy
-    # print(f"{dd=}")
-    ddd = dd // 2
-    # print(f"{ddd=}")
+    map = {}
+    for coords in list_of_coords:
+        sx, sy, bx, by = coords
+        dx = abs(sx - bx)
+        log.debug(f"Delta x = {dx}")
+        dy = abs(sy - by)
+        log.debug(f"Delta y = {dy}")
+        dd = dx + dy
+        # down -> up
+        for i in range(dd): # last range element excluded, we will grab it in second loop
+            x = 
+
+
     min_x = sx - ddd
     max_x = sx + ddd
     min_y = sy - ddd
@@ -318,16 +322,16 @@ def main(filename):
     C = {}
     ranges = []
     coords = parse_data(filename)
-    for c in coords:
-        sx, sy, bx, by = c
-        C[(sx, sy)] = "S"
-        C[(bx, by)] = "B"
-    for c in coords:
-        sx, sy, bx, by = c
-        C[(sx, sy)] = "S"
-        C[(bx, by)] = "B"
-        m_ranges = generate_manhatan_ranges(c)
-        ranges.append(m_ranges)
+    # for c in coords:
+    #     sx, sy, bx, by = c
+    #     C[(sx, sy)] = "S"
+    #     C[(bx, by)] = "B"
+    # for c in coords:
+    #     sx, sy, bx, by = c
+    #     C[(sx, sy)] = "S"
+    #     C[(bx, by)] = "B"
+    m_ranges = generate_manhatan_ranges(coords)
+    ranges.append(m_ranges)
     map = map_ranges(ranges)
     inverted_map = invert_map(map)
     for k,v in inverted_map.items():

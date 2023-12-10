@@ -271,21 +271,6 @@ def generate_manhatan_ranges_square(
     return (min_x, max_x, min_y, may_y)
 
 
-def is_overlapping(new_range: Tuple[int, int], from_map: Tuple[int, int]):
-    s = sorted([new_range, from_map], key=lambda tuple: tuple[0])
-    return s[0][1] >= s[1][0]
-
-
-def merge_overlapping(new_range: Tuple[int, int], from_map: Tuple[int, int]):
-    s = sorted([new_range, from_map], key=lambda tuple: tuple[0])
-    if s[0][1] > s[1][1]:
-        return (s[0][0], s[0][1])
-    else:
-        return (s[0][0], s[1][1])
-
-
-
-
 # we populate a map of ranges that can't have the beacon
 def map_ranges(ranges: List[Tuple[int, int, int, int]]) -> Dict[int, List[Tuple[int,int]]]:
     map = {}
@@ -369,29 +354,6 @@ def main(filename):
             print(f'X = {k}, Y = {v}')
 
 
-# def main(filename):
-#     parse_args()
-#     C = {}
-#     coords = parse_data(filename)
-#     for c in coords:
-#         sx, sy, bx, by = c
-#         C[(sx, sy)] = "S"
-#         C[(bx, by)] = "B"
-#     for c in coords:
-#         sx, sy, bx, by = c
-#         C[(sx, sy)] = "S"
-#         C[(bx, by)] = "B"
-#         # m_lens = generate_manhatan_lengths(c, ROW)
-#         m_lens = generate_manhatan_lengths_slow(c)
-#         # create outline
-#         for l in m_lens:
-#             if l not in C:
-#                 C[l] = "#"
-#         # fill out the rest of the fields inside the outline created by the lenghts
-#         fill_the_borders2(C, m_lens)
-#     print_matrix(C)
-#     # count_non_empty_fields(C, ROW)
-#     find_empty_field(C)
 
 
 # ROW = 2000000

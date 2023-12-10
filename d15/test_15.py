@@ -1,10 +1,7 @@
-from typing import Tuple, List
-from main import generate_manhatan_ranges
 from main import invert_map_row
 from main import MAX_REGION
 from main import merge_ranges
 from main import map_ranges
-from main import merge_overlapping, is_overlapping
 from main import generate_manhatan_lengths_slow
 from main import fill_the_borders2
 from main import generate_manhatan_lengths
@@ -83,24 +80,6 @@ def test_manhatan_ranges_square():
     coords = (2, 2, 4, 4)
     actual = generate_manhatan_ranges_square(coords)
     assert (0, 4, 0, 4) == actual
-
-
-def test_is_overlapping():
-    from_map = (3, 6)
-    new_range = (4, 6)
-    actual = is_overlapping(new_range, from_map)
-    assert actual == True
-
-    from_map = (3, 6)
-    new_range = (7, 9)
-    actual = is_overlapping(new_range, from_map)
-    assert actual == False
-
-
-def test_merge_overlapping():
-    from_map = (3, 6)
-    new_range = (4, 7)
-    assert (3, 7) == merge_overlapping(new_range, from_map)
 
 
 def test_map_ranges():

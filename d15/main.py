@@ -3,7 +3,6 @@ from typing import Tuple, List, Dict
 import re
 import logging as log
 import argparse
-import numpy as np
 
 MAX_REGION = 4_000_000
 
@@ -113,19 +112,6 @@ def generate_manhatan_lengths(
         log.debug(f"+x,+y quadrant edge: {edge}")
     log.debug(f"Manhattan lenghts = {m_lenghts}")
     return list(m_lenghts)
-
-
-def print_matrix(coords: Dict[Tuple[int, int], str]):
-    n = 20
-    matrix = [["."] * n for _ in range(n)]
-    for k, v in coords.items():
-        x, y = k
-        try:
-            matrix[x][y] = v
-        except Exception:
-            pass
-    for row in matrix:
-        print(row)
 
 
 def count_non_empty_fields(coords: Dict[Tuple[int, int], str], row: int) -> None:
@@ -294,20 +280,20 @@ def invert_map_row(y_range: List[Tuple[int,int]])->List[Tuple[int,Tuple[int,int]
     for r in y_range:
         y_min,y_max = r
         # modify ranges
-        if y_min < 0:
-            y_min = 0
-        if y_max < 0:
-            y_max = 0
-        if y_min > MAX_REGION:
-            y_min = MAX_REGION
-        if y_max > MAX_REGION:
-            y_max = MAX_REGION
-        if y_min == 0 and y_max == 0:
-            continue
-        if y_min == 0:
-            prev = (y_max+1, MAX_REGION)
-            inverted_ranges.append(prev)
-            continue
+        # if y_min < 0:
+        #     y_min = 0
+        # if y_max < 0:
+        #     y_max = 0
+        # if y_min > MAX_REGION:
+        #     y_min = MAX_REGION
+        # if y_max > MAX_REGION:
+        #     y_max = MAX_REGION
+        # if y_min == 0 and y_max == 0:
+        #     continue
+        # if y_min == 0:
+        #     prev = (y_max+1, MAX_REGION)
+        #     inverted_ranges.append(prev)
+        #     continue
         if not prev:
             inverted_ranges.append((0, y_min-1))
             prev = (y_max+1,MAX_REGION)
@@ -327,25 +313,30 @@ def invert_map(map: Dict[int,List[Tuple[int,int]]]) -> Dict[int,List[Tuple[int,i
         inverted_map[x] = inverted
     return inverted_map
 
+def print_map(map: Dict[int,List[Tuple[int,int]]] ) -> None:
+    for k,v in map.items():
+        for r in v:
+            min,max = r
+            temp = []
+            for i in range(min,max+1):
+                temp.append('#')
+            print(temp)
+
+
 
 def main(filename):
     parse_args()
-    C = {}
     coords = parse_data(filename)
-    # for c in coords:
-    #     sx, sy, bx, by = c
-    #     C[(sx, sy)] = "S"
-    #     C[(bx, by)] = "B"
-    # for c in coords:
-    #     sx, sy, bx, by = c
-    #     C[(sx, sy)] = "S"
-    #     C[(bx, by)] = "B"
     map = generate_manhatan_ranges(coords)
-    with open('output', 'a') as f:
-        for k,v in map.items():
-            if len(v) > 1:
-                print(f'X = {k}, Y = {v}')
-                f.write(f'X = {k}, Y = {v}\n')
+    count = 0
+    for k,v in map.items():
+        print(v)
+        for range in v:
+            min,max = range
+            if min <= 10 and max >= 10:
+                count += 1
+    print(f'There are {count} elements on the row 10')
+    print_map(map)
 
     return
     inverted_map = invert_map(map)
@@ -356,7 +347,7 @@ def main(filename):
 
 if __name__ == "__main__":
     # main("input")
-    main('sample_input')
-    # main('small_sample_input')
+    # main('sample_input')
+    main('small_sample_input')
     # cProfile.run('main("sample_input")',sort='cumtime')
     # cProfile.run('main("input")',sort='cumtime')

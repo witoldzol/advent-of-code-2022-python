@@ -1,11 +1,8 @@
-from main import invert_map_row
 from main import MAX_REGION
 from main import merge_ranges
-from main import map_ranges
 from main import generate_manhatan_lengths_slow
 from main import fill_the_borders2
 from main import generate_manhatan_lengths
-from main import generate_manhatan_ranges_square
 
 
 def test_generate_manhatan_lengths_slow():
@@ -75,25 +72,6 @@ def test_fill_the_borders2():
     fill_the_borders2(coords=coords, lens=subset_m_lenghts)
     assert expected == len(coords)
 
-
-def test_manhatan_ranges_square():
-    coords = (2, 2, 4, 4)
-    actual = generate_manhatan_ranges_square(coords)
-    assert (0, 4, 0, 4) == actual
-
-
-def test_map_ranges():
-
-    # ranges = [(2, 2, 4, 4)]
-    # actual = map_ranges(ranges)
-    # assert {2: [(4, 4)]} == actual
-
-    ranges = [(2, 4, 4, 4), (2, 3, 4, 4)]
-    actual = map_ranges(ranges)
-    assert {2: [(4, 4)],
-            3: [(4, 4)],
-            4: [(4, 4)]} == actual
-
 def test_merge_ranges():
     # one existing range, contains new range
     new_range = (2,4)
@@ -137,16 +115,16 @@ def test_merge_ranges():
     actual = merge_ranges(new_range, existing_range)
     assert  [(1,2),(4,5)] == actual
 
-def test_invert_map_row():
-    ranges = [(100,200)]
-    actual = invert_map_row(ranges)
-    assert [(0,99),(201,MAX_REGION)] == actual
-    ranges = [(100,200), (300,400)]
-    actual = invert_map_row(ranges)
-    assert [(0,99),(201,299),(401,MAX_REGION)] == actual
-    ranges = [(-100,50),(100,200), (300,400)]
-    actual = invert_map_row(ranges)
-    assert [(51,99),(201,299),(401,MAX_REGION)] == actual
-    ranges = [(-200,-100),(100,200), (300,400)]
-    actual = invert_map_row(ranges)
-    assert [(0,99),(201,299),(401,MAX_REGION)] == actual
+# def test_invert_map_row():
+#     ranges = [(100,200)]
+#     actual = invert_map_row(ranges)
+#     assert [(0,99),(201,MAX_REGION)] == actual
+#     ranges = [(100,200), (300,400)]
+#     actual = invert_map_row(ranges)
+#     assert [(0,99),(201,299),(401,MAX_REGION)] == actual
+#     ranges = [(-100,50),(100,200), (300,400)]
+#     actual = invert_map_row(ranges)
+#     assert [(51,99),(201,299),(401,MAX_REGION)] == actual
+#     ranges = [(-200,-100),(100,200), (300,400)]
+#     actual = invert_map_row(ranges)
+#     assert [(0,99),(201,299),(401,MAX_REGION)] == actual

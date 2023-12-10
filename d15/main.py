@@ -238,25 +238,6 @@ def generate_manhatan_ranges(
     return map
 
 
-def generate_manhatan_ranges_square(
-    coords: Tuple[int, int, int, int]
-) -> Tuple[int, int, int, int]:
-    sx, sy, bx, by = coords
-    dx = abs(sx - bx)
-    log.debug(f"Delta x = {dx}")
-    dy = abs(sy - by)
-    log.debug(f"Delta y = {dy}")
-    dd = dx + dy
-    # print(f"{dd=}")
-    ddd = dd // 2
-    # print(f"{ddd=}")
-    min_x = sx - ddd
-    max_x = sx + ddd
-    min_y = sy - ddd
-    may_y = sy + ddd
-    return (min_x, max_x, min_y, may_y)
-
-
 # we populate a map of ranges that can't have the beacon
 def map_ranges(ranges: List[Tuple[int, int, int, int]]) -> Dict[int, List[Tuple[int,int]]]:
     map = {}
@@ -330,7 +311,7 @@ def main(filename):
     map = generate_manhatan_ranges(coords)
     count = 0
     for k,v in map.items():
-        print(v)
+        print(f'{k,v}')
         for range in v:
             min,max = range
             if min <= 10 and max >= 10:

@@ -206,20 +206,20 @@ def generate_manhatan_ranges(
         # down -> start for x
         for i in range(dd): # last range element excluded, we will grab it in second loop
             x =  sx - dd + i
-            if x < 0 or x > MAX_REGION:
-                continue
             y_min = sy - i
             y_max = sy + i
-            if y_min < 0:
-                y_min = 0
-            if y_max < 0:
-                y_max = 0
-            if y_min > MAX_REGION:
-                y_min = MAX_REGION
-            if y_max > MAX_REGION:
-                y_max = MAX_REGION
-            if y_min == 0 and y_max == 0:
-                continue
+            # if x < 0 or x > MAX_REGION:
+            #     continue
+            # if y_min < 0:
+            #     y_min = 0
+            # if y_max < 0:
+            #     y_max = 0
+            # if y_min > MAX_REGION:
+            #     y_min = MAX_REGION
+            # if y_max > MAX_REGION:
+            #     y_max = MAX_REGION
+            # if y_min == 0 and y_max == 0:
+            #     continue
             if x not in map:
                 map[x] = [(y_min, y_max)]
             else:
@@ -295,13 +295,17 @@ def invert_map(map: Dict[int,List[Tuple[int,int]]]) -> Dict[int,List[Tuple[int,i
     return inverted_map
 
 def print_map(map: Dict[int,List[Tuple[int,int]]] ) -> None:
+    matrix = []
+    for _ in range(30):
+        temp = ['.' for _ in range(30)]
+        matrix.append(temp)
     for k,v in map.items():
         for r in v:
             min,max = r
-            temp = []
             for i in range(min,max+1):
-                temp.append('#')
-            print(temp)
+                matrix[k][i] = '#'
+    for row in matrix:
+        print(row)
 
 
 

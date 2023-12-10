@@ -354,11 +354,6 @@ def main(filename):
             print(f'X = {k}, Y = {v}')
 
 
-
-
-# ROW = 2000000
-ROW = 10
-
 if __name__ == "__main__":
     # main("input")
     main('sample_input')

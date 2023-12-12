@@ -97,27 +97,6 @@ def count_non_empty_fields(coords: Dict[Tuple[int, int], str], row: int) -> None
     print(f"Total count is {count}")
 
 
-def fill_the_borders2(coords, lens: List[Tuple[int, int]]):
-    row_min_max = {}
-    for l in lens:
-        x, y = l
-        if y not in row_min_max:
-            row_min_max[y] = (x, None)
-        else:
-            min, max = row_min_max[y]  # max is always None
-            if x < min:
-                row_min_max[y] = (x, min)
-            else:
-                row_min_max[y] = (min, x)
-    for y, v in row_min_max.items():
-        start_x, end_x = v
-        if not end_x:
-            end_x = start_x
-        for x in range(start_x, end_x):
-            if (x, y) not in coords:
-                coords[(x, y)] = "#"
-
-
 def find_empty_field(coords: Dict[Tuple[int, int], str]):
     arr = []
     for _ in range(20):

@@ -23,16 +23,6 @@ def test_generate_manhatan_lengths():
     assert sorted(expected) == sorted(actual)
 
 
-def test_fill_the_borders2():
-    coords = {}
-    m_lenghts = [(1736480, 2000000), (-1042974, 2000000)]
-    fill_the_borders2(coords=coords, lens=m_lenghts)
-    expected = 1736480 - (-1042974)
-    assert expected == len(coords)
-    subset_m_lenghts = [(1736480, 2000000), (-104297, 2000000)]
-    fill_the_borders2(coords=coords, lens=subset_m_lenghts)
-    assert expected == len(coords)
-
 def test_merge_ranges():
     # one existing range, contains new range
     new_range = (2,4)

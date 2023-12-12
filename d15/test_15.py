@@ -1,26 +1,5 @@
 from main import MAX_REGION
 from main import merge_ranges
-from main import generate_manhatan_lengths_slow
-from main import fill_the_borders2
-from main import generate_manhatan_lengths
-
-
-def test_generate_manhatan_lengths():
-    coords = (2, 2, 2, 2)
-    actual = generate_manhatan_lengths(coords, 3)
-    assert [] == actual
-    coords = (2, 2, 2, 3)
-    actual = generate_manhatan_lengths(coords, 3)
-    expected = [(2, 3)]
-    assert sorted(expected) == sorted(actual)
-    coords = (2, 2, 2, 4)
-    actual = generate_manhatan_lengths(coords, 3)
-    expected = [(1, 3), (3, 3)]
-    assert sorted(expected) == sorted(actual)
-    coords = (2, 2, 2, 4)
-    actual = generate_manhatan_lengths(coords, 30)
-    expected = []
-    assert sorted(expected) == sorted(actual)
 
 
 def test_merge_ranges():

@@ -38,32 +38,6 @@ def parse_data(filename) -> List[Tuple[int, int, int, int]]:
     return coords
 
 
-def generate_manhatan_lengths_slow(
-    coords: Tuple[int, int, int, int]
-) -> List[Tuple[int, int]]:
-    sx, sy, bx, by = coords
-    dx = sx - bx
-    dy = sy - by
-    dd = abs(dx) + abs(dy)
-    if not dd:
-        return []
-    ml = set()
-    for i in range(0, dd + 1):
-        # x,y
-        c = (sx + i, sy + dd - i)
-        ml.add(c)
-        # -x, y
-        c = (sx - i, sy + dd - i)
-        ml.add(c)
-        # x, -y
-        c = (sx + dd - i, sy - i)
-        ml.add(c)
-        # -x, -y
-        c = (sx - dd + i, sy - i)
-        ml.add(c)
-    return list(ml)
-
-
 def generate_manhatan_lengths(
     coords: Tuple[int, int, int, int], row: int
 ) -> List[Tuple[int, int]]:

@@ -1,4 +1,3 @@
-import cProfile
 from typing import Tuple, List, Dict
 import re
 import logging as log
@@ -110,6 +109,7 @@ def find_empty_field(coords: Dict[Tuple[int, int], str]):
         for y in range(len(arr[x])):
             if arr[x][y] == ".":
                 print(f"found the spot {x,y}")
+
 
 def merge_ranges(a: Tuple[int, int], b: List[Tuple[int, int]]) -> List[Tuple[int,int]]:
     if not b:
@@ -287,5 +287,3 @@ if __name__ == "__main__":
     # main("input")
     # main('sample_input')
     main('small_sample_input')
-    # cProfile.run('main("sample_input")',sort='cumtime')
-    # cProfile.run('main("input")',sort='cumtime')

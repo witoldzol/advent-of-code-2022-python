@@ -5,45 +5,6 @@ from main import fill_the_borders2
 from main import generate_manhatan_lengths
 
 
-def test_generate_manhatan_lengths_slow():
-    coords = (2, 2, 2, 2)
-    actual = generate_manhatan_lengths_slow(coords)
-    assert [] == actual
-    coords = (2, 2, 3, 3)
-    actual = generate_manhatan_lengths_slow(coords)
-    expected = [(2, 4), (3, 1), (1, 1), (2, 0), (4, 2), (0, 2), (3, 3), (1, 3)]
-    assert sorted(expected) == sorted(actual)
-    coords = (2, 2, -1, -1)
-    actual = generate_manhatan_lengths_slow(coords)
-    expected = [
-        (-4, 2),
-        (-3, 1),
-        (-3, 3),
-        (-2, 0),
-        (-2, 4),
-        (-1, -1),
-        (-1, 5),
-        (0, -2),
-        (0, 6),
-        (1, -3),
-        (1, 7),
-        (2, -4),
-        (2, 8),
-        (3, -3),
-        (3, 7),
-        (4, -2),
-        (4, 6),
-        (5, -1),
-        (5, 5),
-        (6, 0),
-        (6, 4),
-        (7, 1),
-        (7, 3),
-        (8, 2),
-    ]
-    assert sorted(expected) == sorted(actual)
-
-
 def test_generate_manhatan_lengths():
     coords = (2, 2, 2, 2)
     actual = generate_manhatan_lengths(coords, 3)

@@ -2,6 +2,7 @@ from typing import Tuple, List, Dict
 import re
 import logging as log
 import argparse
+import pudb
 
 MAX_REGION = 4_000_000
 
@@ -38,7 +39,11 @@ def parse_data(filename) -> List[Tuple[int, int, int, int]]:
 
 
 def merge_ranges(a: Tuple[int, int], b: List[Tuple[int, int]]) -> List[Tuple[int,int]]:
+    print(f'tuple is = {a}')
+    # if a == (0,11):
     if not b:
+        pu.db
+        # raise Exception('no list')
         return [a]
     # breakpoint()
     a_min,a_max = a
@@ -200,7 +205,7 @@ def main(filename):
             if min <= 10 and max >= 10:
                 count += 1
     print(f'There are {count} elements on the row 10')
-    print_map(map)
+    # print_map(map)
 
     return
     inverted_map = invert_map(map)
@@ -211,5 +216,5 @@ def main(filename):
 
 if __name__ == "__main__":
     # main("input")
-    # main('sample_input')
-    main('small_sample_input')
+    main('sample_input')
+    # main('small_sample_input')

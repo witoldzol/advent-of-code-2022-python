@@ -45,6 +45,13 @@ def test_merge_ranges():
     actual = merge_ranges(new_range, existing_range)
     assert  [(1,2),(4,5)] == actual
 
+    # adjecent on the left
+    new_range = (4,5)
+    existing_range = [(6,8)]
+    actual = merge_ranges(new_range, existing_range)
+    assert  [(4,8)] == actual
+
+
 # def test_invert_map_row():
 #     ranges = [(100,200)]
 #     actual = invert_map_row(ranges)

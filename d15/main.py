@@ -42,13 +42,16 @@ def merge_ranges(a: Tuple[int, int], b: List[Tuple[int, int]]) -> List[Tuple[int
     print(f'tuple is = {a}')
     # if a == (0,11):
     if not b:
-        pu.db
-        # raise Exception('no list')
+        # pu.db
         return [a]
     # breakpoint()
     a_min,a_max = a
     for i,curr in enumerate(b):
         b_min,b_max = curr
+        # new item is adjecent on the left
+        if a_max == (b_min - 1):
+            del b[i]
+            return merge_ranges((a_min,b_max),b)
         # new item is smaller
         if a_max < b_min:
             b.insert(i, a)
@@ -107,6 +110,8 @@ def generate_manhatan_ranges(
             if x not in map:
                 map[x] = [(y_min, y_max)]
             else:
+                # if x == 3:
+                #     pu.db
                 map[x] = merge_ranges((y_min,y_max), map[x])
         # start -> up range for x 
         for k in range(dd+1): # we include the whole range this time

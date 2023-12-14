@@ -53,10 +53,14 @@ def merge_ranges(a: Tuple[int, int], b: List[Tuple[int, int]]) -> List[Tuple[int
             del b[i]
             return merge_ranges((a_min,b_max),b)
         # new item is smaller
-        if a_max < b_min:
+        elif a_max < b_min:
             b.insert(i, a)
             return b
-        # new item is bigger
+        # new item is adjecent on the right
+        elif (a_min - 1) == b_max:
+            temp = (b_min,a_max)
+            del b[i]
+            return merge_ranges(temp, b)
         elif a_min > b_max:
             # if last item in b
             if i == (len(b) - 1):

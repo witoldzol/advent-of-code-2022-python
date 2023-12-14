@@ -39,12 +39,8 @@ def parse_data(filename) -> List[Tuple[int, int, int, int]]:
 
 
 def merge_ranges(a: Tuple[int, int], b: List[Tuple[int, int]]) -> List[Tuple[int,int]]:
-    print(f'tuple is = {a}')
-    # if a == (0,11):
     if not b:
-        # pu.db
         return [a]
-    # breakpoint()
     a_min,a_max = a
     for i,curr in enumerate(b):
         b_min,b_max = curr
@@ -127,6 +123,8 @@ def generate_manhatan_ranges(
             if x not in map:
                 map[x] = [(y_min, y_max)]
             else:
+                if x == 3:
+                    pu.db
                 map[x] = merge_ranges((y_min,y_max), map[x])
     return map
 
@@ -207,11 +205,13 @@ def main(filename):
     coords = parse_data(filename)
     map = generate_manhatan_ranges(coords)
     count = 0
+    # count the items on row
+    ROW = 10
     for k,v in map.items():
         print(f'{k,v}')
-        for range in v:
-            min,max = range
-            if min <= 10 and max >= 10:
+        for r in v:
+            min,max = r
+            if min <= ROW and max >= ROW:
                 count += 1
     print(f'There are {count} elements on the row 10')
     # print_map(map)

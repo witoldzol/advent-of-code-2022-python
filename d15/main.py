@@ -198,6 +198,13 @@ def print_map(map: Dict[int,List[Tuple[int,int]]] ) -> None:
         print(row)
 
 
+def is_there_a_beacon_on_row(coords: List[Tuple[int,int,int,int]], row: int) -> bool:
+    for c in coords:
+        sx, sy, bx, by = c
+        if bx == row:
+            return True
+    return False
+
 
 def main(filename):
     parse_args()
@@ -205,7 +212,8 @@ def main(filename):
     map = generate_manhatan_ranges(coords)
     count = 0
     # count the items on row
-    ROW = 10
+    # ROW = 10
+    ROW = 2000000
     for k,v in map.items():
         print(f'{k,v}')
         for r in v:
@@ -213,6 +221,9 @@ def main(filename):
             if min <= ROW and max >= ROW:
                 count += 1
     print(f'There are {count} elements on the row 10')
+    if is_there_a_beacon_on_row(coords, ROW):
+        count -= 1
+    print(f'There is a beacon on row {ROW } so we lower count by one. Final count =  {count}')
     # print_map(map)
 
     return
@@ -223,6 +234,6 @@ def main(filename):
 
 
 if __name__ == "__main__":
-    # main("input")
-    main('sample_input')
+    main("input")
+    # main('sample_input')
     # main('small_sample_input')

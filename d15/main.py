@@ -215,7 +215,7 @@ def main(filename):
     # ROW = 10
     ROW = 2000000
     for k,v in map.items():
-        print(f'{k,v}')
+        # print(f'{k,v}')
         for r in v:
             min,max = r
             if min <= ROW and max >= ROW:
@@ -223,7 +223,7 @@ def main(filename):
     print(f'There are {count} elements on the row 10')
     if is_there_a_beacon_on_row(coords, ROW):
         count -= 1
-    print(f'There is a beacon on row {ROW } so we lower count by one. Final count =  {count}')
+        print(f'There is a beacon on row {ROW } so we lower count by one. Final count =  {count}')
     # print_map(map)
 
     return

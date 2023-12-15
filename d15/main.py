@@ -3,6 +3,7 @@ import re
 import logging as log
 import argparse
 import pudb
+import cProfile
 
 MAX_REGION = 4_000_000
 
@@ -220,7 +221,7 @@ def main(filename):
             min,max = r
             if min <= ROW and max >= ROW:
                 count += 1
-    print(f'There are {count} elements on the row 10')
+    print(f'There are {count} elements on the row {ROW}')
     if is_there_a_beacon_on_row(coords, ROW):
         count -= 1
         print(f'There is a beacon on row {ROW } so we lower count by one. Final count =  {count}')
@@ -234,6 +235,6 @@ def main(filename):
 
 
 if __name__ == "__main__":
-    main("input")
+    cProfile.run('main("input")')
     # main('sample_input')
     # main('small_sample_input')

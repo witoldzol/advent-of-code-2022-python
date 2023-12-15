@@ -53,6 +53,11 @@ def test_merge_ranges():
     existing_range = [(1,2),(5,8)]
     actual = merge_ranges(new_range, existing_range)
     assert  [(1,8)] == actual
+    # single point left bound
+    new_range = (11,11)
+    existing_range = [(-9,24)]
+    actual = merge_ranges(new_range, existing_range)
+    assert  [(-9,24)] == actual
 
 
 # def test_invert_map_row():

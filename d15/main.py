@@ -4,6 +4,7 @@ import logging as log
 import argparse
 import pudb
 import cProfile
+from pstats import SortKey
 
 MAX_REGION = 4_000_000
 
@@ -235,6 +236,6 @@ def main(filename):
 
 
 if __name__ == "__main__":
-    cProfile.run('main("input")')
+    cProfile.run('main("input")', sort=SortKey.CALLS)
     # main('sample_input')
     # main('small_sample_input')

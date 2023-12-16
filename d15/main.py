@@ -95,9 +95,9 @@ def generate_manhatan_ranges(
         dd = dx + dy
         # down -> start for x
         for i in range(dd): # last range element excluded, we will grab it in second loop
-            x =  sx - dd + i
-            y_min = sy - i
-            y_max = sy + i
+            x =  sx - dd + i # can change range to pre calc X, but then we need to calc i 
+            y_min = sy - i # if we move from 0-dd, to min-x to max-x, then we need to figure out starting i to plug into y range calc
+            y_max = sy + i # we also need to check if this makes sense, ie do this only for ranges that go out of bounds for X (0-MAX_REGION)
             # narrow range
             if x < 0 or x > MAX_REGION:
                 continue

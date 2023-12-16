@@ -82,6 +82,7 @@ def merge_ranges(a: Tuple[int, int], b: List[Tuple[int, int]]) -> List[Tuple[int
         else:
             del b[i]
             return merge_ranges(a, b)
+    raise Exception('We missed a path!')
 
 
 def generate_manhatan_ranges(
@@ -94,24 +95,19 @@ def generate_manhatan_ranges(
         dy = abs(sy - by)
         dd = dx + dy
         # down -> start for x
-        for i in range(dd): # last range element excluded, we will grab it in second loop
+        # we want to go from x = 0, to x = 2000000
+        # x = 0
+        # x = sx - dd + i 
+        # 0 = sx - dd + i
+        # i = dd - sx
+        # min i = dd -sx
+        #
+        range_where_x_is_zero = dd - sx
+        range_where_x_is_max_region = range_where_x_is_zero + MAX_REGION
+        for i in range(dd-sx, dd-sx+MAX_REGION): # last range element excluded, we will grab it in second loop
             x =  sx - dd + i
             y_min = sy - i
             y_max = sy + i
-            # narrow range
-            if x < 0 or x > MAX_REGION:
-                continue
-            if y_min < 0:
-                y_min = 0
-            if y_max < 0:
-                y_max = 0
-            if y_min > MAX_REGION:
-                y_min = MAX_REGION
-            if y_max > MAX_REGION:
-                y_max = MAX_REGION
-            if y_min == 0 and y_max == 0:
-                continue
-            # do work
             if x not in map:
                 map[x] = [(y_min, y_max)]
             else:

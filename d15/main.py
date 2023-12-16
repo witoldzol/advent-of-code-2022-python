@@ -91,9 +91,7 @@ def generate_manhatan_ranges(
     for coords in list_of_coords:
         sx, sy, bx, by = coords
         dx = abs(sx - bx)
-        log.debug(f"Delta x = {dx}")
         dy = abs(sy - by)
-        log.debug(f"Delta y = {dy}")
         dd = dx + dy
         # down -> start for x
         for i in range(dd): # last range element excluded, we will grab it in second loop

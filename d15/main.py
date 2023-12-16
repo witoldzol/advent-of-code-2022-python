@@ -100,18 +100,20 @@ def generate_manhatan_ranges(
             x =  sx - dd + i
             y_min = sy - i
             y_max = sy + i
-            # if x < 0 or x > MAX_REGION:
-            #     continue
-            # if y_min < 0:
-            #     y_min = 0
-            # if y_max < 0:
-            #     y_max = 0
-            # if y_min > MAX_REGION:
-            #     y_min = MAX_REGION
-            # if y_max > MAX_REGION:
-            #     y_max = MAX_REGION
-            # if y_min == 0 and y_max == 0:
-            #     continue
+            # narrow range
+            if x < 0 or x > MAX_REGION:
+                continue
+            if y_min < 0:
+                y_min = 0
+            if y_max < 0:
+                y_max = 0
+            if y_min > MAX_REGION:
+                y_min = MAX_REGION
+            if y_max > MAX_REGION:
+                y_max = MAX_REGION
+            if y_min == 0 and y_max == 0:
+                continue
+            # do work
             if x not in map:
                 map[x] = [(y_min, y_max)]
             else:
@@ -119,10 +121,22 @@ def generate_manhatan_ranges(
         # start -> up range for x 
         for k in range(dd+1): # we include the whole range this time
             x = sx + k
-            if x < 0 or x > MAX_REGION:
-                continue
             y_min = sy - dd + k
             y_max = sy + dd - k
+            # narrow range
+            if x < 0 or x > MAX_REGION:
+                continue
+            if y_min < 0:
+                y_min = 0
+            if y_max < 0:
+                y_max = 0
+            if y_min > MAX_REGION:
+                y_min = MAX_REGION
+            if y_max > MAX_REGION:
+                y_max = MAX_REGION
+            if y_min == 0 and y_max == 0:
+                continue
+            # do work
             if x not in map:
                 map[x] = [(y_min, y_max)]
             else:

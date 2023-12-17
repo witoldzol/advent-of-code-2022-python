@@ -138,18 +138,18 @@ def generate_manhatan_ranges(
             y_min = sy - i # if we move from 0-dd, to min-x to max-x, then we need to figure out starting i to plug into y range calc
             y_max = sy + i # we also need to check if this makes sense, ie do this only for ranges that go out of bounds for X (0-MAX_REGION)
             # narrow range
-            if x < 0 or x > MAX_REGION:
-                continue
-            if y_min < 0:
-                y_min = 0
-            if y_max < 0:
-                y_max = 0
-            if y_min > MAX_REGION:
-                y_min = MAX_REGION
-            if y_max > MAX_REGION:
-                y_max = MAX_REGION
-            if y_min == 0 and y_max == 0:
-                continue
+            # if x < 0 or x > MAX_REGION:
+            #     continue
+            # if y_min < 0:
+            #     y_min = 0
+            # if y_max < 0:
+            #     y_max = 0
+            # if y_min > MAX_REGION:
+            #     y_min = MAX_REGION
+            # if y_max > MAX_REGION:
+            #     y_max = MAX_REGION
+            # if y_min == 0 and y_max == 0:
+            #     continue
             # do work
             if x not in map:
                 map[x] = [(y_min, y_max)]
@@ -161,18 +161,18 @@ def generate_manhatan_ranges(
             y_min = sy - dd + k
             y_max = sy + dd - k
             # narrow range
-            if x < 0 or x > MAX_REGION:
-                continue
-            if y_min < 0:
-                y_min = 0
-            if y_max < 0:
-                y_max = 0
-            if y_min > MAX_REGION:
-                y_min = MAX_REGION
-            if y_max > MAX_REGION:
-                y_max = MAX_REGION
-            if y_min == 0 and y_max == 0:
-                continue
+            # if x < 0 or x > MAX_REGION:
+            #     continue
+            # if y_min < 0:
+            #     y_min = 0
+            # if y_max < 0:
+            #     y_max = 0
+            # if y_min > MAX_REGION:
+            #     y_min = MAX_REGION
+            # if y_max > MAX_REGION:
+            #     y_max = MAX_REGION
+            # if y_min == 0 and y_max == 0:
+            #     continue
             # do work
             if x not in map:
                 map[x] = [(y_min, y_max)]
@@ -212,11 +212,15 @@ def print_map(map: Dict[int,List[Tuple[int,int]]] ) -> None:
         print(row)
 
 
-def is_there_a_beacon_on_row(coords: List[Tuple[int,int,int,int]], row: int) -> bool:
+def is_there_a_beacon_on_row(coords: List[Tuple[int,int,int,int]], row: int) -> int:
     count = 0
+    unique_beacons = set()
     for c in coords:
         sx, sy, bx, by = c
-        if bx == row:
+        unique_beacons.add((bx,by))
+    for b in unique_beacons:
+        x,y = b
+        if y == row:
             count += 1
     return count
 

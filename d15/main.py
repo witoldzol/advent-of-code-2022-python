@@ -234,12 +234,14 @@ def main(filename):
             print(f'X = {k}, Y = {v}')
 
 
-ROW = 10
-# ROW = 2000000
 if __name__ == "__main__":
     # cProfile.run('main("input")', sort=SortKey.CALLS)
     input = 'sample_input'
-    # input = 'input'
+    input = 'input'
+    if input == 'sample_input':
+        ROW = 10
+    else:
+        ROW = 2000000
     result = main(input)
     if input == 'sample_input':
         assert result == 26

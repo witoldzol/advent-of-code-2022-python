@@ -213,11 +213,12 @@ def print_map(map: Dict[int,List[Tuple[int,int]]] ) -> None:
 
 
 def is_there_a_beacon_on_row(coords: List[Tuple[int,int,int,int]], row: int) -> bool:
+    count = 0
     for c in coords:
         sx, sy, bx, by = c
         if bx == row:
-            return True
-    return False
+            count += 1
+    return count
 
 
 def main(filename):
@@ -226,8 +227,6 @@ def main(filename):
     map = generate_manhatan_ranges(coords)
     count = 0
     # count the items on row
-    # ROW = 10
-    ROW = 2000000
     for k,v in map.items():
         # print(f'{k,v}')
         for r in v:
@@ -235,9 +234,10 @@ def main(filename):
             if min <= ROW and max >= ROW:
                 count += 1
     print(f'There are {count} elements on the row {ROW}')
-    if is_there_a_beacon_on_row(coords, ROW):
-        count -= 1
-        print(f'There is a beacon on row {ROW } so we lower count by one. Final count =  {count}')
+    beacons = is_there_a_beacon_on_row(coords, ROW)
+    if beacons:
+        count -= beacons
+        print(f'There is/are {beacons} beacon(s) on row {ROW } so we lower count by one. Final count =  {count}')
     # print_map(map)
 
     return
@@ -247,7 +247,9 @@ def main(filename):
             print(f'X = {k}, Y = {v}')
 
 
+ROW = 10
+# ROW = 2000000
 if __name__ == "__main__":
-    cProfile.run('main("input")', sort=SortKey.CALLS)
-    # main('sample_input')
+    # cProfile.run('main("input")', sort=SortKey.CALLS)
+    main('sample_input')
     # main('small_sample_input')

@@ -225,9 +225,9 @@ def main(filename):
     if beacons:
         count -= beacons
         print(f'There is/are {beacons} beacon(s) on row {ROW } so we lower count by one. Final count =  {count}')
-    # print_map(map)
+    return count
 
-    return
+    # print_map(map)
     inverted_map = invert_map(map)
     for k,v in inverted_map.items():
         if len(v) > 1:
@@ -238,5 +238,11 @@ ROW = 10
 # ROW = 2000000
 if __name__ == "__main__":
     # cProfile.run('main("input")', sort=SortKey.CALLS)
-    main('sample_input')
+    input = 'sample_input'
+    # input = 'input'
+    result = main(input)
+    if input == 'sample_input':
+        assert result == 26
+    else:
+        assert result == 4737567
     # main('small_sample_input')

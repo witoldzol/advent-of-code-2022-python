@@ -86,7 +86,8 @@ def merge_ranges(a: Tuple[int, int], b: List[Tuple[int, int]]) -> List[Tuple[int
     for i,curr in enumerate(b):
         b_min,b_max = curr
         # new item is inside of old item
-        if a_min > b_min and a_max < b_max:
+        # ba ab
+        if b_min <= a_min and a_max <= b_max:
             return b
         # new item is adjecent on the left
         elif a_max == (b_min - 1):
@@ -109,7 +110,7 @@ def merge_ranges(a: Tuple[int, int], b: List[Tuple[int, int]]) -> List[Tuple[int
             else:
                 continue
         # new item overlaps on left
-        elif a_max >= b_min and a_max <= b_max:
+        elif a_min <= b_min and a_max >= b_min and a_max <= b_max:
             b[i] = (a_min, b_max)
             return b
         # new item overlaps on right
@@ -118,9 +119,12 @@ def merge_ranges(a: Tuple[int, int], b: List[Tuple[int, int]]) -> List[Tuple[int
             del b[i]
             return merge_ranges(temp, b)
         # new item overlaps on both sides
-        else:
+        # ab ba
+        elif a_min <= b_min and b_max<=a_max:
             del b[i]
             return merge_ranges(a, b)
+        else:
+            raise Exception('Unknown case')
 
 
 def generate_manhatan_ranges(

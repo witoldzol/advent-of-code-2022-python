@@ -23,6 +23,16 @@ def test_merge_ranges():
     existing_range = [(1,2),(4,5)]
     actual = merge_ranges(new_range, existing_range)
     assert  [(1,6)] == actual
+    # right extended multiple times and merge with last one
+    new_range = (1,9)
+    existing_range = [(1,2),(4,5),(10,12)]
+    actual = merge_ranges(new_range, existing_range)
+    assert  [(1,12)] == actual
+    # right extended multiple times
+    new_range = (0,10)
+    existing_range = [(1,2),(4,5),(7,8)]
+    actual = merge_ranges(new_range, existing_range)
+    assert  [(0,10)] == actual
     # second item extended
     new_range = (4,6)
     existing_range = [(1,2),(4,5)]
@@ -53,6 +63,11 @@ def test_merge_ranges():
     existing_range = [(1,2),(5,8)]
     actual = merge_ranges(new_range, existing_range)
     assert  [(1,8)] == actual
+    # single point join left & right
+    new_range = (11,11)
+    existing_range = [(1,10),(12,24)]
+    actual = merge_ranges(new_range, existing_range)
+    assert  [(1,24)] == actual
     # single point left bound
     new_range = (11,11)
     existing_range = [(-9,24)]
@@ -63,6 +78,23 @@ def test_merge_ranges():
     existing_range = [(1,7),(9,24)]
     actual = merge_ranges(new_range, existing_range)
     assert  [(1,7),(9,24)] == actual
+    # 0,0
+    new_range = (0,0)
+    existing_range = [(1,7),(9,24)]
+    actual = merge_ranges(new_range, existing_range)
+    assert  [(0,7),(9,24)] == actual
+    # inside
+    new_range = (3,6)
+    existing_range = [(1,7),(9,24)]
+    actual = merge_ranges(new_range, existing_range)
+    assert  [(1,7),(9,24)] == actual
+    # inside
+    new_range = (3,7)
+    existing_range = [(1,7),(9,24)]
+    # breakpoint()
+    actual = merge_ranges(new_range, existing_range)
+    assert  [(1,7),(9,24)] == actual
+
 
 
 # def test_invert_map_row():

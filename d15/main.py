@@ -181,23 +181,6 @@ def generate_manhatan_ranges(
     return map
 
 
-# we populate a map of ranges that can't have the beacon
-def map_ranges(ranges: List[Tuple[int, int, int, int]]) -> Dict[int, List[Tuple[int,int]]]:
-    map = {}
-    # SETUP
-    for r in ranges:
-        min_x, max_x, min_y, max_y = r
-        y_range = (min_y, max_y)
-        # RANGE
-        for i in range(min_x, max_x + 1):
-            # check map
-            if i in map:
-                map[i] = merge_ranges(y_range, map[i])
-            else:
-                map[i] = [y_range]  # wrap in a list
-    return map
-
-
 def print_map(map: Dict[int,List[Tuple[int,int]]] ) -> None:
     matrix = []
     for _ in range(30):

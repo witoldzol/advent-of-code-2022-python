@@ -150,6 +150,15 @@ def generate_manhatan_ranges(
                 x =  sx - dd + i
                 y_min = sy - i
                 y_max = sy + i
+                # limit Y
+                if y_max <= 0:
+                    continue
+                if y_min >= MAX_REGION:
+                    continue
+                if y_min < 0:
+                    y_min = 0
+                if y_max > MAX_REGION:
+                    y_max = MAX_REGION
                 if x not in map:
                     map[x] = [(y_min, y_max)]
                 else:
@@ -163,6 +172,15 @@ def generate_manhatan_ranges(
                 x = sx + k
                 y_min = sy - dd + k
                 y_max = sy + dd - k
+                # limit Y
+                if y_max <= 0:
+                    continue
+                if y_min >= MAX_REGION:
+                    continue
+                if y_min < 0:
+                    y_min = 0
+                if y_max > MAX_REGION:
+                    y_max = MAX_REGION
                 if x not in map:
                     map[x] = [(y_min, y_max)]
                 else:
@@ -210,11 +228,18 @@ def main(filename):
             if min <= ROW and max >= ROW:
                 count += 1
     print(f'There are {count} elements on the row {ROW}')
-    for k,v in map.items():
-        if k < 0:
-            print(f'negative key {k}')
-        elif k > MAX_REGION:
-            print(f'key out of scope {k}')
+    # check if out of bounds
+    # for k,v in map.items():
+    #     if k < 0:
+    #         print(f'negative key {k}')
+    #     elif k > MAX_REGION:
+    #         print(f'key out of scope {k}')
+    #     for t in v:
+    #         min,max = t
+    #         if min < 0:
+    #             print(f'negative Y {min}')
+    #         if max > MAX_REGION:
+    #             print(f'Y is too high {max}')
     beacons = is_there_a_beacon_on_row(coords, ROW)
     if beacons:
         count -= beacons

@@ -155,8 +155,11 @@ def generate_manhatan_ranges(
                 else:
                     map[x] = merge_ranges((y_min,y_max), map[x])
         # start -> up range for x 
+        end = dd
         if sx < MAX_REGION:
-            for k in range(dd+1): # we include the whole range this time
+            if sx + dd > MAX_REGION:
+                end = MAX_REGION - sx
+            for k in range(end + 1): # we include the whole range this time
                 x = sx + k
                 y_min = sy - dd + k
                 y_max = sy + dd - k
@@ -207,6 +210,11 @@ def main(filename):
             if min <= ROW and max >= ROW:
                 count += 1
     print(f'There are {count} elements on the row {ROW}')
+    for k,v in map.items():
+        if k < 0:
+            print(f'negative key {k}')
+        elif k > MAX_REGION:
+            print(f'key out of scope {k}')
     beacons = is_there_a_beacon_on_row(coords, ROW)
     if beacons:
         count -= beacons

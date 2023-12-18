@@ -178,15 +178,6 @@ def main(filename):
     parse_args()
     coords = parse_data(filename)
     map = generate_manhatan_ranges(coords)
-    count = 0
-    # count the items on row
-    for k,v in map.items():
-        # print(f'{k,v}')
-        for r in v:
-            min,max = r
-            if min <= ROW and max >= ROW:
-                count += 1
-    print(f'There are {count} elements on the row {ROW}')
     for k,v in map.items():
         if len(v) > 1:
             first,_ = v

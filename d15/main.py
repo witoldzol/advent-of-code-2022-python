@@ -45,7 +45,6 @@ from pstats import SortKey
 #         inverted_map[x] = inverted
 #     return inverted_map
 
-MAX_REGION = 4_000_000
 
 
 def parse_args():
@@ -137,51 +136,34 @@ def generate_manhatan_ranges(
         dy = abs(sy - by)
         dd = dx + dy
         # down -> start for x
-        for i in range(dd): # last range element excluded, we will grab it in second loop
-            x =  sx - dd + i # can change range to pre calc X, but then we need to calc i 
-            y_min = sy - i # if we move from 0-dd, to min-x to max-x, then we need to figure out starting i to plug into y range calc
-            y_max = sy + i # we also need to check if this makes sense, ie do this only for ranges that go out of bounds for X (0-MAX_REGION)
-            # narrow range
-            # if x < 0 or x > MAX_REGION:
-            #     continue
-            # if y_min < 0:
-            #     y_min = 0
-            # if y_max < 0:
-            #     y_max = 0
-            # if y_min > MAX_REGION:
-            #     y_min = MAX_REGION
-            # if y_max > MAX_REGION:
-            #     y_max = MAX_REGION
-            # if y_min == 0 and y_max == 0:
-            #     continue
-            # do work
-            if x not in map:
-                map[x] = [(y_min, y_max)]
-            else:
-                map[x] = merge_ranges((y_min,y_max), map[x])
+        start = 0
+        end = dd
+        # if sx is negative, we can skip this portion, as we will always be under 0 line
+        if sx > 0:
+            # set min X bound
+            if sx-dd < 0:
+                start = dd - sx
+            # set max X bound
+            if sx > MAX_REGION and (sx - dd) < MAX_REGION:
+                end = sx - dd
+            for i in range(start, end):
+                x =  sx - dd + i
+                y_min = sy - i
+                y_max = sy + i
+                if x not in map:
+                    map[x] = [(y_min, y_max)]
+                else:
+                    map[x] = merge_ranges((y_min,y_max), map[x])
         # start -> up range for x 
-        for k in range(dd+1): # we include the whole range this time
-            x = sx + k
-            y_min = sy - dd + k
-            y_max = sy + dd - k
-            # narrow range
-            # if x < 0 or x > MAX_REGION:
-            #     continue
-            # if y_min < 0:
-            #     y_min = 0
-            # if y_max < 0:
-            #     y_max = 0
-            # if y_min > MAX_REGION:
-            #     y_min = MAX_REGION
-            # if y_max > MAX_REGION:
-            #     y_max = MAX_REGION
-            # if y_min == 0 and y_max == 0:
-            #     continue
-            # do work
-            if x not in map:
-                map[x] = [(y_min, y_max)]
-            else:
-                map[x] = merge_ranges((y_min,y_max), map[x])
+        if sx < MAX_REGION:
+            for k in range(dd+1): # we include the whole range this time
+                x = sx + k
+                y_min = sy - dd + k
+                y_max = sy + dd - k
+                if x not in map:
+                    map[x] = [(y_min, y_max)]
+                else:
+                    map[x] = merge_ranges((y_min,y_max), map[x])
     return map
 
 
@@ -229,9 +211,9 @@ def main(filename):
     if beacons:
         count -= beacons
         print(f'There is/are {beacons} beacon(s) on row {ROW } so we lower count by one. Final count =  {count}')
+    # print_map(map)
     return count
 
-    # print_map(map)
     inverted_map = invert_map(map)
     for k,v in inverted_map.items():
         if len(v) > 1:
@@ -240,12 +222,15 @@ def main(filename):
 
 if __name__ == "__main__":
     # cProfile.run('main("input")', sort=SortKey.CALLS)
-    input = 'sample_input'
+    input = 'small_sample_input'
+    # input = 'sample_input'
     input = 'input'
-    if input == 'sample_input':
+    if input == 'sample_input' or input == 'small_sample_input':
         ROW = 10
+        MAX_REGION = 20
     else:
         ROW = 2000000
+        MAX_REGION = 4_000_000
     result = main(input)
     if input == 'sample_input':
         assert result == 26

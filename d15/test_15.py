@@ -94,19 +94,3 @@ def test_merge_ranges():
     # breakpoint()
     actual = merge_ranges(new_range, existing_range)
     assert  [(1,7),(9,24)] == actual
-
-
-
-# def test_invert_map_row():
-#     ranges = [(100,200)]
-#     actual = invert_map_row(ranges)
-#     assert [(0,99),(201,MAX_REGION)] == actual
-#     ranges = [(100,200), (300,400)]
-#     actual = invert_map_row(ranges)
-#     assert [(0,99),(201,299),(401,MAX_REGION)] == actual
-#     ranges = [(-100,50),(100,200), (300,400)]
-#     actual = invert_map_row(ranges)
-#     assert [(51,99),(201,299),(401,MAX_REGION)] == actual
-#     ranges = [(-200,-100),(100,200), (300,400)]
-#     actual = invert_map_row(ranges)
-#     assert [(0,99),(201,299),(401,MAX_REGION)] == actual

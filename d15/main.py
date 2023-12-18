@@ -6,47 +6,6 @@ import pudb
 import cProfile
 from pstats import SortKey
 
-# def invert_map_row(y_range: List[Tuple[int,int]])->List[Tuple[int,Tuple[int,int]]]:
-#     inverted_ranges = []
-#     prev = None
-#     for r in y_range:
-#         y_min,y_max = r
-#         # modify ranges
-#         # if y_min < 0:
-#         #     y_min = 0
-#         # if y_max < 0:
-#         #     y_max = 0
-#         # if y_min > MAX_REGION:
-#         #     y_min = MAX_REGION
-#         # if y_max > MAX_REGION:
-#         #     y_max = MAX_REGION
-#         # if y_min == 0 and y_max == 0:
-#         #     continue
-#         # if y_min == 0:
-#         #     prev = (y_max+1, MAX_REGION)
-#         #     inverted_ranges.append(prev)
-#         #     continue
-#         if not prev:
-#             inverted_ranges.append((0, y_min-1))
-#             prev = (y_max+1,MAX_REGION)
-#             inverted_ranges.append(prev)
-#         else:
-#             updated_prev = (prev[0], y_min-1)
-#             inverted_ranges[-1] = updated_prev
-#             prev = (y_max+1,MAX_REGION)
-#             inverted_ranges.append(prev)
-#     return inverted_ranges
-#
-#
-# def invert_map(map: Dict[int,List[Tuple[int,int]]]) -> Dict[int,List[Tuple[int,int]]]:
-#     inverted_map = {}
-#     for x,y_range in map.items():
-#         inverted = invert_map_row(y_range)
-#         inverted_map[x] = inverted
-#     return inverted_map
-
-
-
 def parse_args():
     parser = argparse.ArgumentParser()
     parser.add_argument("-log")
@@ -228,29 +187,15 @@ def main(filename):
             if min <= ROW and max >= ROW:
                 count += 1
     print(f'There are {count} elements on the row {ROW}')
-    # check if out of bounds
-    # for k,v in map.items():
-    #     if k < 0:
-    #         print(f'negative key {k}')
-    #     elif k > MAX_REGION:
-    #         print(f'key out of scope {k}')
-    #     for t in v:
-    #         min,max = t
-    #         if min < 0:
-    #             print(f'negative Y {min}')
-    #         if max > MAX_REGION:
-    #             print(f'Y is too high {max}')
-    beacons = is_there_a_beacon_on_row(coords, ROW)
-    if beacons:
-        count -= beacons
-        print(f'There is/are {beacons} beacon(s) on row {ROW } so we lower count by one. Final count =  {count}')
-    # print_map(map)
-    return count
-
-    inverted_map = invert_map(map)
-    for k,v in inverted_map.items():
+    for k,v in map.items():
         if len(v) > 1:
-            print(f'X = {k}, Y = {v}')
+            first,_ = v
+            print(f'{v=}')
+            f_min,f_max = first
+            point_out_of_bounds = f_max + 1
+            print(f'{point_out_of_bounds=}')
+            tuning = (k * MAX_REGION) + point_out_of_bounds
+            print(f'Tuning point is = {tuning}')
 
 
 if __name__ == "__main__":
@@ -265,8 +210,8 @@ if __name__ == "__main__":
         ROW = 2000000
         MAX_REGION = 4_000_000
     result = main(input)
-    if input == 'sample_input':
-        assert result == 26
-    else:
-        assert result == 4737567
-    # main('small_sample_input')
+    # if input == 'sample_input':
+    #     assert result == 26
+    # else:
+    #     assert result == 4737567
+    # # main('small_sample_input')

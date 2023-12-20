@@ -12,4 +12,5 @@ def main(input):
 if __name__ == "__main__":
     input = "sample_input"
     input = "input"
+    input = "small_input"
     main(input)

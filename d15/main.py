@@ -6,6 +6,7 @@ import pudb
 import cProfile
 from pstats import SortKey
 
+
 def parse_args():
     parser = argparse.ArgumentParser()
     parser.add_argument("-log")
@@ -37,12 +38,12 @@ def parse_data(filename) -> List[Tuple[int, int, int, int]]:
     return coords
 
 
-def merge_ranges(a: Tuple[int, int], b: List[Tuple[int, int]]) -> List[Tuple[int,int]]:
+def merge_ranges(a: Tuple[int, int], b: List[Tuple[int, int]]) -> List[Tuple[int, int]]:
     if not b:
         return [a]
-    a_min,a_max = a
-    for i,curr in enumerate(b):
-        b_min,b_max = curr
+    a_min, a_max = a
+    for i, curr in enumerate(b):
+        b_min, b_max = curr
         # new item is inside of old item
         # ba ab
         if b_min <= a_min and a_max <= b_max:
@@ -50,14 +51,14 @@ def merge_ranges(a: Tuple[int, int], b: List[Tuple[int, int]]) -> List[Tuple[int
         # new item is adjecent on the left
         elif a_max == (b_min - 1):
             del b[i]
-            return merge_ranges((a_min,b_max),b)
+            return merge_ranges((a_min, b_max), b)
         # new item is smaller
         elif a_max < b_min:
             b.insert(i, a)
             return b
         # new item is adjecent on the right
         elif (a_min - 1) == b_max:
-            temp = (b_min,a_max)
+            temp = (b_min, a_max)
             del b[i]
             return merge_ranges(temp, b)
         elif a_min > b_max:
@@ -78,16 +79,16 @@ def merge_ranges(a: Tuple[int, int], b: List[Tuple[int, int]]) -> List[Tuple[int
             return merge_ranges(temp, b)
         # new item overlaps on both sides
         # ab ba
-        elif a_min <= b_min and b_max<=a_max:
+        elif a_min <= b_min and b_max <= a_max:
             del b[i]
             return merge_ranges(a, b)
         else:
-            raise Exception('Unknown case')
+            raise Exception("Unknown case")
 
 
 def generate_manhatan_ranges(
     list_of_coords: List[Tuple[int, int, int, int]]
-    ) -> Dict[int,List[Tuple[int,int]]]:
+) -> Dict[int, List[Tuple[int, int]]]:
     map = {}
     for coords in list_of_coords:
         sx, sy, bx, by = coords
@@ -100,13 +101,13 @@ def generate_manhatan_ranges(
         # if sx is negative, we can skip this portion, as we will always be under 0 line
         if sx > 0:
             # set min X bound
-            if sx-dd < 0:
+            if sx - dd < 0:
                 start = dd - sx
             # set max X bound
             if sx > MAX_REGION and (sx - dd) < MAX_REGION:
                 end = sx - dd
             for i in range(start, end):
-                x =  sx - dd + i
+                x = sx - dd + i
                 y_min = sy - i
                 y_max = sy + i
                 # limit Y
@@ -121,13 +122,13 @@ def generate_manhatan_ranges(
                 if x not in map:
                     map[x] = [(y_min, y_max)]
                 else:
-                    map[x] = merge_ranges((y_min,y_max), map[x])
-        # start -> up range for x 
+                    map[x] = merge_ranges((y_min, y_max), map[x])
+        # start -> up range for x
         end = dd
         if sx < MAX_REGION:
             if sx + dd > MAX_REGION:
                 end = MAX_REGION - sx
-            for k in range(end + 1): # we include the whole range this time
+            for k in range(end + 1):  # we include the whole range this time
                 x = sx + k
                 y_min = sy - dd + k
                 y_max = sy + dd - k
@@ -143,32 +144,32 @@ def generate_manhatan_ranges(
                 if x not in map:
                     map[x] = [(y_min, y_max)]
                 else:
-                    map[x] = merge_ranges((y_min,y_max), map[x])
+                    map[x] = merge_ranges((y_min, y_max), map[x])
     return map
 
 
-def print_map(map: Dict[int,List[Tuple[int,int]]] ) -> None:
+def print_map(map: Dict[int, List[Tuple[int, int]]]) -> None:
     matrix = []
     for _ in range(30):
-        temp = ['.' for _ in range(30)]
+        temp = ["." for _ in range(30)]
         matrix.append(temp)
-    for k,v in map.items():
+    for k, v in map.items():
         for r in v:
-            min,max = r
-            for i in range(min,max+1):
-                matrix[k][i] = '#'
+            min, max = r
+            for i in range(min, max + 1):
+                matrix[k][i] = "#"
     for row in matrix:
         print(row)
 
 
-def is_there_a_beacon_on_row(coords: List[Tuple[int,int,int,int]], row: int) -> int:
+def is_there_a_beacon_on_row(coords: List[Tuple[int, int, int, int]], row: int) -> int:
     count = 0
     unique_beacons = set()
     for c in coords:
         sx, sy, bx, by = c
-        unique_beacons.add((bx,by))
+        unique_beacons.add((bx, by))
     for b in unique_beacons:
-        x,y = b
+        x, y = b
         if y == row:
             count += 1
     return count
@@ -178,23 +179,23 @@ def main(filename):
     parse_args()
     coords = parse_data(filename)
     map = generate_manhatan_ranges(coords)
-    for k,v in map.items():
+    for k, v in map.items():
         if len(v) > 1:
-            first,_ = v
-            print(f'{v=}')
-            f_min,f_max = first
+            first, _ = v
+            print(f"{v=}")
+            f_min, f_max = first
             point_out_of_bounds = f_max + 1
-            print(f'{point_out_of_bounds=}')
+            print(f"{point_out_of_bounds=}")
             tuning = (k * MAX_REGION) + point_out_of_bounds
-            print(f'Tuning point is = {tuning}')
+            print(f"Tuning point is = {tuning}")
 
 
 if __name__ == "__main__":
     # cProfile.run('main("input")', sort=SortKey.CALLS)
-    input = 'small_sample_input'
+    input = "small_sample_input"
     # input = 'sample_input'
-    input = 'input'
-    if input == 'sample_input' or input == 'small_sample_input':
+    input = "input"
+    if input == "sample_input" or input == "small_sample_input":
         ROW = 10
         MAX_REGION = 20
     else:

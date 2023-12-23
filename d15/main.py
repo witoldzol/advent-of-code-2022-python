@@ -86,7 +86,7 @@ def merge_ranges(a: Tuple[int, int], b: List[Tuple[int, int]]) -> List[Tuple[int
             raise Exception("Unknown case")
 
 
-def generate_manhatan_ranges(
+def generate_manhatan_ranges_orig(
     list_of_coords: List[Tuple[int, int, int, int]]
 ) -> Dict[int, List[Tuple[int, int]]]:
     map = {}
@@ -147,6 +147,34 @@ def generate_manhatan_ranges(
                     map[x] = merge_ranges((y_min, y_max), map[x])
     return map
 
+def generate_manhatan_ranges( list_of_coords):
+    consty = 10
+    # consty = 2000000
+    X = set(range(-int(1e5),int(1e5)))
+    B = set()
+    x_len = len(X)
+    count = 0
+    for coords in list_of_coords:
+        print(coords)
+        sx, sy, bx, by = coords
+        dx = abs(sx - bx)
+        dy = abs(sy - by)
+        dd = dx + dy
+        to_remove = []
+        if by == consty:
+            B.add(bx)
+        for x in X:
+            ddd = abs(x-sx)+abs(consty-sy)
+            if ddd <= dd:
+                to_remove.append(x)
+        for x in to_remove:
+            X.remove(x)
+    for b in B:
+        X.add(b)
+    print(x_len - len(X))
+
+
+
 
 def print_map(map: Dict[int, List[Tuple[int, int]]]) -> None:
     matrix = []
@@ -175,7 +203,7 @@ def is_there_a_beacon_on_row(coords: List[Tuple[int, int, int, int]], row: int) 
     return count
 
 
-def main(filename):
+def main_orig(filename):
     parse_args()
     coords = parse_data(filename)
     map = generate_manhatan_ranges(coords)
@@ -189,12 +217,17 @@ def main(filename):
             tuning = (k * MAX_REGION) + point_out_of_bounds
             print(f"Tuning point is = {tuning}")
 
+def main(filename):
+    parse_args()
+    coords = parse_data(filename)
+    generate_manhatan_ranges(coords)
+
 
 if __name__ == "__main__":
     # cProfile.run('main("input")', sort=SortKey.CALLS)
     input = "small_sample_input"
-    # input = 'sample_input'
-    input = "input"
+    input = 'sample_input'
+    # input = "input"
     if input == "sample_input" or input == "small_sample_input":
         ROW = 10
         MAX_REGION = 20

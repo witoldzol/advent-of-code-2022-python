@@ -46,6 +46,9 @@ class PothentialPath():
         self.turn = turn
         
 
+def find_potential_paths(root: str, valves: Dict[str,Valve],turn):
+
+
 def main(input):
     valves = parse_input(input)
     for turn in range(1,31):

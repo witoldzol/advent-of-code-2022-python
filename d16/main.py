@@ -1,4 +1,4 @@
-from typing import List, Dict
+from typing import List, Dict, Set
 
 
 class Valve:
@@ -38,15 +38,19 @@ def parse_input(filename: str) -> Dict[str,Valve]:
 #         print(f'going from {root=} to {valve=}')
 #         DFS(valves[valve], valves, count)
 
-def print_possible_paths(root: Valve, valves) -> None:
-    for adjecent in root.adjecent:
-        print(adjecent)
-
+class PothentialPath():
+    def __init__(self, root: str, turn: int) -> None:
+        self.visited: Set[str] = set()
+        self.current_node: str = root
+        self.total = 0
+        self.turn = turn
+        
 
 def main(input):
     valves = parse_input(input)
     for turn in range(1,31):
-        print_possible_paths(valves['AA'], valves)
+        print(turn)
+        potential_paths = find_potential_paths()
 
 
 

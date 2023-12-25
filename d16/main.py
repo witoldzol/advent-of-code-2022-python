@@ -2,7 +2,7 @@ from typing import List, Dict, Set
 
 
 class Valve:
-    def __init__(self, name: str, rate: int, adjecent: List[str]) -> None:
+    def __init__(self, name: str, rate: int, adjecent: List[str]=None) -> None:
         self.adjecent = adjecent
         self.name = name
         self.rate = rate
@@ -11,10 +11,11 @@ class Valve:
         return f"Valve(name={self.name}, rate={self.rate}, adjecent={self.adjecent})"
 
 
-def parse_input(filename: str) -> Dict[str,Valve]:
+def build_valve_graph(filename: str) -> Valve:
     valves = {}
     data = open(filename, "r").read().strip()
     lines = data.split("\n")
+    adjecent_dict = {}
     for l in lines:
         chunks = l.split(" ")
         name = chunks[1]
@@ -24,8 +25,15 @@ def parse_input(filename: str) -> Dict[str,Valve]:
         adjecent = ' '.join(adjecent)
         adjecent = adjecent.split(',')
         adjecent = [x.strip() for x in adjecent]
-        valves[name] = Valve(name, rate, adjecent)
-    return valves
+        valves[name] = Valve(name, rate)
+        adjecent_dict[name] = adjecent
+    for valve in valves.values():
+        valve.adjecent = []
+        adjecent_valves = adjecent_dict[valve.name]
+        for name in adjecent_valves:
+            valve.adjecent.append(valves[name])
+    return valves['AA']
+
 
 # def DFS(root: Valve, valves: Dict[str,Valve], count: int):
 #     count += 1
@@ -38,23 +46,10 @@ def parse_input(filename: str) -> Dict[str,Valve]:
 #         print(f'going from {root=} to {valve=}')
 #         DFS(valves[valve], valves, count)
 
-class PothentialPath():
-    def __init__(self, root: str, turn: int) -> None:
-        self.visited: Set[str] = set()
-        self.current_node: str = root
-        self.total = 0
-        self.turn = turn
-        
-
-def find_potential_paths(root: str, valves: Dict[str,Valve],turn):
-
 
 def main(input):
-    valves = parse_input(input)
-    for turn in range(1,31):
-        print(turn)
-        potential_paths = find_potential_paths()
-
+    root = build_valve_graph(input)
+    print(root)
 
 
 if __name__ == "__main__":

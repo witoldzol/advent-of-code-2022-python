@@ -1,4 +1,4 @@
-from typing import List, Dict, Set
+from typing import List, Dict, Set, Tuple
 
 
 class Valve:
@@ -12,7 +12,7 @@ class Valve:
         return f"Valve(name={self.name}, rate={self.rate}, adjecent={[v.name for v in self.adjecent]})"
 
 
-def build_valve_graph(filename: str) -> Valve:
+def build_valve_graph(filename: str) -> Tuple[Valve, Dict[str,Valve]]:
     valves = {}
     data = open(filename, "r").read().strip()
     lines = data.split("\n")
@@ -33,7 +33,7 @@ def build_valve_graph(filename: str) -> Valve:
         adjecent_valves = adjecent_dict[valve.name]
         for name in adjecent_valves:
             valve.adjecent.append(valves[name])
-    return valves['AA']
+    return valves['AA'], valves
 
 
 def DFS(root: Valve, turn: int) -> None:
@@ -46,7 +46,7 @@ def DFS(root: Valve, turn: int) -> None:
 
 
 def main(input):
-    root = build_valve_graph(input)
+    root, valves = build_valve_graph(input)
     # print(root)
     DFS(root, 0)
 

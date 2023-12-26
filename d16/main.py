@@ -2,13 +2,14 @@ from typing import List, Dict, Set
 
 
 class Valve:
-    def __init__(self, name: str, rate: int, adjecent: List[str]=None) -> None:
+    def __init__(self, name: str, rate: int, adjecent: List["Valve"] = None) -> None:
         self.adjecent = adjecent
         self.name = name
         self.rate = rate
+        self.visited = False
 
     def __repr__(self) -> str:
-        return f"Valve(name={self.name}, rate={self.rate}, adjecent={self.adjecent})"
+        return f"Valve(name={self.name}, rate={self.rate}, adjecent={[v.name for v in self.adjecent]})"
 
 
 def build_valve_graph(filename: str) -> Valve:
@@ -35,21 +36,19 @@ def build_valve_graph(filename: str) -> Valve:
     return valves['AA']
 
 
-# def DFS(root: Valve, valves: Dict[str,Valve], count: int):
-#     count += 1
-#     if count >= 30:
-#         return None
-#     if not root.adjecent:
-#         return None
-#     for valve in root.adjecent:
-#         print(f'{valve=}')
-#         print(f'going from {root=} to {valve=}')
-#         DFS(valves[valve], valves, count)
+def DFS(root: Valve, turn: int) -> None:
+    root.visited = True
+    print(f'This is {turn=}, visited {root.name}')
+    turn += 1
+    for valve in root.adjecent:
+        if not valve.visited:
+            DFS(valve, turn)
 
 
 def main(input):
     root = build_valve_graph(input)
-    print(root)
+    # print(root)
+    DFS(root, 0)
 
 
 if __name__ == "__main__":

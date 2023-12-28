@@ -54,11 +54,27 @@ def find_valve(root: Valve, turn: int, target: str, path: List[str] = None) -> L
         return result
 
 
+def DFS(root: Valve, target: str, path: str = "") -> str:
+    if not root:
+        return ""
+    path += root.name
+    root.visited = True
+    if root.name == target:
+        return path
+    result = ""
+    for v in root.adjecent:
+        if not v.visited:
+            result =  DFS(v, target, path)
+    if result:
+        return result
+
+
 def main(input):
     root, valves = build_valve_graph(input)
     # print(root)
     # DFS(root, 0)
-    path = find_valve(root,0,'DD')
+    # path = find_valve(root,0,'DD')
+    path = DFS(root,'DD')
     print(f'{path=}')
 
 
@@ -67,3 +83,9 @@ if __name__ == "__main__":
     input = "input"
     input = "small_input"
     main(input)
+
+# todo
+# build graph - done
+# get a 'map' of nodes and connections - done
+# traverse map from one node to another using BFS - 
+# run 30 turns, going from highest expected pay to another - 

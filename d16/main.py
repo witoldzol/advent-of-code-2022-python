@@ -12,29 +12,6 @@ class Valve:
         return f"Valve(name={self.name}, rate={self.rate}, adjecent={[v.name for v in self.adjecent]})"
 
 
-def build_valve_graph(filename: str) -> Tuple[Valve, Dict[str,Valve]]:
-    valves = {}
-    data = open(filename, "r").read().strip()
-    lines = data.split("\n")
-    adjecent_dict = {}
-    for l in lines:
-        chunks = l.split(" ")
-        name = chunks[1]
-        _, rate = chunks[4].split("=")
-        rate = int(rate[:-1])
-        adjecent = chunks[9:]
-        adjecent = ' '.join(adjecent)
-        adjecent = adjecent.split(',')
-        adjecent = [x.strip() for x in adjecent]
-        valves[name] = Valve(name, rate)
-        adjecent_dict[name] = adjecent
-    for valve in valves.values():
-        valve.adjecent = []
-        adjecent_valves = adjecent_dict[valve.name]
-        for name in adjecent_valves:
-            valve.adjecent.append(valves[name])
-    return valves['AA'], valves
-
 def find_valve(root: Valve, turn: int, target: str, path: List[str] = None) -> List[str] | None:
     if not path:
         path = []

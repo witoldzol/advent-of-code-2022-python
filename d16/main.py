@@ -35,20 +35,31 @@ def build_valve_graph(filename: str) -> Tuple[Valve, Dict[str,Valve]]:
             valve.adjecent.append(valves[name])
     return valves['AA'], valves
 
-
-def DFS(root: Valve, turn: int) -> None:
+def find_valve(root: Valve, turn: int, target: str, path: List[str] = None) -> List[str] | None:
+    if not path:
+        path = []
+    new_path = path.copy()
+    new_path.append(root.name)
     root.visited = True
+    if root.name == target:
+        return new_path
+    path.append(root.name)
     print(f'This is {turn=}, visited {root.name}')
     turn += 1
+    result = None
     for valve in root.adjecent:
         if not valve.visited:
-            DFS(valve, turn)
+            result =  find_valve(valve, turn, target, new_path)
+    if result:
+        return result
 
 
 def main(input):
     root, valves = build_valve_graph(input)
     # print(root)
-    DFS(root, 0)
+    # DFS(root, 0)
+    path = find_valve(root,0,'DD')
+    print(f'{path=}')
 
 
 if __name__ == "__main__":

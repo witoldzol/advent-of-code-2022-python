@@ -35,7 +35,7 @@ def build_valve_graph(filename: str) -> Tuple[Valve, Dict[str,Valve]]:
             valve.adjacent.append(valves[name])
     return valves['AA'], valves
 
-def DFS(root: Valve, target: str, path: str = "") -> str:
+def BFS(root: Valve, target: str, path: str = "") -> str:
     if not root:
         return ""
     path += root.name
@@ -45,7 +45,7 @@ def DFS(root: Valve, target: str, path: str = "") -> str:
     result = ""
     for v in root.adjacent:
         if not v.visited:
-            result =  DFS(v, target, path)
+            result =  BFS(v, target, path)
     if result:
         return result
 
@@ -53,9 +53,9 @@ def DFS(root: Valve, target: str, path: str = "") -> str:
 def main(input):
     root, valves = build_valve_graph(input)
     # print(root)
-    # DFS(root, 0)
+    # BFS(root, 0)
     # path = find_valve(root,0,'DD')
-    path = DFS(root,'DD')
+    path = BFS(root,'DD')
     print(f'{path=}')
 
 

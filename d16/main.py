@@ -1,4 +1,5 @@
 from typing import List, Dict, Set, Tuple
+import pudb
 
 
 class Valve:
@@ -36,6 +37,7 @@ def build_valve_graph(filename: str) -> Tuple[Valve, Dict[str,Valve]]:
     return valves['AA'], valves
 
 def BFS(root: Valve, target: str, path: str = "") -> str:
+    # pu.db
     if not root:
         return ""
     path += root.name
@@ -46,8 +48,8 @@ def BFS(root: Valve, target: str, path: str = "") -> str:
     for v in root.adjacent:
         if not v.visited:
             result =  BFS(v, target, path)
-    if result:
-        return result
+            if result:
+                return result
 
 
 def main(input):

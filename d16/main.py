@@ -54,10 +54,8 @@ def BFS(root: Valve, target: str, path: str = "") -> str:
 
 def main(input):
     root, valves = build_valve_graph(input)
-    # print(root)
-    # BFS(root, 0)
-    # path = find_valve(root,0,'DD')
-    path = BFS(root,'DD')
+    print(root)
+    path = BFS(root,'JJ')
     print(f'{path=}')
 
 

@@ -2,8 +2,8 @@ from typing import List, Dict, Set, Tuple
 
 
 class Valve:
-    def __init__(self, name: str, rate: int, adjecent: List["Valve"] = None) -> None:
-        self.adjecent = adjecent
+    def __init__(self, name: str, rate: int, adjacent: List["Valve"] = None) -> None:
+        self.adjecent = adjacent
         self.name = name
         self.rate = rate
         self.visited = False
@@ -57,12 +57,12 @@ def main(input):
 
 if __name__ == "__main__":
     input = "sample_input"
-    input = "input"
-    input = "small_input"
+    # input = "input"
+    # input = "small_input"
     main(input)
 
 # todo
 # build graph - done
 # get a 'map' of nodes and connections - done
-# traverse map from one node to another using BFS - 
+# traverse map from one node to another using BFS - done
 # run 30 turns, going from highest expected pay to another - 

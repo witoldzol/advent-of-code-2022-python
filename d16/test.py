@@ -1,5 +1,5 @@
 from main import Valve, BFS
-from main import split_string_every_second_char
+from main import calculate_returns
 
 
 def test_BFS():
@@ -19,3 +19,26 @@ def test_BFS():
     actual_path, jumps = BFS(root, 'EE')
     assert 'AACCDDEE' == actual_path
     assert 3 == jumps
+
+def test_calculate_returns_two_jumps():
+    aa = Valve('AA', 10, [])
+    bb = Valve('BB', 10, [])
+    cc = Valve('CC', 10, [])
+    dd = Valve('DD', 100, [])
+    aa_adjacent = [bb,cc]
+    bb_adjacent = [aa]
+    cc_adjacent = [aa,dd]
+    dd_adjacent = [cc]
+    aa.adjacent = aa_adjacent
+    bb.adjacent = bb_adjacent
+    cc.adjacent = cc_adjacent
+    dd.adjacent = dd_adjacent
+    map = {"AA": aa, "BB": bb, "CC": cc, "DD": dd}
+    # calc steps
+    path, jumps = BFS(aa, "DD")
+    print(f"{path=}")
+    assert jumps == 2
+    # calc returns
+    # results_map = calculate_returns(root, map, 10)
+    # for k,v in results_map.items():
+        # print(k, " = ", v)

@@ -53,6 +53,19 @@ def BFS(root: Valve, target: str, path: str = "", jumps: int = -1 ) -> Tuple[str
                 return result
     return path,jumps
 
+def calculate_returns(start: Valve, map: Dict[str, Valve], current_turn: int) -> Dict[str, int]:
+    returns_map = {}
+    for valve in map.values():
+        print(f"{valve=}")
+        if valve.name == start.name:
+            continue
+        _, turns_to_get_to_valve = BFS(start, valve.name)
+        turns_to_get_to_valve += 1 # one extra turn to activate the valve
+        remaining_turns = current_turn - turns_to_get_to_valve
+        potential_flow = valve.rate * remaining_turns
+        returns_map[valve.name] = potential_flow
+    return returns_map
+
 
 def main(input):
     root, valves = build_valve_graph(input)

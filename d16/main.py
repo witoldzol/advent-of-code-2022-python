@@ -13,7 +13,7 @@ class Valve:
         return f"Valve(name={self.name}, rate={self.rate}, adjacent={[v.name for v in self.adjacent]})"
 
 
-def build_valve_graph(filename: str) -> Tuple[Valve, Dict[str,Valve]]:
+def build_valve_graph(filename: str) -> Tuple[Valve, Dict[str, Valve]]:
     valves = {}
     data = open(filename, "r").read().strip()
     lines = data.split("\n")
@@ -24,8 +24,8 @@ def build_valve_graph(filename: str) -> Tuple[Valve, Dict[str,Valve]]:
         _, rate = chunks[4].split("=")
         rate = int(rate[:-1])
         adjacent = chunks[9:]
-        adjacent = ' '.join(adjacent)
-        adjacent = adjacent.split(',')
+        adjacent = " ".join(adjacent)
+        adjacent = adjacent.split(",")
         adjacent = [x.strip() for x in adjacent]
         valves[name] = Valve(name, rate)
         adjacent_dict[name] = adjacent
@@ -34,7 +34,8 @@ def build_valve_graph(filename: str) -> Tuple[Valve, Dict[str,Valve]]:
         adjacent_valves = adjacent_dict[valve.name]
         for name in adjacent_valves:
             valve.adjacent.append(valves[name])
-    return valves['AA'], valves
+    return valves["AA"], valves
+
 
 def BFS(root: Valve, target: str, path: str = "") -> str:
     # pu.db
@@ -47,7 +48,7 @@ def BFS(root: Valve, target: str, path: str = "") -> str:
     result = ""
     for v in root.adjacent:
         if not v.visited:
-            result =  BFS(v, target, path)
+            result = BFS(v, target, path)
             if result:
                 return result
 
@@ -55,8 +56,8 @@ def BFS(root: Valve, target: str, path: str = "") -> str:
 def main(input):
     root, valves = build_valve_graph(input)
     print(root)
-    path = BFS(root,'JJ')
-    print(f'{path=}')
+    path = BFS(root, "JJ")
+    print(f"{path=}")
 
 
 if __name__ == "__main__":
@@ -64,9 +65,3 @@ if __name__ == "__main__":
     # input = "input"
     # input = "small_input"
     main(input)
-
-# todo
-# build graph - done
-# get a 'map' of nodes and connections - done
-# traverse map from one node to another using BFS - done
-# run 30 turns, going from highest expected pay to another - 

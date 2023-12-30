@@ -42,20 +42,21 @@ def split_string_every_second_char(input):
     return [input[i : i + n] for i in range(0, len(input), n)]
 
 
-def BFS(root: Valve, target: str, path: str = "") -> str:
-    # pu.db
+def BFS(root: Valve, target: str, path: str = "", jumps: int = -1 ) -> Tuple[str, int]:
     if not root:
-        return ""
+        return "", jumps
     path += root.name
     root.visited = True
+    jumps += 1
     if root.name == target:
-        return path
+        return path, jumps
     result = ""
     for v in root.adjacent:
         if not v.visited:
-            result = BFS(v, target, path)
+            result = BFS(v, target, path, jumps)
             if result:
                 return result
+    return path,jumps
 
 
 def main(input):

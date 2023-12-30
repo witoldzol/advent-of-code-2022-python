@@ -7,8 +7,18 @@ def test_BFS():
     cc = Valve('CC', 10, [])
     adjacent = [bb,cc]
     root = Valve('AA', 0, adjacent)
-    actual = BFS(root, 'BB')
-    assert 'AABB' == actual
+    # one jump
+    actual_path, jumps = BFS(root, 'BB')
+    assert 'AABB' == actual_path
+    assert 1 == jumps
+    dd = Valve('DD', 10, [])
+    cc.adjacent.append(dd)
+    ee = Valve('EE', 10, [])
+    dd.adjacent.append(ee)
+    # two jumps
+    actual_path, jumps = BFS(root, 'EE')
+    assert 'AACCDDEE' == actual_path
+    assert 3 == jumps
 
 
 def test_split():

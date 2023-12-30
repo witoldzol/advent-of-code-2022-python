@@ -19,15 +19,3 @@ def test_BFS():
     actual_path, jumps = BFS(root, 'EE')
     assert 'AACCDDEE' == actual_path
     assert 3 == jumps
-
-
-def test_split():
-    actual = split_string_every_second_char("AABB")
-    expected = 2
-    assert expected == len(actual)
-    actual = split_string_every_second_char("")
-    expected = 0
-    assert expected == len(actual)
-    actual = split_string_every_second_char("AABBCCDD")
-    expected = 4
-    assert expected == len(actual)

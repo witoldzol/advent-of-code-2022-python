@@ -37,6 +37,11 @@ def build_valve_graph(filename: str) -> Tuple[Valve, Dict[str, Valve]]:
     return valves["AA"], valves
 
 
+def split_string_every_second_char(input):
+    n = 2
+    return [input[i : i + n] for i in range(0, len(input), n)]
+
+
 def BFS(root: Valve, target: str, path: str = "") -> str:
     # pu.db
     if not root:

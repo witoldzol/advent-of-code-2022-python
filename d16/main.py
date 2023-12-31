@@ -54,12 +54,16 @@ def BFS(root: Valve, target: str, path: str = "", jumps: int = -1 ) -> Tuple[str
     return None
 
 def calculate_returns(start: Valve, map: Dict[str, Valve], current_turn: int) -> Dict[str, int]:
+    # pu.db
     returns_map = {}
     for valve in map.values():
         print(f"{valve=}")
         if valve.name == start.name:
             continue
-        _, turns_to_get_to_valve = BFS(start, valve.name)
+        result = BFS(start, valve.name)
+        if not result:
+            raise Exception(f'Unable to find path to valve {valve.name}')
+        _, turns_to_get_to_valve = result
         turns_to_get_to_valve += 1 # one extra turn to activate the valve
         remaining_turns = current_turn - turns_to_get_to_valve
         potential_flow = valve.rate * remaining_turns

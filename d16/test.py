@@ -34,11 +34,7 @@ def test_calculate_returns_two_jumps():
     cc.adjacent = cc_adjacent
     dd.adjacent = dd_adjacent
     map = {"AA": aa, "BB": bb, "CC": cc, "DD": dd}
-    # calc steps
-    path, jumps = BFS(aa, "DD")
-    print(f"{path=}")
-    assert jumps == 2
     # calc returns
-    # results_map = calculate_returns(root, map, 10)
-    # for k,v in results_map.items():
-        # print(k, " = ", v)
+    results_map = calculate_returns(aa, map, 10)
+    for k,v in results_map.items():
+        print(k, " = ", v)

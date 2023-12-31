@@ -12,6 +12,7 @@ def test_BFS():
     actual_path, jumps = BFS(root, 'BB', map.copy())
     assert 'AABB' == actual_path
     assert 1 == jumps
+    print(f"END of TEST =======================")
     dd = Valve('DD', 10, [])
     cc.adjacent.append(dd)
     ee = Valve('EE', 10, [])

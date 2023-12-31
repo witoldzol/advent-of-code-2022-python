@@ -38,16 +38,21 @@ def build_valve_graph(filename: str) -> Tuple[Valve, Dict[str, Valve]]:
 
 
 def BFS(root: Valve, target: str, map: Dict[str, bool], path: str = "", jumps: int = -1 ) -> Tuple[str, int]:
+    print(f"map has been passed in {map}")
     if not root:
         return "", jumps
     path += root.name
     root.visited = True
+    map[root.name] = True
     jumps += 1
     if root.name == target:
         return path, jumps
     result = ""
     for v in root.adjacent:
+        if v.visited != map[v.name]:
+            print(f"there is a mismatch between {v.name} = {v.visited} and the map {v.name} = {map[v.name]}")
         if not v.visited:
+            # print(f"visiting node {root.name}, checking adjecent node {v.name}, in map it is marked as {map[v.name]}")
             result = BFS(v, target, map, path, jumps)
             if result:
                 return result

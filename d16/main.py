@@ -37,7 +37,7 @@ def build_valve_graph(filename: str) -> Tuple[Valve, Dict[str, Valve]]:
     return valves["AA"], valves
 
 
-def BFS(root: Valve, target: str, path: str = "", jumps: int = -1 ) -> Tuple[str, int]:
+def BFS(root: Valve, target: str, map: Dict[str, bool], path: str = "", jumps: int = -1 ) -> Tuple[str, int]:
     if not root:
         return "", jumps
     path += root.name
@@ -48,7 +48,7 @@ def BFS(root: Valve, target: str, path: str = "", jumps: int = -1 ) -> Tuple[str
     result = ""
     for v in root.adjacent:
         if not v.visited:
-            result = BFS(v, target, path, jumps)
+            result = BFS(v, target, map, path, jumps)
             if result:
                 return result
     return '', -1

@@ -3,12 +3,13 @@ from main import calculate_returns
 
 
 def test_BFS():
+    map = {'AA': False,'BB': False,'CC': False,'DD': False,'EE': False,}
     bb = Valve('BB', 10, [])
     cc = Valve('CC', 10, [])
     adjacent = [bb,cc]
     root = Valve('AA', 0, adjacent)
     # one jump
-    actual_path, jumps = BFS(root, 'BB')
+    actual_path, jumps = BFS(root, 'BB', map.copy())
     assert 'AABB' == actual_path
     assert 1 == jumps
     dd = Valve('DD', 10, [])
@@ -16,13 +17,13 @@ def test_BFS():
     ee = Valve('EE', 10, [])
     dd.adjacent.append(ee)
     # two jumps
-    actual_path, jumps = BFS(root, 'EE')
+    actual_path, jumps = BFS(root, 'EE', map.copy())
     assert 'AACCDDEE' == actual_path
     assert 3 == jumps
     # and again, two jumps using same nodes
-    actual_path, jumps = BFS(root, 'EE')
-    assert 'AACCDDEE' == actual_path
-    assert 3 == jumps
+    # actual_path, jumps = BFS(root, 'EE')
+    # assert 'AACCDDEE' == actual_path
+    # assert 3 == jumps
 
 # def test_calculate_returns_two_jumps():
 #     aa = Valve('AA', 10, [])

@@ -37,7 +37,7 @@ def build_valve_graph(filename: str) -> Tuple[Valve, Dict[str, Valve]]:
     return valves["AA"], valves
 
 
-def BFS(root: Valve, target: str, path: str = "", jumps: int = -1 ) -> Tuple[str, int]:
+def BFS(root: Valve, target: str, path: str = "", jumps: int = -1 ) -> Tuple[str, int] | None:
     if not root:
         return "", jumps
     path += root.name
@@ -51,7 +51,7 @@ def BFS(root: Valve, target: str, path: str = "", jumps: int = -1 ) -> Tuple[str
             result = BFS(v, target, path, jumps)
             if result:
                 return result
-    return path,jumps
+    return None
 
 def calculate_returns(start: Valve, map: Dict[str, Valve], current_turn: int) -> Dict[str, int]:
     returns_map = {}

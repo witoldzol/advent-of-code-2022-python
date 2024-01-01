@@ -6,4 +6,6 @@
   - [x] remove visited property on the Valve object 
 - [x] figure out a more elegant way of passing a map of visited nodes to BFS function, at the moment we create a fresh copy when starting a root invocation - this is not  a sustainable practice
 - [x] calculate expected returns from all nodes based on current location
-- run 30 turn, recalculating with each move
+- [x] run 30 turn, recalculating with each move
+- test the calculate_returns ( pay attention to case where you run out of turns )
+- improve the calculate_returns algo - it is not returning max possible value, perhaps we can run different scenarios where we do look ahead ( sum of two next moves etc )

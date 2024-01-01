@@ -7,7 +7,6 @@ class Valve:
         self.adjacent = adjacent
         self.name = name
         self.rate = rate
-        self.visited = False
 
     def __repr__(self) -> str:
         return f"Valve(name={self.name}, rate={self.rate}, adjacent={[v.name for v in self.adjacent]})"

@@ -48,5 +48,4 @@ def test_calculate_returns_two_jumps():
     map = {"AA": aa, "BB": bb, "CC": cc, "DD": dd}
     # calc returns
     results_map = calculate_returns(aa, map, 10)
-    for k,v in results_map.items():
-        print(k, " = ", v)
+    print(results_map)

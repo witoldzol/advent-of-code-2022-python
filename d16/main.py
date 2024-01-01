@@ -1,4 +1,5 @@
 from typing import List, Dict, Set, Tuple
+from collections import OrderedDict
 import pudb
 
 
@@ -61,29 +62,50 @@ def BFS(
 
 
 def calculate_returns(
-    start: Valve, map: Dict[str, Valve], current_turn: int
+    start: Valve, map: Dict[str, Valve], max_turns: int
     ) -> Dict[str, int]:
-    returns_map = {}
-    for valve in map.values():
-        print(f"{valve=}")
-        if valve.name == start.name:
-            continue
-        path_to_valve = BFS(start, valve.name)
-        if not path_to_valve:
-            raise Exception(f"Unable to find path to valve {valve.name}")
-        _, turns_to_get_to_valve = path_to_valve
-        turns_to_get_to_valve += 1  # one extra turn to activate the valve
-        remaining_turns = current_turn - turns_to_get_to_valve
-        potential_flow = valve.rate * remaining_turns
-        returns_map[valve.name] = potential_flow
-    return returns_map
+    max_returns_map = OrderedDict()
+    max_flow = 0
+    max_value_valve = ""
+    jump = 0
+    turn = max_turns
+    for _ in range(max_turns, 0, -1):
+        print(f"{turn=}, current valve is {start.name}")
+        for valve in map.values():
+            if valve.name == start.name or valve.name in max_returns_map:
+                continue
+            path_to_valve = BFS(start, valve.name)
+            print(f"path to valve {valve.name} takes {path_to_valve}")
+            if not path_to_valve:
+                raise Exception(f"Unable to find path to valve {valve.name}")
+            _, turns_to_get_to_valve = path_to_valve
+            turns_to_get_to_valve += 1  # one extra turn to activate the valve
+            remaining_turns = turn - turns_to_get_to_valve
+            potential_flow = valve.rate * remaining_turns
+            if potential_flow > max_flow:
+                max_flow = potential_flow
+                max_value_valve = valve.name
+                jump = turns_to_get_to_valve
+        # exit early if more turns than valves
+        print(f"max flow is {max_flow} at node {max_value_valve} and it takes {jump} turns to get there from node {start.name}")
+        turn -= jump + 1
+        if not max_value_valve:
+            return max_returns_map
+        max_returns_map[max_value_valve] = max_flow
+        start = map[max_value_valve]
+        max_flow = 0
+        max_value_valve = ""
+    return max_returns_map
 
 
 def main(input):
     root, valves = build_valve_graph(input)
-    print(root)
-    path = BFS(root, "JJ")
-    print(f"{path=}")
+    sum = 0
+    returns_map = calculate_returns(root, valves, 30)
+    for k,v in returns_map.items():
+        sum += v
+    print(f"max is = {sum}")
+
 
 
 if __name__ == "__main__":

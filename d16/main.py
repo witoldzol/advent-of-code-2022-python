@@ -69,7 +69,7 @@ def calculate_returns(
     max_value_valve = ""
     jump = 0
     turn = max_turns
-    for _ in range(max_turns, 0, -1):
+    for _ in range(len(map)):
         print(f"{turn=}, current valve is {start.name}")
         for valve in map.values():
             if valve.name == start.name or valve.name in max_returns_map:

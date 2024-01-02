@@ -33,7 +33,7 @@ def test_BFS():
 
 
 def test_calculate_returns_two_jumps():
-    aa = Valve('AA', 10, [])
+    aa = Valve('AA', 0, [])
     bb = Valve('BB', 10, [])
     cc = Valve('CC', 10, [])
     dd = Valve('DD', 100, [])
@@ -48,4 +48,4 @@ def test_calculate_returns_two_jumps():
     map = {"AA": aa, "BB": bb, "CC": cc, "DD": dd}
     # calc returns
     results_map = calculate_returns(aa, map, 10)
-    print(results_map)
+    print(f"{results_map=}")

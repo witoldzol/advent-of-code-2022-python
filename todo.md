@@ -8,4 +8,7 @@
 - [x] calculate expected returns from all nodes based on current location
 - [x] run 30 turn, recalculating with each move
 - test the calculate_returns ( pay attention to case where you run out of turns )
+  - current test iterates over the empty node? examine that
+  - add more simple test cases 
+  - break up the function, or add comments, its difficult to reason about it
 - improve the calculate_returns algo - it is not returning max possible value, perhaps we can run different scenarios where we do look ahead ( sum of two next moves etc )

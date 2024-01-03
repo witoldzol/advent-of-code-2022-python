@@ -70,31 +70,39 @@ def calculate_returns(
     jump = 0
     turn = max_turns
     for _ in range(len(map)):
-        print(f"{turn=}, current valve is {start.name}")
+        print(f"Turns left == {turn}, current valve is {start.name}")
         for valve in map.values():
-            if valve.name == start.name or valve.name in max_returns_map:
+            if valve.name == start.name or valve.name in max_returns_map or valve.rate == 0:
                 continue
             path_to_valve = BFS(start, valve.name)
-            print(f"path to valve {valve.name} takes {path_to_valve}")
+            print(f"path to valve {valve.name} takes {path_to_valve[1]} turns + 1 turn to turn on the valve")
             if not path_to_valve:
                 raise Exception(f"Unable to find path to valve {valve.name}")
             _, turns_to_get_to_valve = path_to_valve
             turns_to_get_to_valve += 1  # one extra turn to activate the valve
             remaining_turns = turn - turns_to_get_to_valve
+            print(f"remaining turns for node {valve.name} is {remaining_turns}")
             potential_flow = valve.rate * remaining_turns
+            print(f"potential flow for node {valve.name} is {potential_flow}")
             if potential_flow > max_flow:
                 max_flow = potential_flow
                 max_value_valve = valve.name
                 jump = turns_to_get_to_valve
         # exit early if more turns than valves
-        print(f"max flow is {max_flow} at node {max_value_valve} and it takes {jump} turns to get there from node {start.name}")
-        turn -= jump + 1
+        turn -= jump
         if not max_value_valve:
+            print("===================")
+            print(f"{max_returns_map=}")
+            print("===================")
             return max_returns_map
+        print(f"max flow is {max_flow} at node {max_value_valve} and it takes {jump} turns to get there from node {start.name}")
         max_returns_map[max_value_valve] = max_flow
         start = map[max_value_valve]
         max_flow = 0
         max_value_valve = ""
+    print("===================")
+    print(f"{max_returns_map=}")
+    print("===================")
     return max_returns_map
 
 

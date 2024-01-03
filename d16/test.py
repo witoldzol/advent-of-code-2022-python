@@ -48,4 +48,27 @@ def test_calculate_returns_two_jumps():
     map = {"AA": aa, "BB": bb, "CC": cc, "DD": dd}
     # calc returns
     results_map = calculate_returns(aa, map, 10)
-    print(f"{results_map=}")
+    assert 700 == results_map["DD"]
+
+# def test_calculate_returns_three_jumps():
+#     aa = Valve('AA', 0, [])
+#     bb = Valve('BB', 10, [])
+#     cc = Valve('CC', 40, [])
+#     dd = Valve('DD', 100, [])
+#     ee = Valve('EE', 50, [])
+#     aa_adjacent = [bb,cc]
+#     bb_adjacent = [aa]
+#     cc_adjacent = [aa,dd]
+#     dd_adjacent = [cc,ee]
+#     ee_adjacent = [dd]
+#     aa.adjacent = aa_adjacent
+#     bb.adjacent = bb_adjacent
+#     cc.adjacent = cc_adjacent
+#     dd.adjacent = dd_adjacent
+#     ee.adjacent = ee_adjacent
+#     map = {"AA": aa, "BB": bb, "CC": cc, "DD": dd, "EE": ee}
+#     # calc returns
+#     results_map = calculate_returns(aa, map, 10)
+#     print(f"{results_map=}")
+#     assert 700 == results_map["DD"]
+#     assert 200 == results_map["EE"]

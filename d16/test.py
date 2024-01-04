@@ -119,9 +119,7 @@ def test_calculate_returns3_two_jumps():
     ee.adjacent = ee_adjacent
     map = {"AA": aa, "BB": bb, "CC": cc, "DD": dd, "EE": ee}
     # calc returns
-    results_map, remaining_turns = calculate_returns3(aa, map, 10, OrderedDict())
-    assert 700 == results_map["DD"]
-    start_node_name = list(results_map.keys())[-1]
-    start_node = map[start_node_name]
-    results_map, remaining_turns = calculate_returns3(start_node, map, remaining_turns, results_map)
-    assert 250 == results_map["EE"]
+    results = calculate_returns3(aa, map, 10)
+    assert 4 == len(results)
+    assert 'EE' == results[-1][0]
+    assert 300 == results[-1][1]

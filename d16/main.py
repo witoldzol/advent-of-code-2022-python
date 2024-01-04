@@ -95,7 +95,7 @@ def calculate_returns(
             print(f"{max_returns_map=}")
             print("===================")
             return max_returns_map
-        print(f"max flow is {max_flow} at node {max_value_valve} and it takes {jump} turns to get there from node {start.name}")
+        print(f"==> MAX flow is {max_flow} at node {max_value_valve} and it takes {jump} turns to get there from node {start.name}")
         max_returns_map[max_value_valve] = max_flow
         start = map[max_value_valve]
         max_flow = 0

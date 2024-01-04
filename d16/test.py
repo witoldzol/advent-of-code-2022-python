@@ -1,5 +1,6 @@
+from typing import OrderedDict
 from main import Valve, BFS
-from main import calculate_returns
+from main import calculate_returns, calculate_returns2
 
 
 def test_BFS():
@@ -50,6 +51,7 @@ def test_calculate_returns_two_jumps():
     results_map = calculate_returns(aa, map, 10)
     assert 700 == results_map["DD"]
 
+
 def test_calculate_returns_three_jumps():
     aa = Valve('AA', 0, [])
     bb = Valve('BB', 10, [])
@@ -71,3 +73,30 @@ def test_calculate_returns_three_jumps():
     results_map = calculate_returns(aa, map, 10)
     assert 700 == results_map["DD"]
     assert 250 == results_map["EE"]
+
+
+def test_calculate_returns2_two_jumps():
+    aa = Valve('AA', 0, [])
+    bb = Valve('BB', 10, [])
+    cc = Valve('CC', 40, [])
+    dd = Valve('DD', 100, [])
+    ee = Valve('EE', 50, [])
+    aa_adjacent = [bb,cc]
+    bb_adjacent = [aa]
+    cc_adjacent = [aa,dd]
+    dd_adjacent = [cc,ee]
+    ee_adjacent = [dd]
+    aa.adjacent = aa_adjacent
+    bb.adjacent = bb_adjacent
+    cc.adjacent = cc_adjacent
+    dd.adjacent = dd_adjacent
+    ee.adjacent = ee_adjacent
+    map = {"AA": aa, "BB": bb, "CC": cc, "DD": dd, "EE": ee}
+    # calc returns
+    results_map, remaining_turns = calculate_returns2(aa, map, 10, OrderedDict())
+    assert 700 == results_map["DD"]
+    start_node_name = list(results_map.keys())[-1]
+    start_node = map[start_node_name]
+    results_map, remaining_turns = calculate_returns2(start_node, map, remaining_turns, results_map)
+    assert 250 == results_map["EE"]
+

@@ -9,5 +9,7 @@
 - [x] run 30 turn, recalculating with each move
 - test the calculate_returns ( pay attention to case where you run out of turns )
   - [x] current test iterates over the empty node? examine that
-  - break up the function, or add comments, its difficult to reason about it
-- improve the calculate_returns algo - it is not returning max possible value, perhaps we can run different scenarios where we do look ahead ( sum of two next moves etc )
+  - [x] break up the function, or add comments, its difficult to reason about it
+- improve the calculate_returns algo - it is not returning max possible value,
+  perhaps we can run different scenarios where we do look ahead ( sum of two next moves etc )
+  - extract the loop outside, pass in the maps as params, and return them after each run?

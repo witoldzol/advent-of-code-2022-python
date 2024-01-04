@@ -61,9 +61,52 @@ def BFS(
                 return result
 
 
+def calculate_returns2(
+    start: Valve,
+    map: Dict[str, Valve],
+    max_turns: int,
+    max_returns_map: OrderedDict[str,int]
+) -> OrderedDict[str, int]:
+    max_flow = 0
+    max_value_valve = ""
+    jump = 0
+    turn = max_turns
+    print(f"Turns left == {turn}, current valve is {start.name}")
+    for valve in map.values():
+        if valve.name == start.name or valve.name in max_returns_map or valve.rate == 0:
+            continue
+        path_to_valve = BFS(start, valve.name)
+        print(f"path to valve {valve.name} takes {path_to_valve[1]} turns + 1 turn to turn on the valve")
+        if not path_to_valve:
+            raise Exception(f"Unable to find path to valve {valve.name}")
+        _, turns_to_get_to_valve = path_to_valve
+        turns_to_get_to_valve += 1  # one extra turn to activate the valve
+        remaining_turns = turn - turns_to_get_to_valve
+        print(f"remaining turns for node {valve.name} is {remaining_turns}")
+        potential_flow = valve.rate * remaining_turns
+        print(f"potential flow for node {valve.name} is {potential_flow}")
+        if potential_flow > max_flow:
+            max_flow = potential_flow
+            max_value_valve = valve.name
+            jump = turns_to_get_to_valve
+    # exit early if more turns than valves
+    turn -= jump
+    if not max_value_valve:
+        print("===================")
+        print(f"{max_returns_map=}")
+        print("===================")
+        return max_returns_map
+    print(f"==> MAX flow is {max_flow} at node {max_value_valve} and it takes {jump} turns to get there from node {start.name}")
+    max_returns_map[max_value_valve] = max_flow
+    print("===================")
+    print(f"{max_returns_map=}")
+    print("===================")
+    return max_returns_map, turn
+
+
 def calculate_returns(
     start: Valve, map: Dict[str, Valve], max_turns: int
-    ) -> Dict[str, int]:
+    ) -> Tuple[Dict[str, int], int]:
     max_returns_map = OrderedDict()
     max_flow = 0
     max_value_valve = ""
@@ -103,7 +146,7 @@ def calculate_returns(
     print("===================")
     print(f"{max_returns_map=}")
     print("===================")
-    return max_returns_map
+    return max_returns_map, turn
 
 
 def main(input):

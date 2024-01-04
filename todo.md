@@ -10,7 +10,8 @@
 - test the calculate_returns ( pay attention to case where you run out of turns )
   - [x] current test iterates over the empty node? examine that
   - [x] break up the function, or add comments, its difficult to reason about it
-- improve the calculate_returns algo - it is not returning max possible value,
-  perhaps we can run different scenarios where we do look ahead ( sum of two next moves etc )
+- improve the calculate_returns algo - it is not returning max possible value, perhaps we can run different scenarios where we do look ahead ( sum of two next moves etc )
   - [x] extract the loop outside, pass in the maps as params, and return them after each run?
-  - return a list of tuples ordered by potential returns
+  - [x] return a list of tuples ordered by potential returns
+  - return number of turns remaining with the tuple in function test_calculate_returns3_two_jumps
+  - when you have all that info, you can then select aribrary number of top results and plug them into version 2 ? to get max results? worth a try

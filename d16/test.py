@@ -1,6 +1,6 @@
 from typing import OrderedDict
 from main import Valve, BFS
-from main import calculate_returns, calculate_returns2, calculate_returns3
+from main import calculate_returns, calculate_returns2, calculate_returns_for_a_single_turn
 
 
 def test_BFS():
@@ -119,7 +119,7 @@ def test_calculate_returns3_two_jumps():
     ee.adjacent = ee_adjacent
     map = {"AA": aa, "BB": bb, "CC": cc, "DD": dd, "EE": ee}
     # calc returns
-    results = calculate_returns3(aa, map, 10)
+    results = calculate_returns_for_a_single_turn(aa, map, 10)
     assert 4 == len(results)
     last = results[-1]
     assert 'EE' == last.name

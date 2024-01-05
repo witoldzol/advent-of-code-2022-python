@@ -155,7 +155,7 @@ class Valve_Exprected_Returns():
     remaining_turns: int
 
 
-def calculate_returns3(
+def calculate_returns_for_a_single_turn(
     start: Valve,
     map: Dict[str, Valve],
     max_turns: int,

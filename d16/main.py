@@ -68,9 +68,10 @@ def BFS(
 
 
 def calculate_returns(
-    start: Valve, map: Dict[str, Valve], max_turns: int
+    start: Valve, map: Dict[str, Valve], max_turns: int, max_returns_map: OrderedDict = None
     ) -> Tuple[Dict[str, int], int]:
-    max_returns_map = OrderedDict()
+    if not max_returns_map:
+        max_returns_map = OrderedDict()
     max_flow = 0
     max_value_valve = ""
     jump = 0

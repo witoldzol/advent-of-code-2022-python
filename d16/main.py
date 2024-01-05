@@ -2,6 +2,9 @@ from dataclasses import dataclass
 from typing import List, Dict, Set, Tuple
 from collections import OrderedDict
 import pudb
+import logging
+
+log = logging.getLogger()
 
 class Valve:
     def __init__(self, name: str, rate: int, adjacent: List["Valve"] = None) -> None:
@@ -77,20 +80,20 @@ def calculate_returns(
     jump = 0
     turn = max_turns
     for _ in range(len(map)):
-        print(f"Turns left == {turn}, current valve is {start.name}")
+        log.debug(f"Turns left == {turn}, current valve is {start.name}")
         for valve in map.values():
             if valve.name == start.name or valve.name in max_returns_map or valve.rate == 0:
                 continue
             path_to_valve = BFS(start, valve.name)
-            print(f"path to valve {valve.name} takes {path_to_valve[1]} turns + 1 turn to turn on the valve")
+            log.debug(f"path to valve {valve.name} takes {path_to_valve[1]} turns + 1 turn to turn on the valve")
             if not path_to_valve:
                 raise Exception(f"Unable to find path to valve {valve.name}")
             _, turns_to_get_to_valve = path_to_valve
             turns_to_get_to_valve += 1  # one extra turn to activate the valve
             remaining_turns = turn - turns_to_get_to_valve
-            print(f"remaining turns for node {valve.name} is {remaining_turns}")
+            log.debug(f"remaining turns for node {valve.name} is {remaining_turns}")
             potential_flow = valve.rate * remaining_turns
-            print(f"potential flow for node {valve.name} is {potential_flow}")
+            log.debug(f"potential flow for node {valve.name} is {potential_flow}")
             if potential_flow > max_flow:
                 max_flow = potential_flow
                 max_value_valve = valve.name

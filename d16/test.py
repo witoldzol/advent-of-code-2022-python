@@ -76,22 +76,22 @@ def test_calculate_returns_for_a_single_turn(valve_map):
 
 def test_different_paths(valve_map):
     results = calculate_returns_for_a_single_turn(valve_map["AA"], valve_map, 10)
-    # assert 4 == len(results)
-    # last = results[-1]
-    # assert 'EE' == last.name
-    # assert 300 == last.potential_flow
-    # assert 6 == last.remaining_turns
-    # for valve in results:
-    #     od = OrderedDict()
-    #     od[valve.name] = valve.potential_flow
-    #     sum = valve.potential_flow
-    #     path = ''
-    #     returns = calculate_returns(valve_map[valve.name], valve_map, valve.remaining_turns, od)
-    #     for k,v in returns.items():
-    #         path += k
-    #         sum += v
-    #     print("========================================")
-    #     print(f"Total for path {path} is {sum} where START node == {valve.name}")
-    #     print("========================================")
-    #
-    #
+    assert 4 == len(results)
+    last = results[-1]
+    assert 'EE' == last.name
+    assert 300 == last.potential_flow
+    assert 6 == last.remaining_turns
+    for valve in results:
+        od = OrderedDict()
+        od[valve.name] = valve.potential_flow
+        sum = valve.potential_flow
+        path = ''
+        returns = calculate_returns(valve_map[valve.name], valve_map, valve.remaining_turns, od)
+        for k,v in returns.items():
+            path += k
+            sum += v
+        print("========================================")
+        print(f"Total for path {path} is {sum} where START node == {valve.name}")
+        print("========================================")
+
+

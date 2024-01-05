@@ -1,3 +1,4 @@
+from dataclasses import dataclass
 from typing import List, Dict, Set, Tuple
 from collections import OrderedDict
 import pudb
@@ -147,11 +148,18 @@ def calculate_returns2(
     return max_returns_map, turn
 
 
+@dataclass(frozen=True)
+class Valve_Exprected_Returns():
+    name: str
+    potential_flow: int
+    remaining_turns: int
+
+
 def calculate_returns3(
     start: Valve,
     map: Dict[str, Valve],
     max_turns: int,
-    ) -> List[Tuple[str,int]]:
+    ) -> List[Valve_Exprected_Returns]:
     results = []
     for valve in map.values():
         if valve.name == start.name:
@@ -166,8 +174,8 @@ def calculate_returns3(
         print(f"remaining turns for node {valve.name} is {remaining_turns}")
         potential_flow = valve.rate * remaining_turns
         print(f"potential flow for node {valve.name} is {potential_flow}")
-        valve_flow_pair = (valve.name, potential_flow)
-        results.append(valve_flow_pair)
+        valve_exprected_returns = Valve_Exprected_Returns(valve.name, potential_flow, remaining_turns)
+        results.append(valve_exprected_returns)
     return results
 
 

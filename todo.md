@@ -13,5 +13,6 @@
 - improve the calculate_returns algo - it is not returning max possible value, perhaps we can run different scenarios where we do look ahead ( sum of two next moves etc )
   - [x] extract the loop outside, pass in the maps as params, and return them after each run?
   - [x] return a list of tuples ordered by potential returns
+  - [x] add Valve_Exprected_Returns
   - return number of turns remaining with the tuple in function test_calculate_returns3_two_jumps
   - when you have all that info, you can then select aribrary number of top results and plug them into version 2 ? to get max results? worth a try

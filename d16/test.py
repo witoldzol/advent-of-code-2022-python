@@ -121,5 +121,7 @@ def test_calculate_returns3_two_jumps():
     # calc returns
     results = calculate_returns3(aa, map, 10)
     assert 4 == len(results)
-    assert 'EE' == results[-1][0]
-    assert 300 == results[-1][1]
+    last = results[-1]
+    assert 'EE' == last.name
+    assert 300 == last.potential_flow
+    assert 6 == last.remaining_turns

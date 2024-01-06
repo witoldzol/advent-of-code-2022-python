@@ -1,4 +1,3 @@
-import logging
 from typing import OrderedDict
 from main import Valve, BFS
 from main import calculate_returns, calculate_returns_for_a_single_turn

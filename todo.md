@@ -16,3 +16,4 @@
   - [x] return number of turns remaining with the tuple in function test_calculate_returns3_two_jumps
   - [x] manually verify that the test test_different_paths gives correct results 
   - create a function that incorporates the above ( gets initials paths and then calculates returns for all subsequent paths and spits out the results )
+    - make the function take a number of top paths to retain, and explore their total returns. Do this recursively until you run out of turns.

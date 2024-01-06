@@ -22,6 +22,8 @@ class Valve_Exprected_Returns():
     name: str
     potential_flow: int
     remaining_turns: int
+    def __repr__(self):
+        print(f"Valve_Exprected_Returns(name={self.name}, potential_flow={self.potential_flow}, remaining_turns={self.remaining_turns})")
 
 
 def build_valve_graph(filename: str) -> Tuple[Valve, Dict[str, Valve]]:
@@ -75,6 +77,7 @@ def BFS(
 def calculate_returns(
     start: Valve, map: Dict[str, Valve], max_turns: int, max_returns_map: OrderedDict = None
     ) -> Tuple[Dict[str, int], int]:
+    log.info(f"START NODE = {start}, MAX_TURNS = {max_turns}")
     if not max_returns_map:
         max_returns_map = OrderedDict()
     max_flow = 0
@@ -107,7 +110,6 @@ def calculate_returns(
             print(f"{max_returns_map=}")
             print("===================")
             return max_returns_map
-        print(f"==> MAX flow is {max_flow} at node {max_value_valve} and it takes {jump} turns to get there from node {start.name}")
         max_returns_map[max_value_valve] = max_flow
         start = map[max_value_valve]
         max_flow = 0

@@ -75,12 +75,15 @@ def test_calculate_returns_for_a_single_turn(valve_map):
 
 
 def test_different_paths(valve_map):
+    # generate initial paths
     results = calculate_returns_for_a_single_turn(valve_map["AA"], valve_map, 10)
     assert 4 == len(results)
     last = results[-1]
     assert 'EE' == last.name
     assert 300 == last.potential_flow
     assert 6 == last.remaining_turns
+    # calculate returns for different starts
+    sums = {}
     for valve in results:
         od = OrderedDict()
         od[valve.name] = valve.potential_flow
@@ -90,8 +93,7 @@ def test_different_paths(valve_map):
         for k,v in returns.items():
             path += k
             sum += v
-        print("========================================")
-        print(f"Total for path {path} is {sum} where START node == {valve.name}")
-        print("========================================")
+        sums[path] = sum
+    assert sums == {'BBDDEE': 660, 'CCDDEE': 1440, 'DDEECC': 1730, 'EEDDCC': 1080}
 
 

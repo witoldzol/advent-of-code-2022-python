@@ -14,5 +14,5 @@
   - [x] extract the loop outside, pass in the maps as params, and return them after each run?
   - [x] return a list of tuples ordered by potential returns
   - [x] return number of turns remaining with the tuple in function test_calculate_returns3_two_jumps
-  - manually verify that the test test_different_paths gives correct results 
+  - [x] manually verify that the test test_different_paths gives correct results 
   - create a function that incorporates the above ( gets initials paths and then calculates returns for all subsequent paths and spits out the results )

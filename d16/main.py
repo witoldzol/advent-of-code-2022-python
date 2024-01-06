@@ -144,6 +144,13 @@ def calculate_returns_for_a_single_turn(
         results.append(valve_exprected_returns)
     return results
 
+def calculate_returns_for_top_paths(
+    start: Valve,
+    map: Dict[str, Valve],
+    max_turns: int,
+        top_paths: int
+    ) -> Dict[str,int]:
+    return {}
 
 def main(input):
     root, valves = build_valve_graph(input)

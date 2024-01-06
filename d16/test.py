@@ -1,6 +1,6 @@
 from typing import OrderedDict
 from main import Valve, BFS
-from main import calculate_returns, calculate_returns_for_a_single_turn
+from main import calculate_returns, calculate_returns_for_a_single_turn, calculate_returns_for_top_paths
 import pytest
 
 @pytest.fixture
@@ -95,4 +95,7 @@ def test_different_paths(valve_map):
         sums[path] = sum
     assert sums == {'BBDDEE': 660, 'CCDDEE': 1440, 'DDEECC': 1730, 'EEDDCC': 1080}
 
+def test_calculate_returns_for_top_paths(valve_map):
+    sums = calculate_returns_for_top_paths(valve_map["AA"], valve_map, 10, 4)
+    assert sums == {'BBDDEE': 660, 'CCDDEE': 1440, 'DDEECC': 1730, 'EEDDCC': 1080}
 

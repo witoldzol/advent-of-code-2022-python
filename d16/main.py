@@ -178,12 +178,6 @@ def calculate_returns_for_top_paths( start: Valve, map: Dict[str, Valve], max_tu
 def main(input):
     root, valves = build_valve_graph(input)
     calculate_returns_for_top_paths(root, valves, 30, len(valves))
-    # sum = 0
-    # returns_map = calculate_returns(root, valves, 30)
-    # for k,v in returns_map.items():
-    #     sum += v
-    # print(f"max is = {sum}")
-
 
 
 if __name__ == "__main__":

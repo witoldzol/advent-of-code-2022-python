@@ -74,6 +74,15 @@ def BFS(
                 return result
 
 
+def print_path_and_total(input: OrderedDict) -> None:
+    total = 0
+    path = 'AA'
+    for k,v in input.items():
+        total += v
+        path += k
+    print(f"PATH={path}, TOTAL={total}")
+
+
 def calculate_returns(
     start: Valve, map: Dict[str, Valve], max_turns: int, max_returns_map: OrderedDict = None
     ) -> Tuple[Dict[str, int], int]:
@@ -108,15 +117,16 @@ def calculate_returns(
         if not max_value_valve:
             print("===================")
             print(f"{max_returns_map=}")
+            print_path_and_total(max_returns_map)
             print("===================")
             return max_returns_map
         max_returns_map[max_value_valve] = max_flow
         start = map[max_value_valve]
         max_flow = 0
         max_value_valve = ""
-    print("===================")
-    print(f"{max_returns_map=}")
-    print("===================")
+    # print("===================")
+    # print(f"{max_returns_map=}")
+    # print("===================")
     return max_returns_map, turn
 
 
@@ -154,15 +164,25 @@ def select_best_paths(n: int, paths: List[Valve_Exprected_Returns]) -> List[Valv
 def calculate_returns_for_top_paths( start: Valve, map: Dict[str, Valve], max_turns: int, top_paths: int) -> Dict[str,int]:
     exptected_path_returns = calculate_returns_for_a_single_turn( start, map, max_turns)
     best_return_paths = select_best_paths(top_paths, exptected_path_returns)
-    return {}
+    print(f"{best_return_paths=}")
+    returns = []
+    for path in best_return_paths:
+        om = OrderedDict()
+        om[path.name] = path.potential_flow
+        returns_map = calculate_returns( map[path.name], map, path.remaining_turns, om)
+        returns.append(returns_map)
+    for r in returns:
+        print(r)
+
 
 def main(input):
     root, valves = build_valve_graph(input)
-    sum = 0
-    returns_map = calculate_returns(root, valves, 30)
-    for k,v in returns_map.items():
-        sum += v
-    print(f"max is = {sum}")
+    calculate_returns_for_top_paths(root, valves, 30, len(valves))
+    # sum = 0
+    # returns_map = calculate_returns(root, valves, 30)
+    # for k,v in returns_map.items():
+    #     sum += v
+    # print(f"max is = {sum}")
 
 
 

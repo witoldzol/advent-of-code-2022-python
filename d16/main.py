@@ -23,7 +23,7 @@ class Valve_Exprected_Returns():
     potential_flow: int
     remaining_turns: int
     def __repr__(self):
-        print(f"Valve_Exprected_Returns(name={self.name}, potential_flow={self.potential_flow}, remaining_turns={self.remaining_turns})")
+        return f"Valve_Exprected_Returns(name={self.name}, potential_flow={self.potential_flow}, remaining_turns={self.remaining_turns}"
 
 
 def build_valve_graph(filename: str) -> Tuple[Valve, Dict[str, Valve]]:
@@ -144,12 +144,16 @@ def calculate_returns_for_a_single_turn(
         results.append(valve_exprected_returns)
     return results
 
-def calculate_returns_for_top_paths(
-    start: Valve,
-    map: Dict[str, Valve],
-    max_turns: int,
-        top_paths: int
-    ) -> Dict[str,int]:
+
+def select_best_paths(n: int, paths: List[Valve_Exprected_Returns]) -> List[Valve_Exprected_Returns]:
+    sorted_paths = sorted(paths, key=lambda x: x.potential_flow, reverse=True)
+    return sorted_paths[:n]
+
+
+
+def calculate_returns_for_top_paths( start: Valve, map: Dict[str, Valve], max_turns: int, top_paths: int) -> Dict[str,int]:
+    exptected_path_returns = calculate_returns_for_a_single_turn( start, map, max_turns)
+    best_return_paths = select_best_paths(top_paths, exptected_path_returns)
     return {}
 
 def main(input):

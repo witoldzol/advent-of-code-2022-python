@@ -140,7 +140,7 @@ def calculate_returns_for_a_single_turn(
     ) -> List[Valve_Exprected_Returns]:
     results = []
     for valve in map.values():
-        if valve.name == start.name:
+        if valve.name == start.name or valve.name in path: # check if start position or already visited 
             continue
         path_to_valve = BFS(start, valve.name)
         log.debug(f"path to valve {valve.name} takes {path_to_valve[1]} turns + 1 turn to turn on the valve")
@@ -164,7 +164,6 @@ def calculate_returns_for_a_single_turn(
 def select_best_paths(n: int, paths: List[Valve_Exprected_Returns]) -> List[Valve_Exprected_Returns]:
     sorted_paths = sorted(paths, key=lambda x: x.potential_flow, reverse=True)
     return sorted_paths[:n]
-
 
 
 def main(input):

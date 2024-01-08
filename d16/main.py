@@ -22,8 +22,9 @@ class Valve_Exprected_Returns():
     name: str
     potential_flow: int
     remaining_turns: int
+    path: str
     def __repr__(self):
-        return f"Valve_Exprected_Returns(name={self.name}, potential_flow={self.potential_flow}, remaining_turns={self.remaining_turns}"
+        return f"Valve_Exprected_Returns(name={self.name}, potential_flow={self.potential_flow}, remaining_turns={self.remaining_turns}, path={self.path}"
 
 
 def build_valve_graph(filename: str) -> Tuple[Valve, Dict[str, Valve]]:
@@ -135,6 +136,7 @@ def calculate_returns_for_a_single_turn(
     start: Valve,
     map: Dict[str, Valve],
     max_turns: int,
+    path: str = ''
     ) -> List[Valve_Exprected_Returns]:
     results = []
     for valve in map.values():
@@ -150,7 +152,11 @@ def calculate_returns_for_a_single_turn(
         log.debug(f"remaining turns for node {valve.name} is {remaining_turns}")
         potential_flow = valve.rate * remaining_turns
         log.debug(f"potential flow for node {valve.name} is {potential_flow}")
-        valve_exprected_returns = Valve_Exprected_Returns(valve.name, potential_flow, remaining_turns)
+        if not path:
+            current_path = start.name + valve.name
+        else:
+            current_path = path + valve.name
+        valve_exprected_returns = Valve_Exprected_Returns(valve.name, potential_flow, remaining_turns, current_path)
         results.append(valve_exprected_returns)
     return results
 
@@ -162,15 +168,10 @@ def select_best_paths(n: int, paths: List[Valve_Exprected_Returns]) -> List[Valv
 
 
 def calculate_returns_for_top_paths( start: Valve, map: Dict[str, Valve], max_turns: int, top_paths: int) -> Dict[str,int]:
-    exptected_path_returns = calculate_returns_for_a_single_turn( start, map, max_turns)
-    best_return_paths = select_best_paths(top_paths, exptected_path_returns)
-    print(f"{best_return_paths=}")
+    expected_path_returns = calculate_returns_for_a_single_turn( start, map, max_turns)
     returns = []
-    for path in best_return_paths:
-        om = OrderedDict()
-        om[path.name] = path.potential_flow
-        returns_map = calculate_returns( map[path.name], map, path.remaining_turns, om)
-        returns.append(returns_map)
+    for path in expected_path_returns:
+        returns_map = calculate_returns_for_a_single_turn(map[path.name], map, path.remaining_turns)
     for r in returns:
         print(r)
 

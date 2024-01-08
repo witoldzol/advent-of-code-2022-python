@@ -18,12 +18,6 @@
   - [x] create a function that incorporates the above ( gets initials paths and then calculates returns for all subsequent paths and spits out the results )
     - [x] make the function take a number of top paths to retain, and explore their total returns.
     - [x] when we calculate returns for various paths, we need to be able to keep track of the path already taken ( start position and subsequent steps )
-  - finish "test_calculate_returns_for_top_paths" test (the last test is not finished, I use main for testing )
-  - clean up code 
-  - consider if factorial is an issue given that we only have a limited number of turns - do some math projections
-  - write a function that explores all possible routes ( yes I know, but perhaps the limit of 30 turns is enough to stop the explosion)
-
-
-  the 'choose highest return' algoright doesn't work - after visiting all initial paths, it still returns suboptimal paths
-  I guess the only way is to iterate on all possible paths, which makes the whole 'highest returns' algo redundant if we are going to try the brute force
-  I need to sit down and think abou this
+  - [x] use single step function to calculate returns for all possible routes
+  - use step function in a loop or recursion
+    - handle the 'out of turns' use case

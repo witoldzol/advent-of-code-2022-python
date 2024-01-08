@@ -167,18 +167,8 @@ def select_best_paths(n: int, paths: List[Valve_Exprected_Returns]) -> List[Valv
 
 
 
-def calculate_returns_for_top_paths( start: Valve, map: Dict[str, Valve], max_turns: int, top_paths: int) -> Dict[str,int]:
-    expected_path_returns = calculate_returns_for_a_single_turn( start, map, max_turns)
-    returns = []
-    for path in expected_path_returns:
-        returns_map = calculate_returns_for_a_single_turn(map[path.name], map, path.remaining_turns)
-    for r in returns:
-        print(r)
-
-
 def main(input):
     root, valves = build_valve_graph(input)
-    calculate_returns_for_top_paths(root, valves, 30, len(valves))
 
 
 if __name__ == "__main__":

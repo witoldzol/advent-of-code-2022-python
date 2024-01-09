@@ -98,8 +98,21 @@ def test_different_paths(valve_map):
 
 def test_all_paths(valve_map):
     paths = calculate_returns_for_a_single_turn(valve_map["AA"], valve_map, 10)
+    second_pass = []
     for p in paths:
-        last_visited = p.path[-2:]
-        paths2 = calculate_returns_for_a_single_turn(valve_map[last_visited], valve_map, p.remaining_turns, p.path)
-        print(paths2)
+        last_visited = p.name[-2:]
+        print(f"\nPATHS for ===={p.path}")
+        path = calculate_returns_for_a_single_turn(valve_map[last_visited], valve_map, p.remaining_turns, p.path)
+        for pp in path:
+            second_pass.append(pp)
+    assert 12 == len(second_pass)
+    third_pass = []
+    for p in second_pass:
+        last_visited = p.name[-2:]
+        print(f"\nPATHS for ===={p.path}")
+        path = calculate_returns_for_a_single_turn(valve_map[last_visited], valve_map, p.remaining_turns, p.path)
+        for pp in path:
+            print(pp.path)
+            third_pass.append(pp)
+
 

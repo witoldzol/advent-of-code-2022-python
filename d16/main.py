@@ -23,8 +23,9 @@ class Valve_Exprected_Returns():
     potential_flow: int
     remaining_turns: int
     path: str
+    total_flow: int
     def __repr__(self):
-        return f"Valve_Exprected_Returns(name={self.name}, potential_flow={self.potential_flow}, remaining_turns={self.remaining_turns}, path={self.path}"
+        return f"Valve_Exprected_Returns(name={self.name}, potential_flow={self.potential_flow}, remaining_turns={self.remaining_turns}, path={self.path}, total_flow={self.total_flow}"
 
 
 def build_valve_graph(filename: str) -> Tuple[Valve, Dict[str, Valve]]:
@@ -136,7 +137,8 @@ def calculate_returns_for_a_single_turn(
     start: Valve,
     map: Dict[str, Valve],
     max_turns: int,
-    path: str = ''
+    path: str = '',
+    total_flow: int = 0
     ) -> List[Valve_Exprected_Returns]:
     results = []
     for valve in map.values():
@@ -156,7 +158,12 @@ def calculate_returns_for_a_single_turn(
             current_path = start.name + valve.name
         else:
             current_path = path + valve.name
-        valve_exprected_returns = Valve_Exprected_Returns(valve.name, potential_flow, remaining_turns, current_path)
+        if 'AAEE' in path:
+            print(f"total flow so far is {total_flow}, potential_flow is {potential_flow}")
+        total_flow = potential_flow + total_flow if potential_flow >= 0 else total_flow
+        if 'AAEE' in path:
+            print(f"New total is {total_flow} ")
+        valve_exprected_returns = Valve_Exprected_Returns(valve.name, potential_flow, remaining_turns, current_path, total_flow)
         results.append(valve_exprected_returns)
     return results
 

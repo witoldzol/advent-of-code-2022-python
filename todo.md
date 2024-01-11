@@ -22,3 +22,4 @@
   - fix total_flow calculation
   - use step function in a loop or recursion
     - handle the 'out of turns' use case
+    - perhaps we can prune recursive branches when they reach a limit - say 10k calls?

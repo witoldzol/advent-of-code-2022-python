@@ -141,6 +141,8 @@ def calculate_returns_for_a_single_turn(
     total_flow: int = 0
     ) -> List[Valve_Exprected_Returns]:
     results = []
+    if path == '':
+        path = start.name
     for valve in map.values():
         if valve.name == start.name or valve.name in path: # check if start position or already visited 
             continue
@@ -154,16 +156,9 @@ def calculate_returns_for_a_single_turn(
         log.debug(f"remaining turns for node {valve.name} is {remaining_turns}")
         potential_flow = valve.rate * remaining_turns
         log.debug(f"potential flow for node {valve.name} is {potential_flow}")
-        if not path:
-            current_path = start.name + valve.name
-        else:
-            current_path = path + valve.name
-        if 'AAEE' in path:
-            print(f"total flow so far is {total_flow}, potential_flow is {potential_flow}")
-        total_flow = potential_flow + total_flow if potential_flow >= 0 else total_flow
-        if 'AAEE' in path:
-            print(f"New total is {total_flow} ")
-        valve_exprected_returns = Valve_Exprected_Returns(valve.name, potential_flow, remaining_turns, current_path, total_flow)
+        current_path = path + valve.name
+        updated_flow = potential_flow + total_flow if potential_flow >= 0 else total_flow
+        valve_exprected_returns = Valve_Exprected_Returns(valve.name, potential_flow, remaining_turns, current_path, updated_flow)
         results.append(valve_exprected_returns)
     return results
 

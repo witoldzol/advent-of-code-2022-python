@@ -1,4 +1,4 @@
-from typing import OrderedDict
+from typing import OrderedDict, Dict
 from main import Valve, BFS
 from main import calculate_returns, calculate_returns_for_a_single_turn
 import pytest
@@ -88,7 +88,7 @@ def test_different_paths(valve_map):
         od[valve.name] = valve.potential_flow
         sum = valve.potential_flow
         path = ''
-        returns = calculate_returns(valve_map[valve.name], valve_map, valve.remaining_turns, od)
+        returns: Tuple[Dict[str, int], int] = calculate_returns(valve_map[valve.name], valve_map, valve.remaining_turns, od)
         for k,v in returns.items():
             path += k
             sum += v

@@ -19,7 +19,8 @@
     - [x] make the function take a number of top paths to retain, and explore their total returns.
     - [x] when we calculate returns for various paths, we need to be able to keep track of the path already taken ( start position and subsequent steps )
   - [x] use single step function to calculate returns for all possible routes
-  - fix total_flow calculation
+  - [x] fix total_flow calculation
+  - make a step function quickly return when out of turns or places to go
   - use step function in a loop or recursion
     - handle the 'out of turns' use case
     - perhaps we can prune recursive branches when they reach a limit - say 10k calls?

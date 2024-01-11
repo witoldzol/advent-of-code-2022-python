@@ -141,6 +141,8 @@ def calculate_returns_for_a_single_turn(
     total_flow: int = 0
     ) -> List[Valve_Exprected_Returns]:
     results = []
+    if max_turns <= 0:
+        return results
     if path == '':
         path = start.name
     for valve in map.values():
@@ -153,6 +155,8 @@ def calculate_returns_for_a_single_turn(
         _, turns_to_get_to_valve = path_to_valve
         turns_to_get_to_valve += 1  # one extra turn to activate the valve
         remaining_turns = max_turns - turns_to_get_to_valve
+        if remaining_turns < 0:
+            continue
         log.debug(f"remaining turns for node {valve.name} is {remaining_turns}")
         potential_flow = valve.rate * remaining_turns
         log.debug(f"potential flow for node {valve.name} is {potential_flow}")

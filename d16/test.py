@@ -98,25 +98,12 @@ def test_different_paths(valve_map):
 
 def test_all_paths(valve_map):
     all_returns = []
-    paths = calculate_returns_for_a_single_turn(valve_map["AA"], valve_map, 10 )
-    for p in paths:
-        last_visited = p.name[-2:]
-        path = calculate_returns_for_a_single_turn(valve_map[last_visited], valve_map, p.remaining_turns, p.path, p.total_flow)
-        for pp in path:
-            all_returns.append(pp)
-    for p in all_returns:
-        last_visited = p.name[-2:]
-        path = calculate_returns_for_a_single_turn(valve_map[last_visited], valve_map, p.remaining_turns, p.path, p.total_flow)
-        for pp in path:
-            all_returns.append(pp)
-    for p in all_returns:
-        last_visited = p.name[-2:]
-        path = calculate_returns_for_a_single_turn(valve_map[last_visited], valve_map, p.remaining_turns, p.path, p.total_flow)
-        for pp in path:
-            all_returns.append(pp)
+    for _ in range(3):
+        paths = calculate_returns_for_a_single_turn(valve_map["AA"], valve_map, 10 )
+        for p in all_returns if all_returns else paths:
+            last_visited = p.name[-2:]
+            path = calculate_returns_for_a_single_turn(valve_map[last_visited], valve_map, p.remaining_turns, p.path, p.total_flow)
+            for pp in path:
+                all_returns.append(pp)
     all_ordered = sorted(all_returns, key=lambda p: p.total_flow, reverse=True)
-    for o in all_ordered:
-        print(o)
     assert 1120 == all_ordered[0].total_flow
-
-

@@ -98,7 +98,9 @@ def calculate_returns(
     for _ in range(len(map)):
         log.debug(f"Turns left == {turn}, current valve is {start.name}")
         for valve in map.values():
-            if valve.name == start.name or valve.name in max_returns_map or valve.rate == 0:
+            if valve.name == start.name or \
+               valve.rate == 0 or \
+               valve.name in max_returns_map:
                 continue
             path_to_valve = BFS(start, valve.name)
             log.debug(f"path to valve {valve.name} takes {path_to_valve[1]} turns + 1 turn to turn on the valve")

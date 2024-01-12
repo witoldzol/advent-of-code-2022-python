@@ -26,3 +26,4 @@
 - what if we have an algo for getting just all the possible paths within turn limit, and then simply calculate the returns for each
   - since we are already traversing, we might as well calculate the returns because we already have the data there with us, otherwise we would do the same work / traversal twice
   - or maybe there is a benefit to having separation like that, just get the paths / nodes and then just run simple calculations
+- is BFS really breadth first search? can we rewrite it without using recursion?

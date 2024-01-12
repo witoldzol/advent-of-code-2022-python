@@ -23,3 +23,6 @@
   - [x] make a step function quickly return when out of turns or places to go
   - use step function in a loop
     - perhaps we can prune recursive branches when they reach a limit - say 10k calls? - or if out of turns, move the result to final ( two lists - final and wip, let wip keep going until empty - and maybe prune the lowest results if say half way throught the max turns or something like that - I knwo I should just use recursion, this is not the point. The point is to explore )
+- what if we have an algo for getting just all the possible paths within turn limit, and then simply calculate the returns for each
+  - since we are already traversing, we might as well calculate the returns because we already have the data there with us, otherwise we would do the same work / traversal twice
+  - or maybe there is a benefit to having separation like that, just get the paths / nodes and then just run simple calculations

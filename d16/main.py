@@ -52,8 +52,7 @@ def build_valve_graph(filename: str) -> Tuple[Valve, Dict[str, Valve]]:
     return valves["AA"], valves
 
 
-def BFS(
-    root: Valve,
+def BFS( root: Valve,
     target: str,
     map: Dict[str, bool] | None = None,
     path: str = "",
@@ -85,6 +84,7 @@ def print_path_and_total(input: OrderedDict) -> None:
     print(f"PATH={path}, TOTAL={total}")
 
 
+# uses max returns algorighm - which is clearly not working
 def calculate_returns(
     start: Valve, map: Dict[str, Valve], max_turns: int, max_returns_map: OrderedDict = None
     ) -> Tuple[Dict[str, int], int]:
@@ -167,11 +167,6 @@ def calculate_returns_for_a_single_turn(
         valve_exprected_returns = Valve_Exprected_Returns(valve.name, potential_flow, remaining_turns, current_path, updated_flow)
         results.append(valve_exprected_returns)
     return results
-
-
-def select_best_paths(n: int, paths: List[Valve_Exprected_Returns]) -> List[Valve_Exprected_Returns]:
-    sorted_paths = sorted(paths, key=lambda x: x.potential_flow, reverse=True)
-    return sorted_paths[:n]
 
 
 def main(input):

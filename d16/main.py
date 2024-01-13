@@ -145,6 +145,39 @@ def filter_finished_paths(paths: List[Valve_Expected_Returns]) -> Tuple[List[Val
     return done, not_done
 
 
+def calculate_returns_for_a_single_turn2(
+    start: Valve_Expected_Returns,
+    map: Dict[str, Valve],
+    ) -> List[Valve_Expected_Returns]:
+    results = []
+    if start.remaining_turns <= 1:
+        return results
+    for valve in map.values():
+        if valve.name == start.name or valve.name in start.path: # check if start position or already visited 
+            continue
+        start_valve = map[start.name]
+        target_valve = valve.name
+        path_to_valve = BFS(start_valve, target_valve)
+        log.debug(f"path to valve {valve.name} takes {path_to_valve[1]} turns + 1 turn to turn on the valve")
+        if not path_to_valve:
+            raise Exception(f"Unable to find path to valve {valve.name}")
+        _, turns_to_get_to_valve = path_to_valve
+        turns_to_get_to_valve += 1  # one extra turn to activate the valve
+        remaining_turns = start.remaining_turns - turns_to_get_to_valve
+        if remaining_turns < 0:
+            finished_path = Valve_Expected_Returns(start.name, 0, remaining_turns, start.path, start.total_flow)
+            results.append(finished_path)
+            continue
+        log.debug(f"remaining turns for node {valve.name} is {remaining_turns}")
+        potential_flow = valve.rate * remaining_turns
+        log.debug(f"potential flow for node {valve.name} is {potential_flow}")
+        current_path = start.path + valve.name
+        updated_flow = potential_flow + start.total_flow if potential_flow >= 0 else start.total_flow
+        valve_exprected_returns = Valve_Expected_Returns(valve.name, potential_flow, remaining_turns, current_path, updated_flow)
+        results.append(valve_exprected_returns)
+    return results
+
+
 def calculate_returns_for_a_single_turn(
     start: Valve,
     map: Dict[str, Valve],

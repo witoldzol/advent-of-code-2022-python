@@ -21,6 +21,5 @@
   - [x] use single step function to calculate returns for all possible routes
   - [x] fix total_flow calculation
   - [x] make a step function quickly return when out of turns or places to go
-  - simplify the interface for calculate_returns_for_a_single_turn -> there are too many params that needs to be inserted 
-  it's very easy to not pass in the required params
-  we need a starter function to get us going with the intial paths, and then a function that takes and returns paths and keeps iterating on them
+  - simplify calculate_returns_for_a_single_turn -> it only needs to return initial expected returns or incorporate it in the version 2
+  - continue with the TEST test_filter_finished_paths

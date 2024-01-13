@@ -18,7 +18,7 @@ class Valve:
 
 
 @dataclass(frozen=True)
-class Valve_Exprected_Returns():
+class Valve_Expected_Returns():
     name: str
     potential_flow: int
     remaining_turns: int
@@ -134,6 +134,16 @@ def calculate_returns(
     return max_returns_map, turn
 
 
+def filter_finished_paths(paths: List[Valve_Expected_Returns]) -> Tuple[List[Valve_Expected_Returns], List[Valve_Expected_Returns]]:
+    done = []
+    not_done = []
+    for path in paths:
+        if path.remaining_turns < 2:
+            done.append(path)
+        else:
+            not_done.append(path)
+    return done, not_done
+
 
 def calculate_returns_for_a_single_turn(
     start: Valve,
@@ -141,7 +151,7 @@ def calculate_returns_for_a_single_turn(
     max_turns: int,
     path: str = '',
     total_flow: int = 0
-    ) -> List[Valve_Exprected_Returns]:
+    ) -> List[Valve_Expected_Returns]:
     results = []
     if max_turns <= 0:
         return results
@@ -164,7 +174,7 @@ def calculate_returns_for_a_single_turn(
         log.debug(f"potential flow for node {valve.name} is {potential_flow}")
         current_path = path + valve.name
         updated_flow = potential_flow + total_flow if potential_flow >= 0 else total_flow
-        valve_exprected_returns = Valve_Exprected_Returns(valve.name, potential_flow, remaining_turns, current_path, updated_flow)
+        valve_exprected_returns = Valve_Expected_Returns(valve.name, potential_flow, remaining_turns, current_path, updated_flow)
         results.append(valve_exprected_returns)
     return results
 

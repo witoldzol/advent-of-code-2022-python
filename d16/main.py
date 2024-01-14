@@ -178,40 +178,6 @@ def calculate_returns_for_a_single_turn2(
     return results
 
 
-def calculate_returns_for_a_single_turn(
-    start: Valve,
-    map: Dict[str, Valve],
-    max_turns: int,
-    path: str = '',
-    total_flow: int = 0
-    ) -> List[Valve_Expected_Returns]:
-    results = []
-    if max_turns <= 0:
-        return results
-    if path == '':
-        path = start.name
-    for valve in map.values():
-        if valve.name == start.name or valve.name in path: # check if start position or already visited 
-            continue
-        path_to_valve = BFS(start, valve.name)
-        log.debug(f"path to valve {valve.name} takes {path_to_valve[1]} turns + 1 turn to turn on the valve")
-        if not path_to_valve:
-            raise Exception(f"Unable to find path to valve {valve.name}")
-        _, turns_to_get_to_valve = path_to_valve
-        turns_to_get_to_valve += 1  # one extra turn to activate the valve
-        remaining_turns = max_turns - turns_to_get_to_valve
-        if remaining_turns < 0:
-            continue
-        log.debug(f"remaining turns for node {valve.name} is {remaining_turns}")
-        potential_flow = valve.rate * remaining_turns
-        log.debug(f"potential flow for node {valve.name} is {potential_flow}")
-        current_path = path + valve.name
-        updated_flow = potential_flow + total_flow if potential_flow >= 0 else total_flow
-        valve_exprected_returns = Valve_Expected_Returns(valve.name, potential_flow, remaining_turns, current_path, updated_flow)
-        results.append(valve_exprected_returns)
-    return results
-
-
 def main(input):
     root, valves = build_valve_graph(input)
 

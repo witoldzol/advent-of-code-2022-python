@@ -1,6 +1,7 @@
 from typing import OrderedDict, Dict
+from main import Valve_Expected_Returns
 from main import Valve, BFS
-from main import calculate_returns, calculate_returns_for_a_single_turn, filter_finished_paths, calculate_returns_for_a_single_turn2
+from main import calculate_returns, filter_finished_paths, calculate_returns_for_a_single_turn2
 import pytest
 
 @pytest.fixture
@@ -65,8 +66,8 @@ def test_calculate_returns_three_jumps(valve_map):
 
 
 def test_calculate_returns_for_a_single_turn(valve_map):
-    results = calculate_returns_for_a_single_turn(valve_map["AA"], valve_map, 10)
-    assert 4 == len(results)
+    er = Valve_Expected_Returns("AA",0,10,"AA",0)
+    results = calculate_returns_for_a_single_turn2(er, valve_map)
     last = results[-1]
     assert 'EE' == last.name
     assert 300 == last.potential_flow
@@ -75,7 +76,8 @@ def test_calculate_returns_for_a_single_turn(valve_map):
 
 def test_different_paths(valve_map):
     # generate initial paths
-    results = calculate_returns_for_a_single_turn(valve_map["AA"], valve_map, 10)
+    er = Valve_Expected_Returns("AA",0,10,"AA",0)
+    results = calculate_returns_for_a_single_turn2(er, valve_map)
     assert 4 == len(results)
     last = results[-1]
     assert 'EE' == last.name
@@ -95,54 +97,10 @@ def test_different_paths(valve_map):
         sums[path] = sum
     assert sums == {'BBDDEE': 660, 'CCDDEE': 1440, 'DDEECC': 1730, 'EEDDCC': 1080}
 
-def test_filter_finished_paths(valve_map):
-    finished_paths = []
-    paths = calculate_returns_for_a_single_turn(valve_map["AA"], valve_map, 10 )
-    assert 4 == len(paths)
-    done, not_done = filter_finished_paths(paths)
-    finished_paths.extend(done)
-    assert 0 == len(done)
-    assert 4 == len(not_done)
-    # 2
-    all = []
-    for p in not_done:
-        valve = valve_map[p.name]
-        paths = calculate_returns_for_a_single_turn(valve, valve_map, p.remaining_turns, p.path, p.total_flow)
-        all.extend(paths)
-    assert 12 == len(all)
-    done, not_done = filter_finished_paths(all)
-    finished_paths.extend(done)
-    assert 1 == len(done)
-    assert 11 == len(not_done)
-    # 3
-    all = []
-    for p in not_done:
-        valve = valve_map[p.name]
-        paths = calculate_returns_for_a_single_turn(valve, valve_map, p.remaining_turns, p.path, p.total_flow)
-        all.extend(paths)
-    assert 21 == len(all)
-    done, not_done = filter_finished_paths(all)
-    assert 10 == len(done)
-    finished_paths.extend(done)
-    assert 11 == len(not_done)
-    for p in not_done:
-        print(p)
-    # 4
-    # all = []
-    # for p in not_done:
-    #     valve = valve_map[p.name]
-    #     paths = calculate_returns_for_a_single_turn(valve, valve_map, p.remaining_turns, p.path, p.total_flow)
-    #     all.extend(paths)
-    # assert 21 == len(all)
-    # done, not_done = filter_finished_paths(all)
-    # assert 10 == len(done)
-    # finished_paths.extend(done)
-    # assert 11 == len(not_done)
-
-
 def test_all_paths(valve_map):
     finished_paths = []
-    paths = calculate_returns_for_a_single_turn(valve_map["AA"], valve_map, 10 )
+    er = Valve_Expected_Returns("AA",0,10,"AA",0)
+    paths = calculate_returns_for_a_single_turn2(er, valve_map)
     wip = []
     for _ in range(3):
         for p in wip if wip else paths:

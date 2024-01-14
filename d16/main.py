@@ -24,6 +24,7 @@ class Valve_Expected_Returns():
     remaining_turns: int
     path: str
     total_flow: int
+    finished: bool = False
     def __repr__(self):
         return f"Valve_Exprected_Returns(name={self.name}, potential_flow={self.potential_flow}, remaining_turns={self.remaining_turns}, path={self.path}, total_flow={self.total_flow}"
 
@@ -165,7 +166,7 @@ def calculate_returns_for_a_single_turn2(
         turns_to_get_to_valve += 1  # one extra turn to activate the valve
         remaining_turns = start.remaining_turns - turns_to_get_to_valve
         if remaining_turns < 0:
-            finished_path = Valve_Expected_Returns(start.name, 0, remaining_turns, start.path, start.total_flow)
+            finished_path = Valve_Expected_Returns(start.name, 0, remaining_turns, start.path, start.total_flow, True)
             results.append(finished_path)
             continue
         log.debug(f"remaining turns for node {valve.name} is {remaining_turns}")
@@ -173,7 +174,7 @@ def calculate_returns_for_a_single_turn2(
         log.debug(f"potential flow for node {valve.name} is {potential_flow}")
         current_path = start.path + valve.name
         updated_flow = potential_flow + start.total_flow if potential_flow >= 0 else start.total_flow
-        valve_exprected_returns = Valve_Expected_Returns(valve.name, potential_flow, remaining_turns, current_path, updated_flow)
+        valve_exprected_returns = Valve_Expected_Returns(valve.name, potential_flow, remaining_turns, current_path, updated_flow, False)
         results.append(valve_exprected_returns)
     return results
 

@@ -21,5 +21,6 @@
   - [x] use single step function to calculate returns for all possible routes
   - [x] fix total_flow calculation
   - [x] make a step function quickly return when out of turns or places to go
-  - simplify calculate_returns_for_a_single_turn -> it only needs to return initial expected returns or incorporate it in the version 2
-  - continue with the TEST test_filter_finished_paths
+  - [x] simplify calculate_returns_for_a_single_turn -> it only needs to return initial expected returns or incorporate it in the version 2
+  - [x] we want to detect within a step function if the path can continue any further ( ie, even if we still have turns left, there is no valve that we can reach )
+

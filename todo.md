@@ -23,5 +23,6 @@
   - [x] make a step function quickly return when out of turns or places to go
   - [x] simplify calculate_returns_for_a_single_turn -> it only needs to return initial expected returns or incorporate it in the version 2
   - [x] we want to detect within a step function if the path can continue any further ( ie, even if we still have turns left, there is no valve that we can reach )
-  - results contain duplicate paths - handle this ( run main with only 6 turns )
-  - limit the potential paths - because factorial is a real thing
+  - [x] results contain duplicate paths - handle this ( run main with only 6 turns )
+  - debug why optimal path BBCCDDEEHHJJ is returning incorrect total_flow
+  - limit the potential paths - because factorial is a real thing ??

@@ -210,7 +210,7 @@ def calculate_returns_for_all_paths(total_turns:int, valve_map: Dict[str,Valve])
 
 def main(input):
     root, valves = build_valve_graph(input)
-    r = calculate_returns_for_all_paths(6,valves)
+    r = calculate_returns_for_all_paths(30,valves)
     for o in r:
         print(o)
 

@@ -139,7 +139,7 @@ def filter_finished_paths(paths: List[Valve_Expected_Returns]) -> Tuple[List[Val
     done = []
     not_done = []
     for path in paths:
-        if path.remaining_turns < 2:
+        if path.finished:
             done.append(path)
         else:
             not_done.append(path)
@@ -151,8 +151,10 @@ def calculate_returns_for_a_single_turn2(
     map: Dict[str, Valve],
     ) -> List[Valve_Expected_Returns]:
     results = []
-    if start.remaining_turns <= 1:
-        return results
+    # if we have only 2 turns left, even if we have a place to go, it will not 'tick' to give us any flow -> skip it
+    if start.remaining_turns <= 2 or start.finished:
+        finished_path = Valve_Expected_Returns(start.name, 0, 0, start.path, start.total_flow, True)
+        return [finished_path]
     for valve in map.values():
         if valve.name == start.name or valve.name in start.path: # check if start position or already visited 
             continue
@@ -165,22 +167,41 @@ def calculate_returns_for_a_single_turn2(
         _, turns_to_get_to_valve = path_to_valve
         turns_to_get_to_valve += 1  # one extra turn to activate the valve
         remaining_turns = start.remaining_turns - turns_to_get_to_valve
-        if remaining_turns < 0:
-            finished_path = Valve_Expected_Returns(start.name, 0, remaining_turns, start.path, start.total_flow, True)
-            results.append(finished_path)
-            continue
         log.debug(f"remaining turns for node {valve.name} is {remaining_turns}")
         potential_flow = valve.rate * remaining_turns
+        # either invalid or pointless path - skip it
+        if potential_flow <= 0:
+            continue
         log.debug(f"potential flow for node {valve.name} is {potential_flow}")
         current_path = start.path + valve.name
         updated_flow = potential_flow + start.total_flow if potential_flow >= 0 else start.total_flow
         valve_exprected_returns = Valve_Expected_Returns(valve.name, potential_flow, remaining_turns, current_path, updated_flow, False)
         results.append(valve_exprected_returns)
+    if not results:
+        finished_path = Valve_Expected_Returns(start.name, 0, 0, start.path, start.total_flow, True)
+        return [finished_path]
     return results
 
 
+def calculate_returns_for_all_paths(total_turns:int, valve_map: Dict[str,Valve]):
+    root = Valve_Expected_Returns("AA", 0, total_turns, "AA", 0)
+    initial_paths = calculate_returns_for_a_single_turn2(root, valve_map)
+    finished_paths = []
+    wip = []
+    for _ in range(len(valve_map)):
+        for p in wip if wip else initial_paths:
+            pp = calculate_returns_for_a_single_turn2(p, valve_map)
+            for x in pp:
+                print(f"path {x.path} has total return of {x.total_flow}")
+            done, not_done = filter_finished_paths(pp)
+            wip.extend(not_done)
+            finished_paths.extend(done)
+    all_ordered = sorted(finished_paths, key=lambda p: p.total_flow, reverse=True)
+    return all_ordered[:3]
+
 def main(input):
     root, valves = build_valve_graph(input)
+    print(calculate_returns_for_all_paths(6,valves))
 
 
 if __name__ == "__main__":

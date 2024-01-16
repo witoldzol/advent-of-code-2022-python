@@ -24,5 +24,5 @@
   - [x] simplify calculate_returns_for_a_single_turn -> it only needs to return initial expected returns or incorporate it in the version 2
   - [x] we want to detect within a step function if the path can continue any further ( ie, even if we still have turns left, there is no valve that we can reach )
   - [x] results contain duplicate paths - handle this ( run main with only 6 turns )
-  - debug why optimal path BBCCDDEEHHJJ is returning incorrect total_flow
+  - fix BSF - it picks first path found, without considering other options, find all paths and pick the shortest
   - limit the potential paths - because factorial is a real thing ??

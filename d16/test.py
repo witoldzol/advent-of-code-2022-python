@@ -1,7 +1,7 @@
 from typing import OrderedDict, Dict
 from main import Valve_Expected_Returns
 from main import Valve, BFS
-from main import calculate_returns, filter_finished_paths, calculate_returns_for_a_single_turn2
+from main import calculate_returns, filter_finished_paths, calculate_returns_for_a_single_turn2, breadth_first_search
 import pytest
 
 @pytest.fixture
@@ -139,3 +139,8 @@ def test_all_paths(valve_map):
             finished_paths.extend(done)
     all_ordered = sorted(finished_paths, key=lambda p: p.total_flow, reverse=True)
     assert 1120 == all_ordered[0].total_flow
+
+def test_breadth_first_search(valve_map):
+    root = valve_map["AA"]
+    paths = breadth_first_search(valve_map, root, 'DD')
+    print(paths)

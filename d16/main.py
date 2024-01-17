@@ -1,4 +1,6 @@
+from collections import deque
 from dataclasses import dataclass
+from queue import Queue
 from typing import List, Dict, Set, Tuple
 from collections import OrderedDict
 import pudb
@@ -51,6 +53,29 @@ def build_valve_graph(filename: str) -> Tuple[Valve, Dict[str, Valve]]:
         for name in adjacent_valves:
             valve.adjacent.append(valves[name])
     return valves["AA"], valves
+
+
+# todo - do version without graph - root has all the connections, so we should be able to do without it
+def breadth_first_search( graph: Dict[str, Valve], root: Valve, target: str) -> Dict[str, bool]:
+    paths = {}
+    path = root.name
+    visited = set()
+    queue = deque()
+    queue.append(path)
+    while queue:
+        path = queue.popleft()
+        node_name = path[-2:]
+        node = graph[node_name]
+        visited.add(node)
+        if node_name == target:
+            paths[path] = True
+        else:
+            paths[path] = False
+        for c in node.adjacent:
+            if c not in visited:
+                new_path = path + c.name
+                queue.append(new_path)
+    return paths
 
 
 def BFS( root: Valve,
@@ -210,9 +235,13 @@ def calculate_returns_for_all_paths(total_turns:int, valve_map: Dict[str,Valve])
 
 def main(input):
     root, valves = build_valve_graph(input)
-    r = calculate_returns_for_all_paths(30,valves)
-    for o in r:
-        print(o)
+    r = breadth_first_search(valves, valves["AA"], "DD")
+    for k,v in r.items():
+        if v:
+            print(k)
+    # r = calculate_returns_for_all_paths(30,valves)
+    # for o in r:
+    #     print(o)
 
 
 if __name__ == "__main__":

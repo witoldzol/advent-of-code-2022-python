@@ -141,6 +141,6 @@ def test_all_paths(valve_map):
     assert 1120 == all_ordered[0].total_flow
 
 def test_breadth_first_search(valve_map):
-    root = valve_map["AA"]
-    paths = breadth_first_search(valve_map, root, 'DD')
+    root = valve_map["BB"]
+    paths = breadth_first_search(valve_map, root, 'JJ')
     print(paths)

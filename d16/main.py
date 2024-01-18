@@ -56,8 +56,7 @@ def build_valve_graph(filename: str) -> Tuple[Valve, Dict[str, Valve]]:
 
 
 # todo - do version without graph - root has all the connections, so we should be able to do without it
-def breadth_first_search( graph: Dict[str, Valve], root: Valve, target: str) -> Dict[str, bool]:
-    paths = {}
+def breadth_first_search( graph: Dict[str, Valve], root: Valve, target: str) -> Tuple[str,int]:
     path = root.name
     visited = set()
     queue = deque()
@@ -68,15 +67,12 @@ def breadth_first_search( graph: Dict[str, Valve], root: Valve, target: str) -> 
         node = graph[node_name]
         visited.add(node)
         if node_name == target:
-            paths[path] = True
-        else:
-            paths[path] = False
+            return (path, (len(path) // 2) - 1)
         for c in node.adjacent:
             if c not in visited:
                 new_path = path + c.name
                 queue.append(new_path)
-    return paths
-
+    return ("", -1)
 
 def BFS( root: Valve,
     target: str,
@@ -110,56 +106,6 @@ def print_path_and_total(input: OrderedDict) -> None:
     print(f"PATH={path}, TOTAL={total}")
 
 
-# uses max returns algorighm - which is clearly not working
-def calculate_returns(
-    start: Valve, map: Dict[str, Valve], max_turns: int, max_returns_map: OrderedDict = None
-    ) -> Tuple[Dict[str, int], int]:
-    log.info(f"START NODE = {start}, MAX_TURNS = {max_turns}")
-    if not max_returns_map:
-        max_returns_map = OrderedDict()
-    max_flow = 0
-    max_value_valve = ""
-    jump = 0
-    turn = max_turns
-    for _ in range(len(map)):
-        log.debug(f"Turns left == {turn}, current valve is {start.name}")
-        for valve in map.values():
-            if valve.name == start.name or \
-               valve.rate == 0 or \
-               valve.name in max_returns_map:
-                continue
-            path_to_valve = BFS(start, valve.name)
-            log.debug(f"path to valve {valve.name} takes {path_to_valve[1]} turns + 1 turn to turn on the valve")
-            if not path_to_valve:
-                raise Exception(f"Unable to find path to valve {valve.name}")
-            _, turns_to_get_to_valve = path_to_valve
-            turns_to_get_to_valve += 1  # one extra turn to activate the valve
-            remaining_turns = turn - turns_to_get_to_valve
-            log.debug(f"remaining turns for node {valve.name} is {remaining_turns}")
-            potential_flow = valve.rate * remaining_turns
-            log.debug(f"potential flow for node {valve.name} is {potential_flow}")
-            if potential_flow > max_flow:
-                max_flow = potential_flow
-                max_value_valve = valve.name
-                jump = turns_to_get_to_valve
-        # exit early if more turns than valves
-        turn -= jump
-        if not max_value_valve:
-            print("===================")
-            print(f"{max_returns_map=}")
-            print_path_and_total(max_returns_map)
-            print("===================")
-            return max_returns_map
-        max_returns_map[max_value_valve] = max_flow
-        start = map[max_value_valve]
-        max_flow = 0
-        max_value_valve = ""
-    # print("===================")
-    # print(f"{max_returns_map=}")
-    # print("===================")
-    return max_returns_map, turn
-
-
 def filter_finished_paths(paths: List[Valve_Expected_Returns]) -> Tuple[List[Valve_Expected_Returns], List[Valve_Expected_Returns]]:
     done = []
     not_done = []
@@ -185,7 +131,8 @@ def calculate_returns_for_a_single_turn2(
             continue
         start_valve = map[start.name]
         target_valve = valve.name
-        path_to_valve = BFS(start_valve, target_valve)
+        # path_to_valve = BFS(start_valve, target_valve)
+        path_to_valve = breadth_first_search(map, start_valve, target_valve)
         log.debug(f"path to valve {valve.name} takes {path_to_valve[1]} turns + 1 turn to turn on the valve")
         if not path_to_valve:
             raise Exception(f"Unable to find path to valve {valve.name}")
@@ -234,14 +181,10 @@ def calculate_returns_for_all_paths(total_turns:int, valve_map: Dict[str,Valve])
     return all_ordered[:3]
 
 def main(input):
-    root, valves = build_valve_graph(input)
-    r = breadth_first_search(valves, valves["AA"], "DD")
-    for k,v in r.items():
-        if v:
-            print(k)
-    # r = calculate_returns_for_all_paths(30,valves)
-    # for o in r:
-    #     print(o)
+    _, valves = build_valve_graph(input)
+    r = calculate_returns_for_all_paths(30,valves)
+    for o in r:
+        print(o)
 
 
 if __name__ == "__main__":

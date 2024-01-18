@@ -162,19 +162,11 @@ def calculate_returns_for_all_paths(total_turns:int, valve_map: Dict[str,Valve])
     wip = []
     for _ in range(len(valve_map)):
         wip_temp = []
-        print(f"ITERATION NUMBER {_}")
         for p in wip if wip else initial_paths:
-            print(f"START path is = {p.path}")
             pp = calculate_returns_for_a_single_turn2(p, valve_map)
-            for x in pp:
-                print(f"FOLLOW UP PATH is = {x.path}, and it has total return of {x.total_flow}")
             done, not_done = filter_finished_paths(pp)
-            print("NOT DONE paths:")
-            for nd in not_done:
-                print(nd)
             wip_temp.extend(not_done)
             finished_paths.extend(done)
-            print("============================================================")
         initial_paths = []
         wip = wip_temp
     all_ordered = sorted(finished_paths, key=lambda p: p.total_flow, reverse=True)

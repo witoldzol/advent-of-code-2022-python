@@ -99,6 +99,7 @@ def calculate_returns_for_a_single_turn(
     start: Valve_Expected_Returns,
     map: Dict[str, Valve],
     ) -> List[Valve_Expected_Returns]:
+    path_cache = {}
     results = []
     # if we have only 2 turns left, even if we have a place to go, it will not 'tick' to give us any flow -> skip it
     if start.remaining_turns <= 2 or start.finished:
@@ -110,7 +111,11 @@ def calculate_returns_for_a_single_turn(
         start_valve = map[start.name]
         target_valve = valve.name
         # path_to_valve = BFS(start_valve, target_valve)
-        path_to_valve = breadth_first_search(map, start_valve, target_valve)
+        if start_valve in path_cache and path_cache[start_valve] == target_valve:
+            path_to_valve = path_cache[start_valve]
+        else:
+            path_to_valve = breadth_first_search(map, start_valve, target_valve)
+            path_cache[start_valve] = target_valve
         log.debug(f"path to valve {valve.name} takes {path_to_valve[1]} turns + 1 turn to turn on the valve")
         if not path_to_valve:
             raise Exception(f"Unable to find path to valve {valve.name}")

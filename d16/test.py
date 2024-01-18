@@ -1,6 +1,6 @@
 from typing import OrderedDict, Dict
 from main import Valve_Expected_Returns
-from main import filter_finished_paths, calculate_returns_for_a_single_turn, breadth_first_search, Valve
+from main import filter_finished_paths, calculate_returns_for_a_single_turn, breadth_first_search, Valve, traceback
 import pytest
 
 @pytest.fixture
@@ -79,3 +79,10 @@ def test_breadth_first_search(valve_map):
     root = valve_map["BB"]
     paths = breadth_first_search(valve_map, root, 'JJ')
     print(paths)
+
+def test_traceback():
+    parents = {}
+    parents["BB"] = "AA"
+    parents["CC"] = "BB"
+    r = traceback(parents, "AA", "CC")
+    assert ["AA", "BB", "CC"] == r

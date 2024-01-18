@@ -25,8 +25,8 @@
   - [x] we want to detect within a step function if the path can continue any further ( ie, even if we still have turns left, there is no valve that we can reach )
   - [x] results contain duplicate paths - handle this ( run main with only 6 turns )
   - [x] fix BSF - it picks first path found, without considering other options, find all paths and pick the shortest [ edit: refactor BFS from being DFS to actually BFS ]
-   - - after doing some research, I came to realise it makes no sense to calculate all paths.
-       The issue wasn't that we picked the first path we found, the real issue was that we used depth first search not breadth first search algorithm.
-       DFS explores paths one by one, to the end. If it finds the match, it returns. That's what was happening in this case, where the found path was not the shortest one.
+    after doing some research, I came to realise it makes no sense to calculate all paths.
+    The issue wasn't that we picked the first path we found, the real issue was that we used depth first search not breadth first search algorithm.
+    DFS explores paths one by one, to the end. If it finds the match, it returns. That's what was happening in this case, where the found path was not the shortest one.
+  - [x] do version without graph - root has all the connections, so we should be able to do without it
   - limit the potential paths - because factorial is a real thing ??
-  - do version without graph - root has all the connections, so we should be able to do without it

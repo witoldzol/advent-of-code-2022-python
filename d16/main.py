@@ -54,6 +54,36 @@ def build_valve_graph(filename: str) -> Tuple[Valve, Dict[str, Valve]]:
     return valves["AA"], valves
 
 
+def traceback(child_to_parent: Dict[str, str], start: str, end: str) -> List[str]:
+    current = end
+    path = []
+    for _ in range(len(child_to_parent) + 1):
+        if current == start:
+            path.append(current)
+            return list(reversed(path))
+        path.append(current)
+        current = child_to_parent[current]
+    return []
+
+
+def bfs(root: Valve, target: str) -> Tuple[str,int]:
+    parents = {}
+    visited = set()
+    queue = deque()
+    queue.append(root)
+    while queue:
+        node = queue.popleft()
+        visited.add(node)
+        if node.name == target:
+            path = traceback(parents, root.name, target)
+            return ''.join(path), (len(path) // 2) - 1
+        for c in node.adjacent:
+            if c not in visited:
+                parents[c.name] = node.name
+                queue.append(c)
+    return ("", -1)
+
+
 def breadth_first_search( graph: Dict[str, Valve], root: Valve, target: str) -> Tuple[str,int]:
     path = root.name
     visited = set()

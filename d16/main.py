@@ -143,6 +143,8 @@ def calculate_returns_for_all_paths(total_turns:int, valve_map: Dict[str,Valve])
         for p in wip if wip else initial_paths:
             pp = calculate_returns_for_a_single_turn(p, valve_map)
             done, not_done = filter_finished_paths(pp)
+            not_done = sorted(not_done, key=lambda x: x.total_flow, reverse=True)
+            not_done = not_done[:3]
             wip_temp.extend(not_done)
             finished_paths.extend(done)
         initial_paths = []

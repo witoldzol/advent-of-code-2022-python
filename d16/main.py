@@ -1,7 +1,6 @@
 from collections import deque
 from dataclasses import dataclass
-from queue import Queue
-from typing import List, Dict, Set, Tuple
+from typing import List, Dict, Tuple
 from collections import OrderedDict
 import pudb
 import logging
@@ -55,7 +54,6 @@ def build_valve_graph(filename: str) -> Tuple[Valve, Dict[str, Valve]]:
     return valves["AA"], valves
 
 
-# todo - do version without graph - root has all the connections, so we should be able to do without it
 def breadth_first_search( graph: Dict[str, Valve], root: Valve, target: str) -> Tuple[str,int]:
     path = root.name
     visited = set()
@@ -117,7 +115,7 @@ def filter_finished_paths(paths: List[Valve_Expected_Returns]) -> Tuple[List[Val
     return done, not_done
 
 
-def calculate_returns_for_a_single_turn2(
+def calculate_returns_for_a_single_turn(
     start: Valve_Expected_Returns,
     map: Dict[str, Valve],
     ) -> List[Valve_Expected_Returns]:
@@ -157,13 +155,13 @@ def calculate_returns_for_a_single_turn2(
 
 def calculate_returns_for_all_paths(total_turns:int, valve_map: Dict[str,Valve]):
     root = Valve_Expected_Returns("AA", 0, total_turns, "AA", 0)
-    initial_paths = calculate_returns_for_a_single_turn2(root, valve_map)
+    initial_paths = calculate_returns_for_a_single_turn(root, valve_map)
     finished_paths = []
     wip = []
     for _ in range(len(valve_map)):
         wip_temp = []
         for p in wip if wip else initial_paths:
-            pp = calculate_returns_for_a_single_turn2(p, valve_map)
+            pp = calculate_returns_for_a_single_turn(p, valve_map)
             done, not_done = filter_finished_paths(pp)
             wip_temp.extend(not_done)
             finished_paths.extend(done)

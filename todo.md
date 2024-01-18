@@ -29,3 +29,4 @@
        The issue wasn't that we picked the first path we found, the real issue was that we used depth first search not breadth first search algorithm.
        DFS explores paths one by one, to the end. If it finds the match, it returns. That's what was happening in this case, where the found path was not the shortest one.
   - limit the potential paths - because factorial is a real thing ??
+  - do version without graph - root has all the connections, so we should be able to do without it

@@ -29,4 +29,5 @@
     The issue wasn't that we picked the first path we found, the real issue was that we used depth first search not breadth first search algorithm.
     DFS explores paths one by one, to the end. If it finds the match, it returns. That's what was happening in this case, where the found path was not the shortest one.
   - [x] do version without graph - root has all the connections, so we should be able to do without it
-  - speed up the algo [ maybe limit the potential paths - because factorial is a real thing ??]
+  - [x] speed up the algo [ maybe limit the potential paths - because factorial is a real thing ??]
+  - speed up the bfs [ perhaps we can cache the distances, if node is adjacent to a cached node and target is the same, we can just add 1 to the result? ]

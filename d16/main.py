@@ -66,24 +66,6 @@ def traceback(child_to_parent: Dict[str, str], start: str, end: str) -> List[str
     return []
 
 
-def bfs(root: Valve, target: str) -> Tuple[str,int]:
-    parents = {}
-    visited = set()
-    queue = deque()
-    queue.append(root)
-    while queue:
-        node = queue.popleft()
-        visited.add(node)
-        if node.name == target:
-            path = traceback(parents, root.name, target)
-            return ''.join(path), (len(path) // 2) - 1
-        for c in node.adjacent:
-            if c not in visited:
-                parents[c.name] = node.name
-                queue.append(c)
-    return ("", -1)
-
-
 def breadth_first_search( graph: Dict[str, Valve], root: Valve, target: str) -> Tuple[str,int]:
     path = root.name
     visited = set()
@@ -101,15 +83,6 @@ def breadth_first_search( graph: Dict[str, Valve], root: Valve, target: str) -> 
                 new_path = path + c.name
                 queue.append(new_path)
     return ("", -1)
-
-def print_path_and_total(input: OrderedDict) -> None:
-    total = 0
-    path = 'AA'
-    for k,v in input.items():
-        total += v
-        path += k
-    print(f"PATH={path}, TOTAL={total}")
-
 
 def filter_finished_paths(paths: List[Valve_Expected_Returns]) -> Tuple[List[Valve_Expected_Returns], List[Valve_Expected_Returns]]:
     done = []
@@ -186,6 +159,6 @@ def main(input):
 
 if __name__ == "__main__":
     input = "sample_input"
-    # input = "input"
+    input = "input"
     # input = "small_input"
     main(input)

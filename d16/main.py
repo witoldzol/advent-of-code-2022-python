@@ -72,29 +72,6 @@ def breadth_first_search( graph: Dict[str, Valve], root: Valve, target: str) -> 
                 queue.append(new_path)
     return ("", -1)
 
-def BFS( root: Valve,
-    target: str,
-    map: Dict[str, bool] | None = None,
-    path: str = "",
-    jumps: int = -1,
-) -> Tuple[str, int] | None:
-    if not map:
-        map = {}
-    if not root:
-        return "", jumps
-    path += root.name
-    map[root.name] = True
-    jumps += 1
-    if root.name == target:
-        return path, jumps
-    result = ""
-    for v in root.adjacent:
-        if not v.name in map:
-            result = BFS(v, target, map, path, jumps)
-            if result:
-                return result
-
-
 def print_path_and_total(input: OrderedDict) -> None:
     total = 0
     path = 'AA'

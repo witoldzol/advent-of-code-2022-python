@@ -24,8 +24,8 @@
   - [x] simplify calculate_returns_for_a_single_turn -> it only needs to return initial expected returns or incorporate it in the version 2
   - [x] we want to detect within a step function if the path can continue any further ( ie, even if we still have turns left, there is no valve that we can reach )
   - [x] results contain duplicate paths - handle this ( run main with only 6 turns )
-  - fix BSF - it picks first path found, without considering other options, find all paths and pick the shortest
-  -- this makes no sense, first of all you need to restrict possible paths using 'visited' flag, secondly, BFS algo goes layer after layer, with each following layer being 1 step further away from the start
-  meaning, the first 'find' will be the shortest possible path - that's why it's used for finding shortest path possible
-  - update breadth_first_search to find multiple routes - at the moment we mark visited nodes aggressively, which limits possible paths to only 1
+  - [x] fix BSF - it picks first path found, without considering other options, find all paths and pick the shortest [ edit: refactor BFS from being DFS to actually BFS ]
+   - - after doing some research, I came to realise it makes no sense to calculate all paths.
+       The issue wasn't that we picked the first path we found, the real issue was that we used depth first search not breadth first search algorithm.
+       DFS explores paths one by one, to the end. If it finds the match, it returns. That's what was happening in this case, where the found path was not the shortest one.
   - limit the potential paths - because factorial is a real thing ??

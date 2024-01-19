@@ -31,3 +31,4 @@
   - [x] do version without graph - root has all the connections, so we should be able to do without it
   - [x] speed up the algo [ maybe limit the potential paths - because factorial is a real thing ??]
   - speed up the bfs [ perhaps we can cache the distances, if node is adjacent to a cached node and target is the same, we can just add 1 to the result? ]
+    cache is not being used at the moment, because each path is unique, which makes sense 

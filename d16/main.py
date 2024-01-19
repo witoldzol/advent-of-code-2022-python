@@ -110,7 +110,6 @@ def calculate_returns_for_a_single_turn(
             continue
         start_valve = map[start.name]
         target_valve = valve.name
-        # path_to_valve = BFS(start_valve, target_valve)
         if start_valve in path_cache and path_cache[start_valve] == target_valve:
             path_to_valve = path_cache[start_valve]
         else:

@@ -30,5 +30,8 @@
     DFS explores paths one by one, to the end. If it finds the match, it returns. That's what was happening in this case, where the found path was not the shortest one.
   - [x] do version without graph - root has all the connections, so we should be able to do without it
   - [x] speed up the algo [ maybe limit the potential paths - because factorial is a real thing ??]
-  - speed up the bfs [ perhaps we can cache the distances, if node is adjacent to a cached node and target is the same, we can just add 1 to the result? ]
-    cache is not being used at the moment, because each path is unique, which makes sense 
+  - [x] speed up the bfs [ simple cache of bsf results was sufficient ]
+  ### PART 2
+  - we need to iterate over 26 turns with a common VISITED map while keeping track of two pointers
+    I think I will have to 'nest' the second pointer - first path , calc first option, than second taking account of where we already went?
+    No idea

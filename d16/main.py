@@ -98,23 +98,25 @@ def filter_finished_paths(paths: List[Valve_Expected_Returns]) -> Tuple[List[Val
 def calculate_returns_for_a_single_turn(
     start: Valve_Expected_Returns,
     map: Dict[str, Valve],
-    ) -> List[Valve_Expected_Returns]:
-    path_cache = {}
+    path_cache
+    ) -> Tuple[List[Valve_Expected_Returns], Dict[str,str]]:
     results = []
     # if we have only 2 turns left, even if we have a place to go, it will not 'tick' to give us any flow -> skip it
     if start.remaining_turns <= 2 or start.finished:
         finished_path = Valve_Expected_Returns(start.name, 0, 0, start.path, start.total_flow, True)
-        return [finished_path]
+        return [finished_path], path_cache
     for valve in map.values():
         if valve.name == start.name or valve.name in start.path: # check if start position or already visited 
             continue
         start_valve = map[start.name]
+        start_valve_name = start_valve.name
         target_valve = valve.name
-        if start_valve in path_cache and path_cache[start_valve] == target_valve:
-            path_to_valve = path_cache[start_valve]
+        entry = start_valve_name + target_valve
+        if  entry in path_cache:
+            path_to_valve = path_cache[entry]
         else:
             path_to_valve = breadth_first_search(map, start_valve, target_valve)
-            path_cache[start_valve] = target_valve
+            path_cache[entry] = path_to_valve
         log.debug(f"path to valve {valve.name} takes {path_to_valve[1]} turns + 1 turn to turn on the valve")
         if not path_to_valve:
             raise Exception(f"Unable to find path to valve {valve.name}")
@@ -133,19 +135,22 @@ def calculate_returns_for_a_single_turn(
         results.append(valve_exprected_returns)
     if not results:
         finished_path = Valve_Expected_Returns(start.name, 0, 0, start.path, start.total_flow, True)
-        return [finished_path]
-    return results
+        return [finished_path], path_cache
+    return results, path_cache
 
 
 def calculate_returns_for_all_paths(total_turns:int, valve_map: Dict[str,Valve]):
+    cache = {}
     root = Valve_Expected_Returns("AA", 0, total_turns, "AA", 0)
-    initial_paths = calculate_returns_for_a_single_turn(root, valve_map)
+    initial_paths, cached_paths = calculate_returns_for_a_single_turn(root, valve_map, cache)
+    cache = cache | cached_paths
     finished_paths = []
     wip = []
     for _ in range(len(valve_map)):
         wip_temp = []
         for p in wip if wip else initial_paths:
-            pp = calculate_returns_for_a_single_turn(p, valve_map)
+            pp, cached_paths = calculate_returns_for_a_single_turn(p, valve_map, cache)
+            cache = cache | cached_paths
             done, not_done = filter_finished_paths(pp)
             not_done = sorted(not_done, key=lambda x: x.total_flow, reverse=True)
             not_done = not_done[:3]

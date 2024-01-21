@@ -95,6 +95,63 @@ def filter_finished_paths(paths: List[Valve_Expected_Returns]) -> Tuple[List[Val
     return done, not_done
 
 
+def calculate_returns_for_a_single_turn2(
+        starts: List[Valve_Expected_Returns],
+        map: Dict[str, Valve],
+        path_cache
+    ) -> Tuple[List[Tuple[Valve_Expected_Returns,Valve_Expected_Returns]],Dict[str,str]]:
+    results = []
+    # if we have only 2 turns left, even if we have a place to go, it will not 'tick' to give us any flow -> skip it
+    my_start, elephant_start = starts
+    # if we are done
+    my_paths = []
+    if (my_start.remaining_turns <= 2 or my_start.finished): 
+        my_finished_path = Valve_Expected_Returns(my_start.name, 0, 0, my_start.path, my_start.total_flow, True)
+        # and elephant is done, return
+        if (elephant_start.remaining_turns <= 2 or elephant_start.finished):
+            elephant_finished_path = Valve_Expected_Returns(elephant_start.name, 0, 0, elephant_start.path, elephant_start.total_flow, True)
+            return [(my_finished_path, elephant_finished_path)], path_cache
+        # but elephant is not done
+        else:
+            my_paths.append(my_finished_path)
+    if my_start.remaining_turns <= 2 or my_start.finished:
+        finished_path = Valve_Expected_Returns(my_start.name, 0, 0, my_start.path, my_start.total_flow, True)
+        # return only if both paths are done ( me & elephant )
+        if
+        return [finished_path], path_cache
+    for valve in map.values():
+        if valve.name == start.name or valve.name in start.path: # check if start position or already visited
+            continue
+        start_valve = map[start.name]
+        start_valve_name = start_valve.name
+        target_valve = valve.name
+        entry = start_valve_name + target_valve
+        if  entry in path_cache:
+            path_to_valve = path_cache[entry]
+        else:
+            path_to_valve = breadth_first_search(map, start_valve, target_valve)
+            path_cache[entry] = path_to_valve
+        log.debug(f"path to valve {valve.name} takes {path_to_valve[1]} turns + 1 turn to turn on the valve")
+        if not path_to_valve:
+            raise Exception(f"Unable to find path to valve {valve.name}")
+        _, turns_to_get_to_valve = path_to_valve
+        turns_to_get_to_valve += 1  # one extra turn to activate the valve
+        remaining_turns = start.remaining_turns - turns_to_get_to_valve
+        log.debug(f"remaining turns for node {valve.name} is {remaining_turns}")
+        potential_flow = valve.rate * remaining_turns
+        # either invalid or pointless path - skip it
+        if potential_flow <= 0:
+            continue
+        log.debug(f"potential flow for node {valve.name} is {potential_flow}")
+        current_path = start.path + valve.name
+        updated_flow = potential_flow + start.total_flow if potential_flow >= 0 else start.total_flow
+        valve_exprected_returns = Valve_Expected_Returns(valve.name, potential_flow, remaining_turns, current_path, updated_flow, False)
+        results.append(valve_exprected_returns)
+if not results:
+    finished_path = Valve_Expected_Returns(start.name, 0, 0, start.path, start.total_flow, True)
+    return [finished_path], path_cache
+return results, path_cache
+
 def calculate_returns_for_a_single_turn(
     start: Valve_Expected_Returns,
     map: Dict[str, Valve],
@@ -106,7 +163,7 @@ def calculate_returns_for_a_single_turn(
         finished_path = Valve_Expected_Returns(start.name, 0, 0, start.path, start.total_flow, True)
         return [finished_path], path_cache
     for valve in map.values():
-        if valve.name == start.name or valve.name in start.path: # check if start position or already visited 
+        if valve.name == start.name or valve.name in start.path: # check if start position or already visited
             continue
         start_valve = map[start.name]
         start_valve_name = start_valve.name

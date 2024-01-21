@@ -32,6 +32,11 @@
   - [x] speed up the algo [ maybe limit the potential paths - because factorial is a real thing ??]
   - [x] speed up the bfs [ simple cache of bsf results was sufficient ]
   ### PART 2
-  - we need to iterate over 26 turns with a common VISITED map while keeping track of two pointers
+  - [x] we need to iterate over 26 turns with a common VISITED map while keeping track of two pointers
     I think I will have to 'nest' the second pointer - first path , calc first option, than second taking account of where we already went?
     No idea
+  - synchronize my path traversal with elephants
+    at the moment we just make jumps from node to node, without considering how long it take 
+    for example, I open B, elephant opens D - issue is , to open B takes 10 turns, to open D 2 turns, so elephants "waits" for my path to finish
+    My initial thought is that my current implementation is not suitable to this type of a problem - I just jump from one node to another without going turn by turn
+    I think we need a turn by turn implementation here ?

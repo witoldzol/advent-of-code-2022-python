@@ -40,3 +40,4 @@
     for example, I open B, elephant opens D - issue is , to open B takes 10 turns, to open D 2 turns, so elephants "waits" for my path to finish
     My initial thought is that my current implementation is not suitable to this type of a problem - I just jump from one node to another without going turn by turn
     I think we need a turn by turn implementation here ?
+  [ ok, I think we can solve this by checking 'remaining_turns' on both paths in a tuple and evaluate a path that has more turns remaining - example: if my path has 10 turns remaining, and ele has 20, we will evaluate his path only, and return my old path with ele's new path ]

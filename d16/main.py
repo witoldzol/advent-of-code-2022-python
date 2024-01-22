@@ -140,6 +140,25 @@ def calculate_returns_for_a_single_turn(
     return results, path_cache
 
 
+def bfs_print_all_paths(graph: Dict[str, Valve], root: str) -> List[str]:
+    all_paths = set()
+    queue = deque()
+    queue.append(graph[root].name)
+    visited = set()
+    while queue:
+        path = queue.popleft()
+        node = graph[path[-2:]]
+        visited.add(path[-2:])
+        for child in node.adjacent:
+            if child.name not in visited:
+                temp_path = path + child.name
+                all_paths.add(temp_path)
+                queue.append(temp_path)
+    for p in all_paths:
+        print(p)
+    return []
+
+
 def calculate_returns_for_all_paths(total_turns:int, valve_map: Dict[str,Valve]):
     cache = {}
     my_start = Valve_Expected_Returns("AA", 0, total_turns, "AA", 0)

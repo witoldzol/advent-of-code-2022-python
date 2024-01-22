@@ -1,6 +1,6 @@
 from typing import OrderedDict, Dict
 from main import Valve_Expected_Returns
-from main import filter_finished_paths, calculate_returns_for_a_single_turn, breadth_first_search, Valve, traceback
+from main import filter_finished_paths, calculate_returns_for_a_single_turn, breadth_first_search, Valve, traceback, bfs_print_all_paths
 import pytest
 
 @pytest.fixture
@@ -86,3 +86,7 @@ def test_traceback():
     parents["CC"] = "BB"
     r = traceback(parents, "AA", "CC")
     assert ["AA", "BB", "CC"] == r
+
+def test_bfs_print_all_paths(three_valves):
+    bfs_print_all_paths(three_valves, "AA")
+

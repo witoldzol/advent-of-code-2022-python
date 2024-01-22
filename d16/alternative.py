@@ -1,11 +1,27 @@
-from typing import Tuple
+from typing import Tuple, Dict
 from collections import deque
 
 valves = {}
 tunnels = {}
 dists = {}
 
-def bfs(start: Tuple[int, str], target: str) -> int:
+def all_distances_from_node(start: str) -> Dict[str, int]:
+    dists = {}
+    queue = deque()
+    queue.append((0, start))
+    visited = {start}
+    while queue:
+        distance, node_name = queue.popleft()
+        if valves[node_name]:
+            dists[node_name] = distance
+        visited.add(node_name)
+        for neighbour in tunnels[node_name]:
+            if neighbour in visited:
+                continue
+            queue.append((distance + 1, neighbour))
+    return dists
+
+def distance_between(start: Tuple[int, str], target: str) -> int:
     queue = deque()
     queue.append(start)
     visited = set()
@@ -35,10 +51,6 @@ for valve, flow in valves.items():
     # skip zero nodes
     if valve != "AA" and flow == 0:
         continue
-    dists[valve] = {}
-    for v,f in valves.items():
-        if v != "AA" and f == 0 or v == valve:
-            continue
-        dists[valve][v] = bfs((0,valve), v)
+    dists[valve] = all_distances_from_node(valve)
 
 print(dists)

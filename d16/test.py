@@ -87,6 +87,7 @@ def test_traceback():
     r = traceback(parents, "AA", "CC")
     assert ["AA", "BB", "CC"] == r
 
-def test_bfs_print_all_paths(three_valves):
-    bfs_print_all_paths(three_valves, "AA")
-
+def test_bfs_print_all_paths(three_valves, valve_map):
+    print(bfs_print_all_paths(three_valves, "AA", "CC"))
+    print("============================================================")
+    print( bfs_print_all_paths(valve_map, "AA", "DD"))

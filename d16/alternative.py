@@ -1,4 +1,4 @@
-from typing import Tuple, Dict
+from typing import Tuple, Dict, Set
 from collections import deque
 
 valves = {}
@@ -35,9 +35,28 @@ def distance_between(start: Tuple[int, str], target: str) -> int:
             queue.append((distance + 1, neighbour))
     raise Exception(f"Unable to find a path from {start[1]} to {target}")
 
+def dfs(turns: int, path: str, total: int):
+    paths = []
+    current = path[-2:]
+    total += turns * valves[current]
+    if turns <= 2: # if we have 2 turns left we can't get a 'tick' from a valve
+        return (path, total)
+    for valve, distance in dists[current].items():
+        if not distance:
+            continue
+        if valve in path:
+            continue
+        turns_to_arrive = dists[current][valve]
+        remaining_turns = turns - turns_to_arrive - 1 # 1 turn to turn the valve on
+        if remaining_turns < 1:
+            continue
+        new_path = path + valve
+        paths.extend(dfs(remaining_turns, new_path, total))
+    return paths
+
 # parse input
 input = "input"
-# input = "sample_input"
+input = "sample_input"
 for line in open(input):
     line = line.strip()
     valve = line.split()[1]
@@ -53,4 +72,11 @@ for valve, flow in valves.items():
         continue
     dists[valve] = all_distances_from_node(valve)
 
-print(dists)
+paths = dfs(30, "AA", 0)
+new_paths = []
+for i in range(0, len(paths)-1, 2):
+    temp_path = paths[i]
+    temp_return = paths[i+1]
+    new_paths.append((temp_path, temp_return))
+s = sorted(new_paths, key=lambda x: x[1], reverse=True)
+print(s)

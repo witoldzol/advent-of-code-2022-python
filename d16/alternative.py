@@ -21,7 +21,7 @@ def bfs(start: Tuple[int, str], target: str) -> int:
 
 # parse input
 input = "input"
-input = "sample_input"
+# input = "sample_input"
 for line in open(input):
     line = line.strip()
     valve = line.split()[1]
@@ -40,3 +40,5 @@ for valve, flow in valves.items():
         if v != "AA" and f == 0 or v == valve:
             continue
         dists[valve][v] = bfs((0,valve), v)
+
+print(dists)

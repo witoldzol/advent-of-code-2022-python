@@ -85,22 +85,6 @@ def breadth_first_search( graph: Dict[str, Valve], root: Valve, target: str) -> 
     return ("", -1)
 
 
-def filter_finished_paths2(paths: List[Tuple[Valve_Expected_Returns,Valve_Expected_Returns]]) -> \
-Tuple[
-    List[Tuple[Valve_Expected_Returns,Valve_Expected_Returns]],
-    List[Tuple[Valve_Expected_Returns,Valve_Expected_Returns]]
-]:
-    done = []
-    not_done = []
-    for p in paths:
-        p1, p2 = p
-        if p1.finished and p2.finished:
-            done.append(p)
-        else:
-            not_done.append(p)
-    return done, not_done
-
-
 def filter_finished_paths(paths: List[Valve_Expected_Returns]) -> Tuple[List[Valve_Expected_Returns], List[Valve_Expected_Returns]]:
     done = []
     not_done = []
@@ -111,104 +95,6 @@ def filter_finished_paths(paths: List[Valve_Expected_Returns]) -> Tuple[List[Val
             not_done.append(path)
     return done, not_done
 
-
-def calculate_returns_for_a_single_turn2(
-        starts: Tuple[Valve_Expected_Returns, Valve_Expected_Returns],
-        map: Dict[str, Valve],
-        path_cache
-    ) -> Tuple[List[Tuple[Valve_Expected_Returns,Valve_Expected_Returns]],Dict[str,str]]:
-    results = []
-    # if we have only 2 turns left, even if we have a place to go, it will not 'tick' to give us any flow -> skip it
-    my_start, elephant_start = starts
-    # print(f"start {my_start=}")
-    # print(f"ele start {elephant_start=}")
-    # if we are done
-    my_paths = []
-    if (my_start.remaining_turns <= 2 or my_start.finished): 
-        my_finished_path = Valve_Expected_Returns(my_start.name, 0, 0, my_start.path, my_start.total_flow, True)
-        # and elephant is done, return
-        if (elephant_start.remaining_turns <= 2 or elephant_start.finished):
-            elephant_finished_path = Valve_Expected_Returns(elephant_start.name, 0, 0, elephant_start.path, elephant_start.total_flow, True)
-            return [(my_finished_path, elephant_finished_path)], path_cache
-        # but elephant is not done
-        else:
-            my_paths.append(my_finished_path)
-    # MY PATH
-    start = my_start
-    for valve in map.values():
-        # if start.path == "AAJJBB" and valve.name == "CC":
-        if start.path == "AAJJBB":
-            pu.db
-        if my_paths: # if we finished out paths, end loop and move to elephant paths
-            break
-        if valve.name == start.name or valve.name in start.path or valve.name in elephant_start.path: # check if start position or already visited by me or elephant
-            continue
-        start_valve = map[start.name]
-        start_valve_name = start_valve.name
-        target_valve = valve.name
-        entry = start_valve_name + target_valve
-        if  entry in path_cache:
-            path_to_valve = path_cache[entry]
-        else:
-            path_to_valve = breadth_first_search(map, start_valve, target_valve)
-            path_cache[entry] = path_to_valve
-        log.debug(f"path to valve {valve.name} takes {path_to_valve[1]} turns + 1 turn to turn on the valve")
-        if not path_to_valve:
-            raise Exception(f"Unable to find path to valve {valve.name}")
-        _, turns_to_get_to_valve = path_to_valve
-        turns_to_get_to_valve += 1  # one extra turn to activate the valve
-        remaining_turns = start.remaining_turns - turns_to_get_to_valve
-        log.debug(f"remaining turns for node {valve.name} is {remaining_turns}")
-        potential_flow = valve.rate * remaining_turns
-        # either invalid or pointless path - skip it
-        if potential_flow <= 0:
-            continue
-        log.debug(f"potential flow for node {valve.name} is {potential_flow}")
-        current_path = start.path + valve.name
-        updated_flow = potential_flow + start.total_flow if potential_flow >= 0 else start.total_flow
-        expected_returns = Valve_Expected_Returns(valve.name, potential_flow, remaining_turns, current_path, updated_flow, False)
-        my_paths.append(expected_returns)
-    ###### ELEPHANT PATH
-    start = elephant_start
-    # for every path we took, we now calc potential elephant paths
-    for my_path in my_paths:
-        for valve in map.values():
-            if valve.name == start.name or valve.name in start.path or valve.name in my_path.path: # check if start position or already visited by me or elephant
-                continue
-            start_valve = map[start.name]
-            start_valve_name = start_valve.name
-            target_valve = valve.name
-            entry = start_valve_name + target_valve
-            if  entry in path_cache:
-                path_to_valve = path_cache[entry]
-            else:
-                path_to_valve = breadth_first_search(map, start_valve, target_valve)
-                path_cache[entry] = path_to_valve
-            log.debug(f"path to valve {valve.name} takes {path_to_valve[1]} turns + 1 turn to turn on the valve")
-            if not path_to_valve:
-                raise Exception(f"Unable to find path to valve {valve.name}")
-            _, turns_to_get_to_valve = path_to_valve
-            turns_to_get_to_valve += 1  # one extra turn to activate the valve
-            remaining_turns = start.remaining_turns - turns_to_get_to_valve
-            log.debug(f"remaining turns for node {valve.name} is {remaining_turns}")
-            potential_flow = valve.rate * remaining_turns
-            # either invalid or pointless path - skip it
-            if potential_flow <= 0:
-                continue
-            log.debug(f"potential flow for node {valve.name} is {potential_flow}")
-            current_path = start.path + valve.name
-            updated_flow = potential_flow + start.total_flow if potential_flow >= 0 else start.total_flow
-            elephant_path = Valve_Expected_Returns(valve.name, potential_flow, remaining_turns, current_path, updated_flow, False)
-            my_path_and_elephant_path = (my_path, elephant_path)
-            results.append(my_path_and_elephant_path)
-    if not results:
-        # print(f"start {start=}")
-        # print(f"ele start {elephant_start=}")
-        my_finished_path = Valve_Expected_Returns(my_start.name, 0, 0, my_start.path, my_start.total_flow, True)
-        elephant_finished_path = Valve_Expected_Returns(elephant_start.name, 0, 0, elephant_start.path, elephant_start.total_flow, True)
-        me_and_elephant = my_finished_path, elephant_finished_path
-        return [me_and_elephant], path_cache
-    return results, path_cache
 
 def calculate_returns_for_a_single_turn(
     start: Valve_Expected_Returns,
@@ -257,40 +143,33 @@ def calculate_returns_for_a_single_turn(
 def calculate_returns_for_all_paths(total_turns:int, valve_map: Dict[str,Valve]):
     cache = {}
     my_start = Valve_Expected_Returns("AA", 0, total_turns, "AA", 0)
-    elephant_start = Valve_Expected_Returns("AA", 0, total_turns, "AA", 0)
-    initial_paths, cached_paths = calculate_returns_for_a_single_turn2((my_start, elephant_start), valve_map, cache)
+    initial_paths, cached_paths = calculate_returns_for_a_single_turn((my_start), valve_map, cache)
     cache = cache | cached_paths
     finished_paths = []
     wip = []
     for _ in range(len(valve_map)):
         wip_temp = []
         for p in wip if wip else initial_paths:
-            pp, cached_paths = calculate_returns_for_a_single_turn2(p, valve_map, cache)
+            pp, cached_paths = calculate_returns_for_a_single_turn(p, valve_map, cache)
             cache = cache | cached_paths
-            done, not_done = filter_finished_paths2(pp)
-            for f in not_done:
-                print(f"done ===========")
-                print(f)
-                print(f"done ===========")
-            not_done = sorted(not_done, key=lambda me_elephant: sum([me_elephant[0].total_flow, me_elephant[1].total_flow]), reverse=True)
+            done, not_done = filter_finished_paths(pp)
+            not_done = sorted(not_done, key=lambda x: x.total_flow, reverse=True)
             not_done = not_done[:3]
             wip_temp.extend(not_done)
             finished_paths.extend(done)
         initial_paths = []
         wip = wip_temp
-    all_ordered = sorted(finished_paths, key=lambda me_elephant: sum([me_elephant[0].total_flow, me_elephant[1].total_flow]), reverse=True)
-    # return all_ordered[:7]
+    all_ordered = sorted(finished_paths, key=lambda x: x.total_flow, reverse=True)
     return all_ordered
 
 def main(input):
     _, valves = build_valve_graph(input)
     r = calculate_returns_for_all_paths(26, valves)
-    for o in r:
-        print(o[0].path, o[1].path)
-        print(sum([o[0].total_flow, o[1].total_flow]))
+    for o in r[:3]:
+        print(o)
 
 
 if __name__ == "__main__":
     input = "sample_input"
-    # input = "input"
+    input = "input" # 2369 - too low
     main(input)

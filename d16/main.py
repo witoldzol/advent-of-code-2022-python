@@ -1,6 +1,6 @@
 from collections import deque
 from dataclasses import dataclass
-from typing import List, Dict, Tuple
+from typing import List, Dict, Tuple, Set
 from collections import OrderedDict
 import pudb
 import logging
@@ -140,7 +140,7 @@ def calculate_returns_for_a_single_turn(
     return results, path_cache
 
 
-def bfs_print_all_paths(graph: Dict[str, Valve], root: str, target: str) -> str:
+def bfs_print_all_paths(graph: Dict[str, Valve], root: str, target: str) -> Set[str]:
     all_paths = set()
     queue = deque()
     queue.append(graph[root].name)
@@ -148,14 +148,13 @@ def bfs_print_all_paths(graph: Dict[str, Valve], root: str, target: str) -> str:
         path = queue.popleft()
         node_name = path[-2:]
         if node_name == target:
-            return path
+            all_paths.add(path)
         node = graph[node_name]
         for child in node.adjacent:
             if child.name not in path:
                 temp_path = path + child.name
-                all_paths.add(temp_path)
                 queue.append(temp_path)
-    return ""
+    return all_paths
 
 
 def calculate_returns_for_all_paths(total_turns:int, valve_map: Dict[str,Valve]):

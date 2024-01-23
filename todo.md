@@ -31,6 +31,7 @@
   - [x] do version without graph - root has all the connections, so we should be able to do without it
   - [x] speed up the algo [ maybe limit the potential paths - because factorial is a real thing ??]
   - [x] speed up the bfs [ simple cache of bsf results was sufficient ]
+  - [x] fix the alternative algo for finding the best bath - I don't think it's exploring all the possible routes - I'm following this explanation vid : https://www.youtube.com/watch?v=bLMj50cpOug
   ### PART 2
   - [x] we need to iterate over 26 turns with a common VISITED map while keeping track of two pointers
     I think I will have to 'nest' the second pointer - first path , calc first option, than second taking account of where we already went?
@@ -40,6 +41,7 @@
     for example, I open B, elephant opens D - issue is , to open B takes 10 turns, to open D 2 turns, so elephants "waits" for my path to finish
     My initial thought is that my current implementation is not suitable to this type of a problem - I just jump from one node to another without going turn by turn
     I think we need a turn by turn implementation here ?
-  [ ok, I think we can solve this by checking 'remaining_turns' on both paths in a tuple and evaluate a path that has more turns remaining - example: if my path has 10 turns remaining, and ele has 20, we will evaluate his path only, and return my old path with ele's new path ]
+  [ ok, I think we can solve this by checking 'remaining_turns' on both paths in a tuple and evaluate a path that has more turns remaining - example: if my path has 10 turns remaining, and ele has 20, we will evaluate h  is path only, and return my old path with ele's new path ]
   [[ sample input gives correct answer but main input answer is too low, that's without implementiing synchronize]]
-- fix the alternative algo for finding the best bath - I don't think it's exploring all the possible routes - I'm following this explanation vid : https://www.youtube.com/watch?v=bLMj50cpOug
+  - fix how path is printed ( it truncates somewhere one letter from each node )
+  - solve part 2 using alternative approach

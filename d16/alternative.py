@@ -1,5 +1,6 @@
 from typing import Tuple, Dict, Set
 from collections import deque
+import pudb
 
 valves = {}
 tunnels = {}
@@ -52,11 +53,13 @@ def dfs(turns: int, path: str, total: int):
             continue
         new_path = path + valve
         paths.extend(dfs(remaining_turns, new_path, total))
+    if not paths:
+        return (path, total)
     return paths
 
 # parse input
 input = "input"
-input = "sample_input"
+# input = "sample_input" # AADDBBJJHHEECC
 for line in open(input):
     line = line.strip()
     valve = line.split()[1]
@@ -79,4 +82,4 @@ for i in range(0, len(paths)-1, 2):
     temp_return = paths[i+1]
     new_paths.append((temp_path, temp_return))
 s = sorted(new_paths, key=lambda x: x[1], reverse=True)
-print(s)
+print(f"The winning path is {s[0]}")

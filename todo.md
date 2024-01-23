@@ -43,5 +43,4 @@
     I think we need a turn by turn implementation here ?
   [ ok, I think we can solve this by checking 'remaining_turns' on both paths in a tuple and evaluate a path that has more turns remaining - example: if my path has 10 turns remaining, and ele has 20, we will evaluate h  is path only, and return my old path with ele's new path ]
   [[ sample input gives correct answer but main input answer is too low, that's without implementiing synchronize]]
-  - fix how path is printed ( it truncates somewhere one letter from each node )
-  - solve part 2 using alternative approach
+  - [x] solve part 2 using alternative approach

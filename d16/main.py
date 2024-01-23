@@ -147,6 +147,7 @@ def bfs_print_all_paths(graph: Dict[str, Valve], root: str, target: str) -> Set[
     while queue:
         path = queue.popleft()
         node_name = path[-2:]
+        print(f"{node_name=}")
         if node_name == target:
             all_paths.add(path)
         node = graph[node_name]
